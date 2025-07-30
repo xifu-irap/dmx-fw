@@ -54,11 +54,9 @@ entity squid_model is generic (
          i_sqm_adc_spi_sclk   : in     std_logic                                                            ; --! SQUID MUX ADC: SPI Serial Clock (CPOL = '0', CPHA = '0')
 
          i_sw_adc_vin         : in     std_logic_vector(c_SW_ADC_VIN_S-1 downto 0)                          ; --! Switch ADC Voltage input
-         i_adc_hw_bug_bypass  : in     std_logic                                                            ; --! SQUID MUX ADC: ADC harware bug bypass ('0' = No bug, '1' = Bug)
          o_sqm_adc_ana        : out    real                                                                 ; --! SQUID MUX ADC: Analog
          o_sqm_adc_data       : out    std_logic_vector(c_SQM_ADC_DATA_S-1 downto 0)                        ; --! SQUID MUX ADC: Data
          o_sqm_adc_oor        : out    std_logic                                                            ; --! SQUID MUX ADC: Out of range ('0' = No, '1' = under/over range)
-         o_clk_adc_dc         : out    std_logic                                                            ; --! SQUID MUX ADC: Data clock
 
          i_sqm_data_comp      : in     std_logic                                                            ; --! SQUID MUX data complemented ('0' = No, '1' = Yes)
          i_clk_sqm_dac        : in     std_logic                                                            ; --! SQUID MUX DAC: Clock
@@ -82,16 +80,10 @@ entity squid_model is generic (
 end entity squid_model;
 
 architecture Behavioral of squid_model is
-constant c_RST_ACT_TIME       : time   := 1 ns                                                              ; --! Reset activation time
-
 signal   squid_err_volt       : real                                                                        ; --! SQUID Error voltage (Volt)
 signal   sqm_dac_out          : real                                                                        ; --! SQUID MUX DAC output
 signal   sqm_dac_delta_volt   : real                                                                        ; --! SQUID MUX voltage (Vin+ - Vin-) (Volt)
 signal   sqa_volt             : real                                                                        ; --! SQUID AMP voltage (Volt)
-
-signal   rst                  : std_logic                                                                   ; --! Reset ('0' = Inactive, '1' = Active)
-signal   sqm_adc_data         : std_logic_vector(c_SQM_ADC_DATA_S-1 downto 0)                               ; --! SQUID MUX ADC: Data
-signal   sqm_adc_dta_bit_df_r : std_logic                                                                   ; --! SQUID ADC data bit default register
 
 begin
 
@@ -168,52 +160,9 @@ begin
          i_sclk_dfs           => i_sqm_adc_spi_sclk   , -- in     std_logic                                 ; --! SPI Serial clock, Data Format select ('0' = Binary, '1' = Twos complement)
 
          i_delta_vin          => o_sqm_adc_ana        , -- in     real                                      ; --! Analog voltage (-g_VREF <= Vin+ - Vin- < g_VREF)
-         o_dco                => o_clk_adc_dc         , -- out    std_logic                                 ; --! Data clock
-         o_d                  => sqm_adc_data         , -- out    std_logic_vector(13 downto 0)             ; --! Data
+         o_dco                => open                 , -- out    std_logic                                 ; --! Data clock
+         o_d                  => o_sqm_adc_data       , -- out    std_logic_vector(13 downto 0)             ; --! Data
          o_or                 => o_sqm_adc_oor          -- out    std_logic                                   --! Out of range indicator ('0' = Range, '1' = Out of range)
    );
-
-   o_sqm_adc_data(o_sqm_adc_data'high)             <= sqm_adc_data(o_sqm_adc_data'high);
-   o_sqm_adc_data(c_SQM_ADC_BUG_BIT_DF-1 downto 0) <= sqm_adc_data(c_SQM_ADC_BUG_BIT_DF-1 downto 0);
-
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Reset generation
-   -- ------------------------------------------------------------------------------------------------------
-   P_rst: process
-   begin
-      rst   <= c_HGH_LEV;
-      wait for c_RST_ACT_TIME;
-      rst   <= c_LOW_LEV;
-      wait;
-
-   end process P_rst;
-
-   -- ------------------------------------------------------------------------------------------------------
-   --!   SQUID ADC data bit default simulation
-   -- ------------------------------------------------------------------------------------------------------
-   P_adc_dta_bit_df : process (i_adc_hw_bug_bypass, rst, o_clk_adc_dc)
-   begin
-
-      if i_adc_hw_bug_bypass = c_LOW_LEV then
-         o_sqm_adc_data(c_SQM_ADC_BUG_BIT_DF) <= sqm_adc_data(c_SQM_ADC_BUG_BIT_DF);
-
-      elsif rst = c_HGH_LEV then
-         sqm_adc_dta_bit_df_r                   <= c_HGH_LEV;
-         o_sqm_adc_data(c_SQM_ADC_BUG_BIT_DF)   <= c_HGH_LEV;
-
-      elsif falling_edge(o_clk_adc_dc) then
-         sqm_adc_dta_bit_df_r <= sqm_adc_data(c_SQM_ADC_BUG_BIT_DF);
-
-         if (sqm_adc_data(c_SQM_ADC_BUG_BIT_DF) and not(sqm_adc_dta_bit_df_r)) = c_HGH_LEV then
-            o_sqm_adc_data(c_SQM_ADC_BUG_BIT_DF) <= c_LOW_LEV;
-
-         else
-            o_sqm_adc_data(c_SQM_ADC_BUG_BIT_DF) <= sqm_adc_data(c_SQM_ADC_BUG_BIT_DF);
-
-         end if;
-
-      end if;
-
-   end process P_adc_dta_bit_df;
 
 end architecture Behavioral;

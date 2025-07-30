@@ -64,7 +64,8 @@ end entity rst_clk_mgt;
 architecture RTL of rst_clk_mgt is
 signal   rst_sqm_adc_dac_lc   : std_logic                                                                   ; --! Local reset for SQUID ADC/DAC, de-assertion on system clock
 
-signal   clk_adc_dac_out      : std_logic                                                                   ; --! SQUID ADC/DAC output Clock
+signal   clk_adc_out          : std_logic                                                                   ; --! SQUID ADC output Clock
+signal   clk_dac_out          : std_logic                                                                   ; --! SQUID DAC output Clock
 
 signal   cmd_ck_adc           : std_logic_vector(c_NB_COL-1 downto 0)                                       ; --! SQUID MUX ADC Clocks switch commands ('0' = Inactive, '1' = Active)
 signal   cmd_ck_sqm_dac       : std_logic_vector(c_NB_COL-1 downto 0)                                       ; --! SQUID MUX DAC Clocks switch commands ('0' = Inactive, '1' = Active)
@@ -83,7 +84,8 @@ begin
          i_clk_ref            => i_clk_ref            , -- in     std_logic                                 ; --! Reference Clock
          o_clk                => o_clk                , -- out    std_logic                                 ; --! System Clock
          o_clk_sqm_adc_dac    => o_clk_sqm_adc_dac    , -- out    std_logic                                 ; --! SQUID MUX ADC/DAC internal Clock
-         o_clk_adc_dac_out    => clk_adc_dac_out      , -- out    std_logic                                 ; --! Clock for SQUID ADC/DAC output Image Clock
+         o_clk_adc_out        => clk_adc_out          , -- out    std_logic                                 ; --! Clock for SQUID ADC output Image Clock
+         o_clk_dac_out        => clk_dac_out          , -- out    std_logic                                 ; --! Clock for SQUID DAC output Image Clock
          o_clk_90             => o_clk_90             , -- out    std_logic                                 ; --! System Clock 90 degrees shift
          o_clk_sqm_adc_dac_90 => o_clk_sqm_adc_dac_90   -- out    std_logic                                   --! SQUID MUX ADC/DAC internal 90 degrees shift
    );
@@ -137,7 +139,7 @@ begin
          g_FF_RSYNC_NB        => c_FF_RSYNC_NB + 1    , -- integer                                          ; --! Flip-Flop number used for resynchronization
          g_FF_CK_REF_NB       => c_FF_RSYNC_NB + 1      -- integer                                            --! Flip-Flop number used for delaying image clock reference
       ) port map (
-         i_clock              => clk_adc_dac_out      , -- in     std_logic                                 ; --! Clock
+         i_clock              => clk_adc_out          , -- in     std_logic                                 ; --! Clock
          i_cmd_ck             => cmd_ck_adc(k)        , -- in     std_logic                                 ; --! Clock switch command ('0' = Inactive, '1' = Active)
          o_im_ck              => o_ck_sqm_adc(k)        -- out    std_logic                                   --! Image clock, frequency divided by 2
       );
@@ -168,7 +170,7 @@ begin
          g_FF_RSYNC_NB        => c_FF_RSYNC_NB        , -- integer                                          ; --! Flip-Flop number used for resynchronization
          g_FF_CK_REF_NB       => c_FF_RSYNC_NB + 1      -- integer                                            --! Flip-Flop number used for delaying image clock reference
       ) port map (
-         i_clock              => clk_adc_dac_out      , -- in     std_logic                                 ; --! Clock
+         i_clock              => clk_dac_out          , -- in     std_logic                                 ; --! Clock
          i_cmd_ck             => cmd_ck_sqm_dac(k)    , -- in     std_logic                                 ; --! Clock switch command ('0' = Inactive, '1' = Active)
          o_im_ck              => o_ck_sqm_dac(k)        -- out    std_logic                                   --! Image clock, frequency divided by 2
       );

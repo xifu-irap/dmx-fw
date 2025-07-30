@@ -42,7 +42,7 @@ package pkg_project is
    --    @Req : DRE-DMX-FW-REQ-0120
    --    @Req : DRE-DMX-FW-REQ-0270
    -- ------------------------------------------------------------------------------------------------------
-constant c_FW_VERSION         : integer   := 16#0010#                                                       ; --! Firmware version
+constant c_FW_VERSION         : integer   := 16#0011#                                                       ; --! Firmware version
 
 constant c_FF_RSYNC_NB        : integer   := 2                                                              ; --! Flip-Flop number used for FPGA input resynchronization
 constant c_FF_RST_NB          : integer   := 6                                                              ; --! Flip-Flop number used for internal reset: System Clock
@@ -277,12 +277,11 @@ constant c_DLFLG_MX_INNB      : integer_vector(0 to c_DLFLG_MX_STNB-1) := ( 4,  
    --    @Req : DRE-DMX-FW-REQ-0130
    -- ------------------------------------------------------------------------------------------------------
 constant c_PIXEL_ADC_NB_CYC   : integer := 20                                                               ; --! ADC clock period number allocated to one pixel acquisition
-constant c_ADC_HW_BUG_BYPASS  : std_logic_vector(c_NB_COL-1 downto 0):= "1000"                              ; --! ADC harware bug bypass ('0' = No bug, '1' = Bug)
 constant c_ADC_DATA_NPER      : integer := 12                                                               ; --! ADC clock period number between the acquisition start and data output by the ADC
 
 constant c_ADC_SYNC_RDY_NPER  : integer := (c_FF_RSYNC_NB + 1)*(c_CLK_ADC_DAC_MULT/c_CLK_MULT)
                                           + c_FF_RSYNC_NB                                                   ; --! ADC clock period number for getting pixel sequence synchronization, synchronized
-constant c_ADC_DATA_RDY_NPER  : integer := c_ADC_DATA_NPER + 2*c_FF_RSYNC_NB                                ; --! ADC clock period number between the ADC acquisition start and ADC data ready
+constant c_ADC_DATA_RDY_NPER  : integer := c_ADC_DATA_NPER + 2*c_FF_RSYNC_NB - 1                            ; --! ADC clock period number between the ADC acquisition start and ADC data ready
 
 constant c_MEM_DUMP_ADD_S     : integer := c_RAM_ECC_ADD_S                                                  ; --! Memory Dump: address bus size (<= c_RAM_ECC_ADD_S)
 

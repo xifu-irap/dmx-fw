@@ -66,14 +66,14 @@
 #             (21546768 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (21562776 ps) Waiting event clk_sqm_adc(0) = '1' for 16008 ps
 # ** Note   : (21562776 ps) Record current time
-# ** Note   : (21566778 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (21570780 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (21570780 ps) 
-#             (21570780 ps) ==============================================================================================
-#             (21570780 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (21570780 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (21570780 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (21786888 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (21562776 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (21566778 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (21566778 ps) 
+#             (21566778 ps) ==============================================================================================
+#             (21566778 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (21566778 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (21566778 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (21786888 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (21786888 ps) Check time, sqm_adc_pwdn(0) last event: PASS
 # ** Note   : (21786888 ps)  * sqm_adc_pwdn(0) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (21786888 ps) 
@@ -117,14 +117,14 @@
 #             (43317648 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (43333656 ps) Waiting event clk_sqm_adc(0) = '1' for 16008 ps
 # ** Note   : (43333656 ps) Record current time
-# ** Note   : (43337658 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (43341660 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (43341660 ps) 
-#             (43341660 ps) ==============================================================================================
-#             (43341660 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (43341660 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (43341660 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (43557768 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (43333656 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (43337658 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (43337658 ps) 
+#             (43337658 ps) ==============================================================================================
+#             (43337658 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (43337658 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (43337658 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (43557768 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (43557768 ps) Check time, sqm_adc_pwdn(0) last event: PASS
 # ** Note   : (43557768 ps)  * sqm_adc_pwdn(0) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (43557768 ps) 
@@ -170,14 +170,14 @@
 #             (65088528 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (65104536 ps) Waiting event clk_sqm_adc(0) = '1' for 16008 ps
 # ** Note   : (65104536 ps) Record current time
-# ** Note   : (65108538 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (65112540 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (65112540 ps) 
-#             (65112540 ps) ==============================================================================================
-#             (65112540 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (65112540 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (65112540 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (65328648 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (65104536 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (65108538 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (65108538 ps) 
+#             (65108538 ps) ==============================================================================================
+#             (65108538 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (65108538 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (65108538 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (65328648 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (65328648 ps) Check time, sqm_adc_pwdn(0) last event: PASS
 # ** Note   : (65328648 ps)  * sqm_adc_pwdn(0) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (65328648 ps) 
@@ -220,14 +220,14 @@
 #             (255583728 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (255599736 ps) Waiting event clk_sqm_adc(0) = '1' for 16008 ps
 # ** Note   : (255599736 ps) Record current time
-# ** Note   : (255603738 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (255607740 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (255607740 ps) 
-#             (255607740 ps) ==============================================================================================
-#             (255607740 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (255607740 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (255607740 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (255823848 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (255599736 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (255603738 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (255603738 ps) 
+#             (255603738 ps) ==============================================================================================
+#             (255603738 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (255603738 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (255603738 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (255823848 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (255823848 ps) Check time, sqm_adc_pwdn(0) last event: PASS
 # ** Note   : (255823848 ps)  * sqm_adc_pwdn(0) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (255823848 ps) 
@@ -273,14 +273,14 @@
 #             (277354608 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (277370616 ps) Waiting event clk_sqm_adc(0) = '1' for 16008 ps
 # ** Note   : (277370616 ps) Record current time
-# ** Note   : (277374618 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (277378620 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (277378620 ps) 
-#             (277378620 ps) ==============================================================================================
-#             (277378620 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (277378620 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (277378620 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (277594728 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (277370616 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (277374618 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (277374618 ps) 
+#             (277374618 ps) ==============================================================================================
+#             (277374618 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (277374618 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (277374618 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (277594728 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (277594728 ps) Check time, sqm_adc_pwdn(0) last event: PASS
 # ** Note   : (277594728 ps)  * sqm_adc_pwdn(0) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (277594728 ps) 
@@ -326,14 +326,14 @@
 #             (299125488 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (299141496 ps) Waiting event clk_sqm_adc(0) = '1' for 16008 ps
 # ** Note   : (299141496 ps) Record current time
-# ** Note   : (299145498 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (299149500 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (299149500 ps) 
-#             (299149500 ps) ==============================================================================================
-#             (299149500 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (299149500 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (299149500 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (299365608 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (299141496 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (299145498 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (299145498 ps) 
+#             (299145498 ps) ==============================================================================================
+#             (299145498 ps)   Check timing between o_c0_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (299145498 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (299145498 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (299365608 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (299365608 ps) Check time, sqm_adc_pwdn(0) last event: PASS
 # ** Note   : (299365608 ps)  * sqm_adc_pwdn(0) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (299365608 ps) 
@@ -377,14 +377,14 @@
 #             (320896368 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (320912376 ps) Waiting event clk_sqm_adc(1) = '1' for 16008 ps
 # ** Note   : (320912376 ps) Record current time
-# ** Note   : (320916378 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (320920380 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (320920380 ps) 
-#             (320920380 ps) ==============================================================================================
-#             (320920380 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (320920380 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (320920380 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (321136488 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (320912376 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (320916378 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (320916378 ps) 
+#             (320916378 ps) ==============================================================================================
+#             (320916378 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (320916378 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (320916378 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (321136488 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (321136488 ps) Check time, sqm_adc_pwdn(1) last event: PASS
 # ** Note   : (321136488 ps)  * sqm_adc_pwdn(1) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (321136488 ps) 
@@ -428,14 +428,14 @@
 #             (342667248 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (342683256 ps) Waiting event clk_sqm_adc(1) = '1' for 16008 ps
 # ** Note   : (342683256 ps) Record current time
-# ** Note   : (342687258 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (342691260 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (342691260 ps) 
-#             (342691260 ps) ==============================================================================================
-#             (342691260 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (342691260 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (342691260 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (342907368 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (342683256 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (342687258 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (342687258 ps) 
+#             (342687258 ps) ==============================================================================================
+#             (342687258 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (342687258 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (342687258 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (342907368 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (342907368 ps) Check time, sqm_adc_pwdn(1) last event: PASS
 # ** Note   : (342907368 ps)  * sqm_adc_pwdn(1) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (342907368 ps) 
@@ -481,14 +481,14 @@
 #             (364438128 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (364454136 ps) Waiting event clk_sqm_adc(1) = '1' for 16008 ps
 # ** Note   : (364454136 ps) Record current time
-# ** Note   : (364458138 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (364462140 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (364462140 ps) 
-#             (364462140 ps) ==============================================================================================
-#             (364462140 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (364462140 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (364462140 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (364678248 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (364454136 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (364458138 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (364458138 ps) 
+#             (364458138 ps) ==============================================================================================
+#             (364458138 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (364458138 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (364458138 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (364678248 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (364678248 ps) Check time, sqm_adc_pwdn(1) last event: PASS
 # ** Note   : (364678248 ps)  * sqm_adc_pwdn(1) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (364678248 ps) 
@@ -531,14 +531,14 @@
 #             (554933328 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (554949336 ps) Waiting event clk_sqm_adc(1) = '1' for 16008 ps
 # ** Note   : (554949336 ps) Record current time
-# ** Note   : (554953338 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (554957340 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (554957340 ps) 
-#             (554957340 ps) ==============================================================================================
-#             (554957340 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (554957340 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (554957340 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (555173448 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (554949336 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (554953338 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (554953338 ps) 
+#             (554953338 ps) ==============================================================================================
+#             (554953338 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (554953338 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (554953338 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (555173448 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (555173448 ps) Check time, sqm_adc_pwdn(1) last event: PASS
 # ** Note   : (555173448 ps)  * sqm_adc_pwdn(1) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (555173448 ps) 
@@ -584,14 +584,14 @@
 #             (576704208 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (576720216 ps) Waiting event clk_sqm_adc(1) = '1' for 16008 ps
 # ** Note   : (576720216 ps) Record current time
-# ** Note   : (576724218 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (576728220 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (576728220 ps) 
-#             (576728220 ps) ==============================================================================================
-#             (576728220 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (576728220 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (576728220 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (576944328 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (576720216 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (576724218 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (576724218 ps) 
+#             (576724218 ps) ==============================================================================================
+#             (576724218 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (576724218 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (576724218 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (576944328 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (576944328 ps) Check time, sqm_adc_pwdn(1) last event: PASS
 # ** Note   : (576944328 ps)  * sqm_adc_pwdn(1) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (576944328 ps) 
@@ -637,14 +637,14 @@
 #             (598475088 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (598491096 ps) Waiting event clk_sqm_adc(1) = '1' for 16008 ps
 # ** Note   : (598491096 ps) Record current time
-# ** Note   : (598495098 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (598499100 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (598499100 ps) 
-#             (598499100 ps) ==============================================================================================
-#             (598499100 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (598499100 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (598499100 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (598715208 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (598491096 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (598495098 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (598495098 ps) 
+#             (598495098 ps) ==============================================================================================
+#             (598495098 ps)   Check timing between o_c1_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (598495098 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (598495098 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (598715208 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (598715208 ps) Check time, sqm_adc_pwdn(1) last event: PASS
 # ** Note   : (598715208 ps)  * sqm_adc_pwdn(1) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (598715208 ps) 
@@ -688,14 +688,14 @@
 #             (620245968 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (620261976 ps) Waiting event clk_sqm_adc(2) = '1' for 16008 ps
 # ** Note   : (620261976 ps) Record current time
-# ** Note   : (620265978 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (620269980 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (620269980 ps) 
-#             (620269980 ps) ==============================================================================================
-#             (620269980 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (620269980 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (620269980 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (620486088 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (620261976 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (620265978 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (620265978 ps) 
+#             (620265978 ps) ==============================================================================================
+#             (620265978 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (620265978 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (620265978 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (620486088 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (620486088 ps) Check time, sqm_adc_pwdn(2) last event: PASS
 # ** Note   : (620486088 ps)  * sqm_adc_pwdn(2) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (620486088 ps) 
@@ -739,14 +739,14 @@
 #             (642016848 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (642032856 ps) Waiting event clk_sqm_adc(2) = '1' for 16008 ps
 # ** Note   : (642032856 ps) Record current time
-# ** Note   : (642036858 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (642040860 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (642040860 ps) 
-#             (642040860 ps) ==============================================================================================
-#             (642040860 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (642040860 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (642040860 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (642256968 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (642032856 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (642036858 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (642036858 ps) 
+#             (642036858 ps) ==============================================================================================
+#             (642036858 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (642036858 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (642036858 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (642256968 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (642256968 ps) Check time, sqm_adc_pwdn(2) last event: PASS
 # ** Note   : (642256968 ps)  * sqm_adc_pwdn(2) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (642256968 ps) 
@@ -792,14 +792,14 @@
 #             (663787728 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (663803736 ps) Waiting event clk_sqm_adc(2) = '1' for 16008 ps
 # ** Note   : (663803736 ps) Record current time
-# ** Note   : (663807738 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (663811740 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (663811740 ps) 
-#             (663811740 ps) ==============================================================================================
-#             (663811740 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (663811740 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (663811740 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (664027848 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (663803736 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (663807738 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (663807738 ps) 
+#             (663807738 ps) ==============================================================================================
+#             (663807738 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (663807738 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (663807738 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (664027848 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (664027848 ps) Check time, sqm_adc_pwdn(2) last event: PASS
 # ** Note   : (664027848 ps)  * sqm_adc_pwdn(2) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (664027848 ps) 
@@ -842,14 +842,14 @@
 #             (854282928 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (854298936 ps) Waiting event clk_sqm_adc(2) = '1' for 16008 ps
 # ** Note   : (854298936 ps) Record current time
-# ** Note   : (854302938 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (854306940 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (854306940 ps) 
-#             (854306940 ps) ==============================================================================================
-#             (854306940 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (854306940 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (854306940 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (854523048 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (854298936 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (854302938 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (854302938 ps) 
+#             (854302938 ps) ==============================================================================================
+#             (854302938 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (854302938 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (854302938 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (854523048 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (854523048 ps) Check time, sqm_adc_pwdn(2) last event: PASS
 # ** Note   : (854523048 ps)  * sqm_adc_pwdn(2) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (854523048 ps) 
@@ -895,14 +895,14 @@
 #             (876053808 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (876069816 ps) Waiting event clk_sqm_adc(2) = '1' for 16008 ps
 # ** Note   : (876069816 ps) Record current time
-# ** Note   : (876073818 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (876077820 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (876077820 ps) 
-#             (876077820 ps) ==============================================================================================
-#             (876077820 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (876077820 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (876077820 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (876293928 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (876069816 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (876073818 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (876073818 ps) 
+#             (876073818 ps) ==============================================================================================
+#             (876073818 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (876073818 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (876073818 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (876293928 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (876293928 ps) Check time, sqm_adc_pwdn(2) last event: PASS
 # ** Note   : (876293928 ps)  * sqm_adc_pwdn(2) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (876293928 ps) 
@@ -948,14 +948,14 @@
 #             (897824688 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (897840696 ps) Waiting event clk_sqm_adc(2) = '1' for 16008 ps
 # ** Note   : (897840696 ps) Record current time
-# ** Note   : (897844698 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (897848700 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (897848700 ps) 
-#             (897848700 ps) ==============================================================================================
-#             (897848700 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (897848700 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (897848700 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (898064808 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (897840696 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (897844698 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (897844698 ps) 
+#             (897844698 ps) ==============================================================================================
+#             (897844698 ps)   Check timing between o_c2_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (897844698 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (897844698 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (898064808 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (898064808 ps) Check time, sqm_adc_pwdn(2) last event: PASS
 # ** Note   : (898064808 ps)  * sqm_adc_pwdn(2) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (898064808 ps) 
@@ -999,14 +999,14 @@
 #             (919595568 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (919611576 ps) Waiting event clk_sqm_adc(3) = '1' for 16008 ps
 # ** Note   : (919611576 ps) Record current time
-# ** Note   : (919615578 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (919619580 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (919619580 ps) 
-#             (919619580 ps) ==============================================================================================
-#             (919619580 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (919619580 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (919619580 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (919835688 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (919611576 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (919615578 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (919615578 ps) 
+#             (919615578 ps) ==============================================================================================
+#             (919615578 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (919615578 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (919615578 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (919835688 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (919835688 ps) Check time, sqm_adc_pwdn(3) last event: PASS
 # ** Note   : (919835688 ps)  * sqm_adc_pwdn(3) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (919835688 ps) 
@@ -1050,14 +1050,14 @@
 #             (941366448 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (941382456 ps) Waiting event clk_sqm_adc(3) = '1' for 16008 ps
 # ** Note   : (941382456 ps) Record current time
-# ** Note   : (941386458 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (941390460 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (941390460 ps) 
-#             (941390460 ps) ==============================================================================================
-#             (941390460 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (941390460 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (941390460 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (941606568 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (941382456 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (941386458 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (941386458 ps) 
+#             (941386458 ps) ==============================================================================================
+#             (941386458 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (941386458 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (941386458 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (941606568 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (941606568 ps) Check time, sqm_adc_pwdn(3) last event: PASS
 # ** Note   : (941606568 ps)  * sqm_adc_pwdn(3) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (941606568 ps) 
@@ -1103,14 +1103,14 @@
 #             (963137328 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (963153336 ps) Waiting event clk_sqm_adc(3) = '1' for 16008 ps
 # ** Note   : (963153336 ps) Record current time
-# ** Note   : (963157338 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (963161340 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (963161340 ps) 
-#             (963161340 ps) ==============================================================================================
-#             (963161340 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (963161340 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (963161340 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (963377448 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (963153336 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (963157338 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (963157338 ps) 
+#             (963157338 ps) ==============================================================================================
+#             (963157338 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (963157338 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (963157338 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (963377448 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (963377448 ps) Check time, sqm_adc_pwdn(3) last event: PASS
 # ** Note   : (963377448 ps)  * sqm_adc_pwdn(3) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (963377448 ps) 
@@ -1153,14 +1153,14 @@
 #             (1153632528 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (1153648536 ps) Waiting event clk_sqm_adc(3) = '1' for 16008 ps
 # ** Note   : (1153648536 ps) Record current time
-# ** Note   : (1153652538 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (1153656540 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (1153656540 ps) 
-#             (1153656540 ps) ==============================================================================================
-#             (1153656540 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (1153656540 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (1153656540 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (1153872648 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (1153648536 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (1153652538 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (1153652538 ps) 
+#             (1153652538 ps) ==============================================================================================
+#             (1153652538 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (1153652538 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (1153652538 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (1153872648 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (1153872648 ps) Check time, sqm_adc_pwdn(3) last event: PASS
 # ** Note   : (1153872648 ps)  * sqm_adc_pwdn(3) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (1153872648 ps) 
@@ -1206,14 +1206,14 @@
 #             (1175403408 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (1175419416 ps) Waiting event clk_sqm_adc(3) = '1' for 16008 ps
 # ** Note   : (1175419416 ps) Record current time
-# ** Note   : (1175423418 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (1175427420 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (1175427420 ps) 
-#             (1175427420 ps) ==============================================================================================
-#             (1175427420 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (1175427420 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (1175427420 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (1175643528 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (1175419416 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (1175423418 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (1175423418 ps) 
+#             (1175423418 ps) ==============================================================================================
+#             (1175423418 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (1175423418 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (1175423418 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (1175643528 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (1175643528 ps) Check time, sqm_adc_pwdn(3) last event: PASS
 # ** Note   : (1175643528 ps)  * sqm_adc_pwdn(3) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (1175643528 ps) 
@@ -1259,14 +1259,14 @@
 #             (1197174288 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (1197190296 ps) Waiting event clk_sqm_adc(3) = '1' for 16008 ps
 # ** Note   : (1197190296 ps) Record current time
-# ** Note   : (1197194298 ps) Waiting event clk_sqm_adc_acq = '1' for 4002 ps
-# ** Note   : (1197198300 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
-#             (1197198300 ps) 
-#             (1197198300 ps) ==============================================================================================
-#             (1197198300 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
-#             (1197198300 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
-#             (1197198300 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (1197414408 ps) Waiting event sync = '1' for 216108 ps
+# ** Note   : (1197190296 ps) Waiting event clk_sqm_adc_acq = '1' for 0 ps
+# ** Note   : (1197194298 ps) Waiting event clk_sqm_adc_acq = '0' for 4002 ps
+#             (1197194298 ps) 
+#             (1197194298 ps) ==============================================================================================
+#             (1197194298 ps)   Check timing between o_c3_sqm_adc_pwdn deactivation and i_sync rising edge
+#             (1197194298 ps)     (>= c_PIXEL_ADC_NB_CYC / c_CLK_ADC_FREQ)
+#             (1197194298 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (1197414408 ps) Waiting event sync = '1' for 220110 ps
 # ** Note   : (1197414408 ps) Check time, sqm_adc_pwdn(3) last event: PASS
 # ** Note   : (1197414408 ps)  * sqm_adc_pwdn(3) last event 240120 ps greater than or equal to expected value 160080 ps
 #             (1197414408 ps) 

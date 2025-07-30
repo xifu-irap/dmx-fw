@@ -473,7 +473,279 @@ COMM
 WCMD W-C0_SAMPLING_DELAY-0000 W
 WCMD W-C1_SAMPLING_DELAY-0000 W
 WCMD W-C2_SAMPLING_DELAY-0000 W
-WCMD W-C3_SAMPLING_DELAY-0001 W
+WCMD W-C3_SAMPLING_DELAY-0000 W
 WCMD W-BOXCAR_LENGTH-0000 W
 COMM
 WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 1: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C0_MUX_SQ_FB0(33)-83E2 W
+WCMD W-C1_MUX_SQ_FB0(33)-83E2 W
+WCMD W-C2_MUX_SQ_FB0(33)-83E2 W
+WCMD W-C3_MUX_SQ_FB0(33)-83E2 W
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-0012 W
+WCMD W-C1_MUX_SQ_FB_DELAY-0012 W
+WCMD W-C2_MUX_SQ_FB_DELAY-0012 W
+WCMD W-C3_MUX_SQ_FB_DELAY-0012 W
+COMM
+WCMD W-C0_SAMPLING_DELAY-0013 W
+WCMD W-C1_SAMPLING_DELAY-0013 W
+WCMD W-C2_SAMPLING_DELAY-0013 W
+WCMD W-C3_SAMPLING_DELAY-0013 W
+WCMD W-BOXCAR_LENGTH-FFFF W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 2: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C0_MUX_SQ_FB0(33)-7C20 W
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-0013 W
+WCMD W-C1_MUX_SQ_FB_DELAY-0006 W
+WCMD W-C2_MUX_SQ_FB_DELAY-000D W
+WCMD W-C3_MUX_SQ_FB_DELAY-0012 W
+COMM
+WCMD W-C0_SAMPLING_DELAY-0000 W
+WCMD W-C1_SAMPLING_DELAY-0007 W
+WCMD W-C2_SAMPLING_DELAY-000E W
+WCMD W-C3_SAMPLING_DELAY-0013 W
+WCMD W-BOXCAR_LENGTH-FA50 W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 3: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C0_MUX_SQ_FB0(33)-83E2 W
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-000E W
+WCMD W-C1_MUX_SQ_FB_DELAY-0000 W
+WCMD W-C2_MUX_SQ_FB_DELAY-0011 W
+WCMD W-C3_MUX_SQ_FB_DELAY-0007 W
+COMM
+WCMD W-C0_SAMPLING_DELAY-000F W
+WCMD W-C1_SAMPLING_DELAY-0001 W
+WCMD W-C2_SAMPLING_DELAY-0012 W
+WCMD W-C3_SAMPLING_DELAY-0008 W
+WCMD W-BOXCAR_LENGTH-B416 W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 4: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-0010 W
+WCMD W-C1_MUX_SQ_FB_DELAY-0008 W
+WCMD W-C2_MUX_SQ_FB_DELAY-0001 W
+WCMD W-C3_MUX_SQ_FB_DELAY-000C W
+COMM
+WCMD W-C0_SAMPLING_DELAY-0011 W
+WCMD W-C1_SAMPLING_DELAY-0009 W
+WCMD W-C2_SAMPLING_DELAY-0002 W
+WCMD W-C3_SAMPLING_DELAY-000D W
+WCMD W-BOXCAR_LENGTH-92C7 W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 5: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-0012 W
+WCMD W-C1_MUX_SQ_FB_DELAY-000B W
+WCMD W-C2_MUX_SQ_FB_DELAY-0009 W
+WCMD W-C3_MUX_SQ_FB_DELAY-0002 W
+COMM
+WCMD W-C0_SAMPLING_DELAY-0013 W
+WCMD W-C1_SAMPLING_DELAY-000C W
+WCMD W-C2_SAMPLING_DELAY-000A W
+WCMD W-C3_SAMPLING_DELAY-0003 W
+WCMD W-BOXCAR_LENGTH-35E8 W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 6: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-0003 W
+WCMD W-C1_MUX_SQ_FB_DELAY-000F W
+WCMD W-C2_MUX_SQ_FB_DELAY-000A W
+WCMD W-C3_MUX_SQ_FB_DELAY-0005 W
+COMM
+WCMD W-C0_SAMPLING_DELAY-0004 W
+WCMD W-C1_SAMPLING_DELAY-0010 W
+WCMD W-C2_SAMPLING_DELAY-000B W
+WCMD W-C3_SAMPLING_DELAY-0006 W
+WCMD W-BOXCAR_LENGTH-0DF4 W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 7: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C1_MUX_SQ_FB0(33)-7C20 W
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-000B W
+WCMD W-C1_MUX_SQ_FB_DELAY-0013 W
+WCMD W-C2_MUX_SQ_FB_DELAY-0012 W
+WCMD W-C3_MUX_SQ_FB_DELAY-0004 W
+COMM
+WCMD W-C0_SAMPLING_DELAY-000C W
+WCMD W-C1_SAMPLING_DELAY-0000 W
+WCMD W-C2_SAMPLING_DELAY-0013 W
+WCMD W-C3_SAMPLING_DELAY-0005 W
+WCMD W-BOXCAR_LENGTH-30F7 W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 8: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C1_MUX_SQ_FB0(33)-83E2 W
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-0012 W
+WCMD W-C1_MUX_SQ_FB_DELAY-0012 W
+WCMD W-C2_MUX_SQ_FB_DELAY-0012 W
+WCMD W-C3_MUX_SQ_FB_DELAY-0012 W
+COMM
+WCMD W-C0_SAMPLING_DELAY-0013 W
+WCMD W-C1_SAMPLING_DELAY-0013 W
+WCMD W-C2_SAMPLING_DELAY-0013 W
+WCMD W-C3_SAMPLING_DELAY-0013 W
+WCMD W-BOXCAR_LENGTH-0000 W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 9: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM   No telemetry mode switch off:  Check the science frame is complete with its start and stop,
+COMM    but the content can be altered because cross talk parameters is adjusted in the same time of
+COMM    science frame sending
+COMM ----------------------------------------------------------------------------------------------
+WUDI sync 0
+WUDI sync 1
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-0000 W
+WCMD W-C0_SAMPLING_DELAY-0001 W
+WMDC 0 0 0 3FFF_83E0
+WMDC 0 0 1 3FFF_7C20
+WUDI sync 0
+WUDI sync 1
+WUDI sync 0
+WUDI sync 1
+WMDC 0 0 0 3FFF_7C20
+WMDC 0 0 1 3FFF_FFFC
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 10: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C1_MUX_SQ_FB0(33)-7C20 W
+WCMD W-C2_MUX_SQ_FB0(33)-7C20 W
+WCMD W-C3_MUX_SQ_FB0(33)-7C20 W
+COMM
+WCMD W-C1_MUX_SQ_FB_DELAY-0013 W
+WCMD W-C2_MUX_SQ_FB_DELAY-0013 W
+WCMD W-C3_MUX_SQ_FB_DELAY-0013 W
+COMM
+WCMD W-C1_SAMPLING_DELAY-0000 W
+WCMD W-C2_SAMPLING_DELAY-0000 W
+WCMD W-C3_SAMPLING_DELAY-0000 W
+WCMD W-BOXCAR_LENGTH-0000 W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 11: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM   No telemetry mode switch off:  Check the science frame is complete with its start and stop,
+COMM    but the content can be altered because cross talk parameters is adjusted in the same time of
+COMM    science frame sending
+COMM ----------------------------------------------------------------------------------------------
+WUDI sync 0
+WUDI sync 1
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-0012 W
+WCMD W-C0_SAMPLING_DELAY-0013 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Set command 12: Feedback open loop mem. select, DAC delays,
+COMM   ADC sampling delays and sample number for ADC error signal average
+COMM   No telemetry mode switch off
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0000 W
+WAIT 7 us
+COMM
+WCMD W-C1_MUX_SQ_FB0(33)-83E2 W
+WCMD W-C2_MUX_SQ_FB0(33)-83E2 W
+WCMD W-C3_MUX_SQ_FB0(33)-83E2 W
+COMM
+WCMD W-C0_MUX_SQ_FB_DELAY-0000 W
+WCMD W-C1_MUX_SQ_FB_DELAY-0000 W
+WCMD W-C2_MUX_SQ_FB_DELAY-0000 W
+WCMD W-C3_MUX_SQ_FB_DELAY-0000 W
+COMM
+WCMD W-C0_SAMPLING_DELAY-0013 W
+WCMD W-C1_SAMPLING_DELAY-0013 W
+WCMD W-C2_SAMPLING_DELAY-0013 W
+WCMD W-C3_SAMPLING_DELAY-0013 W
+WCMD W-BOXCAR_LENGTH-0000 W
+COMM
+WCMD W-DATA_ACQ_MODE-0002 W
+WAIT 7 us
+COMM
+COMM ==============================================================================================
+COMM   Change Telemetry mode in Dump mode
+COMM ----------------------------------------------------------------------------------------------
+WCMD W-DATA_ACQ_MODE-0004 W

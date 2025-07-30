@@ -38,7 +38,6 @@ use     work.pkg_ep_cmd_type.all;
 
 entity top_dmx_dm is port (
          i_clk_ref            : in     std_logic                                                            ; --! Reference Clock
-         i_clk_adc_dc         : in     std_logic_vector(c_NB_COL-1 downto 0)                                ; --! SQUID MUX ADC: Data clock
 
          o_clk_sqm_adc        : out    std_logic_vector(c_NB_COL-1 downto 0)                                ; --! SQUID MUX ADC: Clock
          o_clk_sqm_dac        : out    std_logic_vector(c_NB_COL-1 downto 0)                                ; --! SQUID MUX DAC: Clock
@@ -56,7 +55,7 @@ entity top_dmx_dm is port (
 
          o_science_ctrl_01    : out    std_logic                                                            ; --! Science Data: Control channel 0/1
          o_science_ctrl_23    : out    std_logic                                                            ; --! Science Data: Control channel 2/3
-         o_science_data       : out    t_slv_arr(0 to c_NB_COL-1)(c_SC_DATA_SER_NB-1 downto 0)              ; --! Science Data: Serial Data
+         o_science_data       : out    t_slv_arr(0 to c_NB_COL)(c_SC_DATA_SER_NB-1 downto 0)                ; --! Science Data: Serial Data
 
          i_hk_spi_miso        : in     std_logic                                                            ; --! HouseKeeping: SPI Master Input Slave Output
          o_hk_spi_mosi        : out    std_logic                                                            ; --! HouseKeeping: SPI Master Output Slave Input
@@ -451,12 +450,9 @@ begin
    G_column_mgt: for k in 0 to c_NB_COL-1 generate
    begin
 
-      I_squid_adc_mgt: entity work.squid_adc_mgt generic map (
-         g_ADC_HW_BUG_BYPASS  => c_ADC_HW_BUG_BYPASS(k) -- std_logic                                          --! ADC harware bug bypass ('0' = No bug, '1' = Bug)
-      ) port map (
+      I_squid_adc_mgt: entity work.squid_adc_mgt port map (
          i_rst_sqm_adc_dac    => rst_sqm_adc_dac      , -- in     std_logic                                 ; --! Reset for SQUID ADC/DAC, de-assertion on system clock ('0' = Inactive, '1' = Active)
          i_clk_sqm_adc_dac    => clk_sqm_adc_dac      , -- in     std_logic                                 ; --! SQUID ADC/DAC internal Clock
-         i_clk_adc_dc         => i_clk_adc_dc(k)      , -- in     std_logic                                 ; --! SQUID MUX ADC: Data clock
 
          i_rst                => rst                  , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk                => clk                  , -- in     std_logic                                 ; --! System Clock
@@ -639,6 +635,7 @@ begin
    o_science_ctrl_01    <= science_data_ser(science_data_ser'high);
    o_science_ctrl_23    <= science_data_ser(science_data_ser'high);
 
+   o_science_data(o_science_data'high) <= (others => c_LOW_LEV);
    o_spare                             <= c_LOW_LEV;
    o_debug                             <= (others => c_LOW_LEV);
 

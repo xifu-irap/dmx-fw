@@ -33,6 +33,7 @@ library work;
 use     work.pkg_fpga_tech.all;
 use     work.pkg_func_math.all;
 use     work.pkg_type.all;
+use     work.pkg_mod.all;
 use     work.pkg_project.all;
 
 library nx;
@@ -42,7 +43,8 @@ entity pll is port (
          i_clk_ref            : in     std_logic                                                            ; --! Reference Clock
          o_clk                : out    std_logic                                                            ; --! System Clock
          o_clk_sqm_adc_dac    : out    std_logic                                                            ; --! SQUID MUX ADC/DAC internal Clock
-         o_clk_adc_dac_out    : out    std_logic                                                            ; --! Clock for SQUID ADC/DAC output Image Clock
+         o_clk_adc_out        : out    std_logic                                                            ; --! Clock for SQUID ADC output Image Clock
+         o_clk_dac_out        : out    std_logic                                                            ; --! Clock for SQUID DAC output Image Clock
 
          o_clk_90             : out    std_logic                                                            ; --! System Clock 90 degrees shift
          o_clk_sqm_adc_dac_90 : out    std_logic                                                              --! SQUID MUX ADC/DAC internal 90 degrees shift
@@ -170,8 +172,27 @@ begin
    o_clk_sqm_adc_dac <= clk_sqm_adc_dac;
 
    -- ------------------------------------------------------------------------------------------------------
-   --!  Clock for SQUID ADC/DAC Image clock generation
+   --!  Clock for SQUID ADC Image clock generation
    --    @Req : DRE-DMX-FW-REQ-0120
+   -- ------------------------------------------------------------------------------------------------------
+   I_wfg_clk_adc_out: entity nx.nx_wfg_l generic map (
+         WFG_EDGE             => c_WFG_EDGE_INV_N     , -- bit                                              ; --! Input clock inverted ('0' = No, '1' = Yes)
+         DELAY_ON             => c_PLL_WFG_DEL_ON     , -- bit                                              ; --! Delay on generated clock ('0' = No, '1' = Yes)
+         DELAY                => c_CLK_ADC_DEL_STEP   , -- integer range 0 to 63                            ; --! Number of delay taps on generated clock (steps of 160 ps)
+         MODE                 => c_WFG_PATTERN_ON     , -- bit                                              ; --! WFG pattern used ('0' = No, '1' = Yes)
+         PATTERN_END          => c_CLK_DAC_OUT_N_PAT  , -- integer range 0 to 15                            ; --! Number of pattern to apply to generated clock
+         PATTERN              => c_CLK_DAC_OUT_PAT      -- bit_vector(0 to 15)                                --! Pattern applied to generated clock: use only PATTERN_END+1 MSB bits
+   )     port map (
+         r                    => c_LOW_LEV            , -- in     std_logic                                 ; --! Reset ('0' = Inactive, '1' = Active)
+         si                   => clk_sync_ref_end_seq , -- in     std_logic                                 ; --! Reset pattern sequence  ('0' = Inactive, '1' = Active)
+         zi                   => pll_main_vco         , -- in     std_logic                                 ; --! Input clock (connected to PLL VCO or D1, D2 or D3 output)
+         rdy                  => pll_main_lock        , -- in     std_logic                                 ; --! '1' for the WFG generating PLL clock on external feedback, pll_locked pin otherwise
+         so                   => open                 , -- out    std_logic                                 ; --! End pattern sequence ('0': No, '1': Yes)
+         zo                   => o_clk_adc_out          -- out    std_logic                                   --! Generated clock, connected to clock tree
+   );
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!  Clock for SQUID DAC Image clock generation
    --    @Req : DRE-DMX-FW-REQ-0270
    -- ------------------------------------------------------------------------------------------------------
    I_wfg_clk_dac_out: entity nx.nx_wfg_l generic map (
@@ -187,7 +208,7 @@ begin
          zi                   => pll_main_vco         , -- in     std_logic                                 ; --! Input clock (connected to PLL VCO or D1, D2 or D3 output)
          rdy                  => pll_main_lock        , -- in     std_logic                                 ; --! '1' for the WFG generating PLL clock on external feedback, pll_locked pin otherwise
          so                   => open                 , -- out    std_logic                                 ; --! End pattern sequence ('0': No, '1': Yes)
-         zo                   => o_clk_adc_dac_out      -- out    std_logic                                   --! Generated clock, connected to clock tree
+         zo                   => o_clk_dac_out          -- out    std_logic                                   --! Generated clock, connected to clock tree
    );
 
    -- ------------------------------------------------------------------------------------------------------

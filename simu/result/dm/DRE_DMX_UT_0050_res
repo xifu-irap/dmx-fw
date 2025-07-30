@@ -35,7 +35,7 @@
 # ** Note   : (21984000 ps) Waiting SPI command return end for 36000 ps
 # ** Note   : (21984000 ps) Configure board reference number to 1
 # ** Note   : (22002000 ps) Check command return: PASS
-# ** Note   : (22002000 ps)  * Read C002_0010, expected value C002_0010 (Fw_Version, mode Read, data 0010)
+# ** Note   : (22002000 ps)  * Read C002_0011, expected value C002_0011 (Fw_Version, mode Read, data 0011)
 # ** Note   : (29418000 ps) Waiting SPI command end for 7416000 ps
 # ** Note   : (29418000 ps) Send SPI command value C004_XXXX (Hw_Version, mode Read, data XXXX)
 # ** Note   : (29490000 ps) Waiting SPI command return end for 36000 ps

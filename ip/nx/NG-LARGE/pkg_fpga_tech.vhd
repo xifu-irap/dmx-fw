@@ -164,7 +164,7 @@ constant c_RAM_DATA_S         : integer   := 24                                 
 constant c_RAM_ECC_ADD_S      : integer   := 11                                                             ; --! RAM with ECC: Address bus size
 constant c_RAM_ECC_DATA_S     : integer   := 18                                                             ; --! RAM with ECC: Data bus size
 
-constant c_RFB_ADD_S          : integer   :=  5                                                             ; --! Register File Block: Address bus size
+constant c_RFB_ADD_S          : integer   :=  6                                                             ; --! Register File Block: Address bus size
 constant c_RFB_DATA_S         : integer   := 16                                                             ; --! Register File Block: Data bus size
 
    -- ------------------------------------------------------------------------------------------------------

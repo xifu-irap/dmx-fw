@@ -25,7 +25,3 @@
 def add_parameters(p,modelboard):
     print("Common parameters")
     p.createClock(falling = 8, name = "clk_ref", period = 16, rising = 0, target = "getClockNet(i_clk_ref)")
-    p.createClock(falling = 4.4, name = "clk_adc_dc0", period = 8,  rising = 0.4, target = "getClockNet(i_clk_adc_dc[0])")
-    p.createClock(falling = 4.4, name = "clk_adc_dc1", period = 8,  rising = 0.4, target = "getClockNet(i_clk_adc_dc[1])")
-    p.createClock(falling = 4.4, name = "clk_adc_dc2", period = 8,  rising = 0.4, target = "getClockNet(i_clk_adc_dc[2])")
-    p.createClock(falling = 4.4, name = "clk_adc_dc3", period = 8,  rising = 0.4, target = "getClockNet(i_clk_adc_dc[3])")

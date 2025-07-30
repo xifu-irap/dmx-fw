@@ -30,17 +30,20 @@ use     ieee.numeric_std.all;
 
 library work;
 use     work.pkg_type.all;
-use     work.pkg_project.all;
 
 package pkg_mod is
+
+constant c_COL                : integer   := 4                                                              ; --! DEMUX: column number
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Parameters specific to the model
    -- ------------------------------------------------------------------------------------------------------
-constant c_FPGA_POS_ADC       : integer_vector(0 to c_NB_COL-1) := ( 2, 3, 0, 1)                            ; --! FPGA position ADC (0:Left Up, 1:Left Down, 2:Right Down, 3:Right up)
-constant c_FPGA_POS_SQM_DAC   : integer_vector(0 to c_NB_COL-1) := ( 3, 2, 1, 0)                            ; --! FPGA position MUX DAC (0:Left Up, 1:Left Down, 2:Right Down, 3:Right up)
-constant c_FPGA_POS_SQA_DAC   : integer_vector(0 to c_NB_COL-1) := ( 3, 3, 0, 0)                            ; --! FPGA position AMP DAC (0:Left Up, 1:Left Down, 2:Right Down, 3:Right up)
+constant c_FPGA_POS_ADC       : integer_vector(0 to c_COL-1) := ( 2, 3, 0, 1)                               ; --! FPGA position ADC (0:Left Up, 1:Left Down, 2:Right Down, 3:Right up)
+constant c_FPGA_POS_SQM_DAC   : integer_vector(0 to c_COL-1) := ( 3, 2, 1, 0)                               ; --! FPGA position MUX DAC (0:Left Up, 1:Left Down, 2:Right Down, 3:Right up)
+constant c_FPGA_POS_SQA_DAC   : integer_vector(0 to c_COL-1) := ( 3, 3, 0, 0)                               ; --! FPGA position AMP DAC (0:Left Up, 1:Left Down, 2:Right Down, 3:Right up)
 
-constant c_SQM_DATA_COMP      : std_logic_vector(c_NB_COL-1 downto 0):= "1001"                              ; --! SQUID MUX data by column complemented ('0' = No, '1' = Yes)
+constant c_SQM_DATA_COMP      : std_logic_vector(c_COL-1 downto 0):= "1001"                                 ; --! SQUID MUX data by column complemented ('0' = No, '1' = Yes)
+
+constant c_CLK_ADC_DEL_STEP   : integer   := 36                                                             ; --! ADC Clock propagation delay step number
 
 end pkg_mod;

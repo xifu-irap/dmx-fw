@@ -2,6 +2,7 @@ verific -work nx -vhdl ./nxLibrary-Large.vhdp
 
 verific -vhdl ./src/common/pkg_type.vhd
 verific -vhdl ./src/common/pkg_func_math.vhd
+verific -vhdl ./src/dm/pkg_mod.vhd
 verific -vhdl ./ip/nx/NG-LARGE/pkg_fpga_tech.vhd
 verific -vhdl ./src/common/pkg_project.vhd
 verific -vhdl ./src/common/pkg_calc_chain.vhd
@@ -18,7 +19,6 @@ verific -vhdl ./src/common/im_ck.vhd
 verific -vhdl ./src/common/rst_gen.vhd
 verific -vhdl ./src/common/rst_clk_mgt.vhd
 verific -vhdl ./src/common/in_rs_clk.vhd
-verific -vhdl ./src/common/in_rs_clk_adc_dc.vhd
 verific -vhdl ./src/common/round_sat.vhd
 verific -vhdl ./src/common/adder_sat.vhd
 verific -vhdl ./src/common/spi_slave.vhd
@@ -41,7 +41,6 @@ verific -vhdl ./src/common/science_data_mgt.vhd
 verific -vhdl ./src/common/hk_mgt.vhd
 verific -vhdl ./src/common/adder_acc.vhd
 verific -vhdl ./src/common/squid_adc_sys.vhd
-verific -vhdl ./src/common/squid_adc_bug_bypass.vhd
 verific -vhdl ./src/common/squid_adc_mgt.vhd
 verific -vhdl ./src/common/squid_data_proc_mem.vhd
 verific -vhdl ./src/common/err_average.vhd
@@ -53,7 +52,6 @@ verific -vhdl ./src/common/sqm_dac_mgt.vhd
 verific -vhdl ./src/common/sqm_spi_mgt.vhd
 verific -vhdl ./src/common/test_pattern_gen.vhd
 verific -vhdl ./src/common/relock.vhd
-verific -vhdl ./src/dm/pkg_mod.vhd
 verific -vhdl ./src/dm/pkg_fir.vhd
 verific -vhdl ./src/dm/fir_deci.vhd
 verific -vhdl ./src/dm/sqa_under_samp.vhd

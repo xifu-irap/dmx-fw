@@ -4090,15 +4090,16 @@
 #             (870851208 ps) ==============================================================================================
 #             (870851208 ps)   Reset science frame counter
 #             (870851208 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (871419492 ps) Waiting time for 568284 ps
-# ** Note   : (871419492 ps) Write discrete: frm_cnt_sc_rst = '1'
-# ** Note   : (871439492 ps) Waiting time for 20000 ps
-# ** Note   : (871439492 ps) Write discrete: frm_cnt_sc_rst = '0'
-#             (871439492 ps) 
-#             (871439492 ps) ==============================================================================================
-#             (871439492 ps)   Second Test pattern generation
-#             (871439492 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (876293928 ps) Waiting event sync = '1' for 4854436 ps
+# ** Note   : (870851208 ps) Write discrete: frm_cnt_sc_rst = '1'
+# ** Note   : (870871208 ps) Waiting time for 20000 ps
+# ** Note   : (870871208 ps) Write discrete: frm_cnt_sc_rst = '0'
+#             (870871208 ps) 
+#             (870871208 ps) ==============================================================================================
+#             (870871208 ps)   Second Test pattern generation
+#             (870871208 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (870871218 ps) Waiting event sync = '1' for 10 ps
+# ** Note   : (871011288 ps) Waiting event sync = '0' for 140070 ps
+# ** Note   : (876293928 ps) Waiting event sync = '1' for 5282640 ps
 # ** Note   : (876454008 ps) Waiting event sync = '0' for 160080 ps
 # ** Note   : (881736648 ps) Waiting event sync = '1' for 5282640 ps
 # ** Note   : (881896728 ps) Waiting event sync = '0' for 160080 ps
@@ -4143,16 +4144,16 @@
 # ** Note   : (990591048 ps) Waiting event sync = '1' for 5282640 ps
 # ** Note   : (990751128 ps) Waiting event sync = '0' for 160080 ps
 # ** Note   : (996033768 ps) Waiting event sync = '1' for 5282640 ps
-# ** Note   : (996193848 ps) Waiting event sync = '0' for 160080 ps
-# ** Note   : (1001476488 ps) Waiting event sync = '1' for 5282640 ps
-#             (1001476488 ps) 
-#             (1001476488 ps) ==============================================================================================
-#             (1001476488 ps)   Send command DATA_ACQ_MODE to Idle and check C0_MUX_SQ_FB_MODE state to Offset mode
-#             (1001476488 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (1001476488 ps) Send SPI command value 8001_0000 (DATA_ACQ_MODE, mode Write, data 0000)
-# ** Note   : (1003794000 ps) Waiting SPI command end for 2281512 ps
-# ** Note   : (1003797648 ps) Waiting event sync = '0' for 3648 ps
-# ** Note   : (1006919208 ps) Waiting event sync = '1' for 3121560 ps
+#             (996033768 ps) 
+#             (996033768 ps) ==============================================================================================
+#             (996033768 ps)   Send command DATA_ACQ_MODE to Idle and check C0_MUX_SQ_FB_MODE state to Offset mode
+#             (996033768 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (996033768 ps) Send SPI command value 8001_0000 (DATA_ACQ_MODE, mode Write, data 0000)
+# ** Note   : (998340000 ps) Waiting SPI command end for 2270232 ps
+# ** Note   : (998342922 ps) Waiting event sync = '0' for 2922 ps
+# ** Note   : (1001476488 ps) Waiting event sync = '1' for 3133566 ps
+# ** Note   : (1001636568 ps) Waiting event sync = '0' for 160080 ps
+# ** Note   : (1006919208 ps) Waiting event sync = '1' for 5282640 ps
 # ** Note   : (1006919208 ps) Send SPI command value 0600_XXXX (C0_MUX_SQ_FB_MODE, mode Read, data XXXX)
 # ** Note   : (1009230000 ps) Waiting SPI command end for 2274792 ps
 # ** Note   : (1009230000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
@@ -11181,15 +11182,14 @@
 #             (1741846488 ps) ==============================================================================================
 #             (1741846488 ps)   Reset science frame counter
 #             (1741846488 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (1742414772 ps) Waiting time for 568284 ps
-# ** Note   : (1742414772 ps) Write discrete: frm_cnt_sc_rst = '1'
-# ** Note   : (1742434772 ps) Waiting time for 20000 ps
-# ** Note   : (1742434772 ps) Write discrete: frm_cnt_sc_rst = '0'
-#             (1742434772 ps) 
-#             (1742434772 ps) ==============================================================================================
-#             (1742434772 ps)   Second Test pattern generation
-#             (1742434772 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (1747129128 ps) Waiting event sync = '1' for 4694356 ps
+# ** Note   : (1741846488 ps) Write discrete: frm_cnt_sc_rst = '1'
+# ** Note   : (1741866488 ps) Waiting time for 20000 ps
+# ** Note   : (1741866488 ps) Write discrete: frm_cnt_sc_rst = '0'
+#             (1741866488 ps) 
+#             (1741866488 ps) ==============================================================================================
+#             (1741866488 ps)   Second Test pattern generation
+#             (1741866488 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (1747129128 ps) Waiting event sync = '1' for 5262640 ps
 # ** Note   : (1747289208 ps) Waiting event sync = '0' for 160080 ps
 # ** Note   : (1747289208 ps) Check science packet type: PASS
 # ** Note   : (1747289208 ps)  * Science packet type: adc_data, value 11001010, expected 11001010
@@ -18712,15 +18712,14 @@
 #             (2988229368 ps) ==============================================================================================
 #             (2988229368 ps)   Reset science frame counter
 #             (2988229368 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (2988797652 ps) Waiting time for 568284 ps
-# ** Note   : (2988797652 ps) Write discrete: frm_cnt_sc_rst = '1'
-# ** Note   : (2988817652 ps) Waiting time for 20000 ps
-# ** Note   : (2988817652 ps) Write discrete: frm_cnt_sc_rst = '0'
-#             (2988817652 ps) 
-#             (2988817652 ps) ==============================================================================================
-#             (2988817652 ps)   Second Test pattern generation
-#             (2988817652 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (2993512008 ps) Waiting event sync = '1' for 4694356 ps
+# ** Note   : (2988229368 ps) Write discrete: frm_cnt_sc_rst = '1'
+# ** Note   : (2988249368 ps) Waiting time for 20000 ps
+# ** Note   : (2988249368 ps) Write discrete: frm_cnt_sc_rst = '0'
+#             (2988249368 ps) 
+#             (2988249368 ps) ==============================================================================================
+#             (2988249368 ps)   Second Test pattern generation
+#             (2988249368 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (2993512008 ps) Waiting event sync = '1' for 5262640 ps
 # ** Note   : (2993672088 ps) Waiting event sync = '0' for 160080 ps
 # ** Note   : (2993672088 ps) Check science packet type: PASS
 # ** Note   : (2993672088 ps)  * Science packet type: science, value 11001000, expected 11001000

@@ -3797,7 +3797,6 @@ COMM
 COMM ==============================================================================================
 COMM   Reset science frame counter
 COMM ----------------------------------------------------------------------------------------------
-WAIT 568.284 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -3857,6 +3856,8 @@ COMM ===========================================================================
 COMM   Send command DATA_ACQ_MODE to Idle and check C0_MUX_SQ_FB_MODE state to Offset mode
 COMM ----------------------------------------------------------------------------------------------
 WCMD W-DATA_ACQ_MODE-0000 W
+WUDI sync 0
+WUDI sync 1
 WUDI sync 0
 WUDI sync 1
 WCMD R-C0_MUX_SQ_FB_MODE(0)-XXXX W
@@ -10633,7 +10634,6 @@ COMM
 COMM ==============================================================================================
 COMM   Reset science frame counter
 COMM ----------------------------------------------------------------------------------------------
-WAIT 568.284 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -17710,7 +17710,6 @@ COMM
 COMM ==============================================================================================
 COMM   Reset science frame counter
 COMM ----------------------------------------------------------------------------------------------
-WAIT 568.284 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
