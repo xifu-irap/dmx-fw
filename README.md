@@ -1,7 +1,7 @@
 # dmx-fw
-DRE-DEMUX TDM firmware: https://github.com/xifu-irap/dmx-fw
+DRE-DEMUX TDM firmware, specific to Demonstrator Model Board 2: https://github.com/xifu-irap/dmx-fw/tree/DM_DMX2
 
-   - FPGA target: DK/DM: NG-LARGE (NanoXplore)
+   - FPGA target: DM2: NG-LARGE (NanoXplore)
    - Synthesis tool: nxdesignsuite v24.3.0.0
    - Firmware specification:
       + IRAP/XIFU-DRE/FM/SP/0065 - DRE TDM firmware requirements, ed. 1.0
@@ -28,6 +28,8 @@ DRE-DEMUX TDM firmware: https://github.com/xifu-irap/dmx-fw
    - (file) **clean.sh**: Clean the project directories
 
 ## 2. Commands
+
+   The directory root name must be changed from dmx-fw to dmx-fw-dm2.
 
    Questasim and nxdesignsuite must be previously installed.
 

@@ -181,7 +181,7 @@ def synthesis_constraints(p,modelboard):
         SQM_DAC_SLEEP_2 = Region('SQM_DAC_SLP_2',  1,  2,  1,  1)
         SQM_DAC_SLEEP_3 = Region('SQM_DAC_SLP_3',  1,  2,  1,  1)
 
-        SQA_DAC_0       = Region('SQA_DAC_0'    , 47,  6,  2,  1)
+        SQA_DAC_0       = Region('SQA_DAC_0'    , 40,  6,  2,  1)
         SQA_DAC_1       = Region('SQA_DAC_1'    , 47,  2,  2,  1)
         SQA_DAC_2       = Region('SQA_DAC_2'    ,  1,  6,  2,  1)
         SQA_DAC_3       = Region('SQA_DAC_3'    ,  1,  2,  2,  1)

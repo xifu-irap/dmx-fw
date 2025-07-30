@@ -66,7 +66,7 @@ def __main__(ProjectName,ModelBoard,Variant,TopCellName,TopCellLib,Seed,TimingDr
                 if field[1] == 'c_FW_VERSION':
                     Firmware_ID = line[1]
 
-    BitstreamName = ProjectName + '-' + ModelBoard + '_' + Firmware_ID
+    BitstreamName = ProjectName + '-' + 'dm2' + '_' + Firmware_ID
 
     project_path = script_path + '/../../synthesis/'+ BitstreamName + '_' + Seed
 
@@ -98,7 +98,7 @@ def __main__(ProjectName,ModelBoard,Variant,TopCellName,TopCellLib,Seed,TimingDr
 
     ###########################################MODEL BOARD SETTINGS#########################################
 
-    project_custom = project_class(ModelBoard,Variant,Seed,sources_files_directory)
+    project_custom = project_class('dm',Variant,Seed,sources_files_directory)
 
     if Progress == 'scratch':
         project_custom.add_files(p)
