@@ -66,7 +66,7 @@ constant c_DFB_PN_S           : integer := c_MULT_ALU_PORTA_S                   
 constant c_DFB_PN_DACC_S      : integer := c_M_PN_S - c_A_P_FRC_S                                           ; --! dFB(p,n): data to accumulate bus size
 
 constant c_PC1_PN_SAT         : integer := c_M_PN_S                                                         ; --! PC1(p,n): saturation (no linear result)
-constant c_PC1_PN_S           : integer := 2 * c_RFB_DATA_S                                                 ; --! PC1(p,n): bus size
+constant c_PC1_PN_S           : integer := 32                                                               ; --! PC1(p,n): bus size
 
 constant c_FB_PN_S            : integer := c_PC1_PN_S                                                       ; --! FB(p,n): bus size
 

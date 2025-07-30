@@ -101,7 +101,9 @@ begin
 
       I_spi_check: entity work.spi_check generic map (
          g_SPI_TIME_CHK       => c_SCHK(k).spi_time   , -- time_vector(0 to c_SPI_ERR_CHK_NB-3)             ; --! SPI timings to check
-         g_CPOL               => c_SCHK(k).spi_cpol     -- std_logic                                          --! Clock polarity
+         g_CPOL               => c_SCHK(k).spi_cpol   , -- std_logic                                        ; --! Clock polarity
+         g_STSCA              => c_SCHK(k).spi_stsca  , -- std_logic                                        ; --! SPI SCLK state when CS goes to active
+         g_STSCI              => c_SCHK(k).spi_stsci    -- std_logic                                          --! SPI SCLK state when CS goes to inactive
       ) port map (
          i_spi_mosi           => spi_mosi(k)          , -- in     std_logic                                 ; --! SPI: Master Output Slave Input data
          i_spi_sclk           => spi_sclk(k)          , -- in     std_logic                                 ; --! SPI: Serial Clock

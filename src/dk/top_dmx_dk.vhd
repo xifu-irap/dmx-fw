@@ -387,7 +387,6 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    I_top_dmx_dm_clk: entity work.top_dmx_dm_clk port map (
          i_clk_ref            => i_clk_ref            , -- in     std_logic                                 ; --! Reference Clock
-         i_clk_adc_dc         => (others => clk_sqm_adc_dac),-- in std_logic_vector(c_NB_COL-1 downto 0)    ; --! SQUID MUX ADC: Data clock
 
          o_rst                => rst                  , -- out    std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          o_rst_sqm_adc_dac    => rst_sqm_adc_dac      , -- out    std_logic                                 ; --! Reset for SQUID ADC/DAC, de-assertion on system clock ('0' = Inactive, '1' = Active)

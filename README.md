@@ -2,7 +2,7 @@
 DRE-DEMUX TDM firmware: https://github.com/xifu-irap/dmx-fw
 
    - FPGA target: DK/DM: NG-LARGE (NanoXplore)
-   - Synthesis tool: nxdesignsuite v24.1.0.2. For simulation, Questasim must used modelsim directory from nxdesignsuite v23.5.1.2
+   - Synthesis tool: nxdesignsuite v24.3.0.0
    - Firmware specification:
       + IRAP/XIFU-DRE/FM/SP/0065 - DRE TDM firmware requirements, ed. 1.0
       + IRAP/XIFU-DRE/FM/SP/0069 - DRE Inter-Modules Telemetry And Commands Definition, ed. 5.0

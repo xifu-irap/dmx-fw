@@ -3829,9 +3829,16 @@
 # ** Note   : (483612000 ps) Waiting SPI command end for 2286000 ps
 #             (483612000 ps) 
 #             (483612000 ps) ==============================================================================================
-#             (483612000 ps)   First Test pattern generation
+#             (483612000 ps)   Reset science frame counter
 #             (483612000 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (484418088 ps) Waiting event sync = '1' for 806088 ps
+# ** Note   : (483612000 ps) Write discrete: frm_cnt_sc_rst = '1'
+# ** Note   : (483632000 ps) Waiting time for 20000 ps
+# ** Note   : (483632000 ps) Write discrete: frm_cnt_sc_rst = '0'
+#             (483632000 ps) 
+#             (483632000 ps) ==============================================================================================
+#             (483632000 ps)   First Test pattern generation
+#             (483632000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (484418088 ps) Waiting event sync = '1' for 786088 ps
 # ** Note   : (484578168 ps) Waiting event sync = '0' for 160080 ps
 # ** Note   : (489860808 ps) Waiting event sync = '1' for 5282640 ps
 # ** Note   : (490020888 ps) Waiting event sync = '0' for 160080 ps
@@ -3885,15 +3892,14 @@
 #             (615203448 ps) ==============================================================================================
 #             (615203448 ps)   Reset science frame counter
 #             (615203448 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (615755724 ps) Waiting time for 552276 ps
-# ** Note   : (615755724 ps) Write discrete: frm_cnt_sc_rst = '1'
-# ** Note   : (615775724 ps) Waiting time for 20000 ps
-# ** Note   : (615775724 ps) Write discrete: frm_cnt_sc_rst = '0'
-#             (615775724 ps) 
-#             (615775724 ps) ==============================================================================================
-#             (615775724 ps)   Second Test pattern generation
-#             (615775724 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (620486088 ps) Waiting event sync = '1' for 4710364 ps
+# ** Note   : (615203448 ps) Write discrete: frm_cnt_sc_rst = '1'
+# ** Note   : (615223448 ps) Waiting time for 20000 ps
+# ** Note   : (615223448 ps) Write discrete: frm_cnt_sc_rst = '0'
+#             (615223448 ps) 
+#             (615223448 ps) ==============================================================================================
+#             (615223448 ps)   Second Test pattern generation
+#             (615223448 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (620486088 ps) Waiting event sync = '1' for 5262640 ps
 # ** Note   : (620646168 ps) Waiting event sync = '0' for 160080 ps
 # ** Note   : (625928808 ps) Waiting event sync = '1' for 5282640 ps
 # ** Note   : (626088888 ps) Waiting event sync = '0' for 160080 ps

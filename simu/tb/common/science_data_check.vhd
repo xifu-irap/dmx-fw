@@ -50,7 +50,6 @@ entity science_data_check is port (
          i_science_mem_data   : in     std_logic_vector(c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)      ; --! Science  memory for data compare: data
          i_adc_dmp_mem_cs     : in     std_logic_vector(        c_NB_COL-1 downto 0)                        ; --! ADC Dump memory for data compare: chip select ('0' = Inactive, '1' = Active)
 
-         i_packet_end         : in     std_logic                                                            ; --! Science packet end ('0' = No, '1' = Yes)
          i_science_data_ctrl  : in     std_logic_vector(c_SC_DATA_SER_W_S-1 downto 0)                       ; --! Science Data: Control word
          i_science_data       : in     t_slv_arr(0 to c_NB_COL-1)
                                                 (c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)             ; --! Science Data: Data
@@ -62,7 +61,7 @@ end entity science_data_check;
 
 architecture Behavioral of science_data_check is
 constant c_FRAME_NB_CYC       : integer := c_MUX_FACT * c_PIXEL_DAC_NB_CYC                                  ; --! Frame period number
-constant c_SC_DATA_R_PIP_NB   : integer:= 2                                                                 ; --! Science Data register: pipeline number
+constant c_SC_DATA_R_PIP_NB   : integer:= 3                                                                 ; --! Science Data register: pipeline number
 
 constant c_PLS_CNT_NB_VAL     : integer:= c_PIXEL_ADC_NB_CYC                                                ; --! Pulse counter (Dump case): number of value
 constant c_PLS_CNT_MAX_VAL    : integer:= c_PLS_CNT_NB_VAL - 2                                              ; --! Pulse counter (Dump case): maximal value
@@ -95,6 +94,7 @@ signal   pixel_pos_init       : t_slv_arr(0 to c_NB_COL-1)(c_PIXEL_POS_S-1 downt
 signal   pixel_pos_del        : t_slv_arr(0 to c_NB_COL-1)(c_PIXEL_POS_S-1 downto 0)                        ; --! Pixel position (Dump case) with delay
 signal   seq_cnt              : std_logic_vector(            c_SEQ_CNT_S-1 downto 0)                        ; --! Sequence counter (Dump case)
 
+signal   frm_cnt_sc_rst_lt    : std_logic                                                                   ; --! Frame counter science reset latch
 signal   pls_cnt_sc           : std_logic_vector(         c_PLS_CNT_SC_S-1 downto 0)                        ; --! Pulse counter (Science case)
 signal   frm_cnt_sc           : std_logic_vector(         c_FRM_CNT_SC_S-1 downto 0)                        ; --! Frame counter (Science case)
 
@@ -218,10 +218,10 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         pls_cnt_sc  <= c_ZERO(pls_cnt_sc'range);
+         pls_cnt_sc  <= std_logic_vector(to_unsigned(c_PLS_CNT_SC_MAX_VAL, pls_cnt_sc'length));
 
       elsif rising_edge(i_clk_science) then
-         if i_science_data_rdy = c_HGH_LEV then
+         if science_data_rdy_r(science_data_rdy_r'low) = c_HGH_LEV then
 
             if    i_science_data_ctrl = c_SC_CTRL_FWA or i_science_data_ctrl = c_SC_CTRL_FWS or
                  (i_science_data_ctrl = c_SC_CTRL_TPT and science_dta_ctrl_lst = c_SC_CTRL_DTW) then
@@ -239,6 +239,28 @@ begin
    end process P_pls_cnt_sc;
 
    -- ------------------------------------------------------------------------------------------------------
+   --!   Frame counter science reset latch
+   -- ------------------------------------------------------------------------------------------------------
+   P_frm_cnt_sc_rst_lt : process (i_rst, i_clk_science)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         frm_cnt_sc_rst_lt  <= c_LOW_LEV;
+
+      elsif rising_edge(i_clk_science) then
+         if i_frm_cnt_sc_rst = c_HGH_LEV then
+            frm_cnt_sc_rst_lt <= c_HGH_LEV;
+
+         elsif science_data_rdy_r(science_data_rdy_r'low) = c_HGH_LEV and pls_cnt_sc = std_logic_vector(to_unsigned(c_PLS_CNT_SC_MAX_VAL, pls_cnt_sc'length)) then
+            frm_cnt_sc_rst_lt  <= c_LOW_LEV;
+
+         end if;
+
+      end if;
+
+   end process P_frm_cnt_sc_rst_lt;
+
+   -- ------------------------------------------------------------------------------------------------------
    --!   Frame counter (Science case)
    -- ------------------------------------------------------------------------------------------------------
    P_frm_cnt_sc : process (i_rst, i_clk_science)
@@ -248,11 +270,15 @@ begin
          frm_cnt_sc  <= c_ZERO(frm_cnt_sc'range);
 
       elsif rising_edge(i_clk_science) then
-         if i_frm_cnt_sc_rst = c_HGH_LEV then
-            frm_cnt_sc <= c_ZERO(frm_cnt_sc'range);
+         if science_data_rdy_r(science_data_rdy_r'low) = c_HGH_LEV and pls_cnt_sc = std_logic_vector(to_unsigned(c_PLS_CNT_SC_MAX_VAL, pls_cnt_sc'length)) then
 
-         elsif science_data_rdy_r(science_data_rdy_r'high) = c_HGH_LEV and i_packet_end = c_HGH_LEV then
-            frm_cnt_sc <= std_logic_vector(unsigned(frm_cnt_sc) + 1);
+            if frm_cnt_sc_rst_lt = c_HGH_LEV then
+               frm_cnt_sc <= c_ZERO(frm_cnt_sc'range);
+
+            else
+               frm_cnt_sc <= std_logic_vector(unsigned(frm_cnt_sc) + 1);
+
+            end if;
 
          end if;
 
@@ -270,7 +296,7 @@ begin
          science_dta_ctrl_lst <= c_SC_CTRL_DTW;
 
       elsif rising_edge(i_clk_science) then
-         if i_science_data_rdy = c_HGH_LEV then
+         if science_data_rdy_r(science_data_rdy_r'low) = c_HGH_LEV then
             science_dta_ctrl_lst   <= i_science_data_ctrl;
 
          end if;

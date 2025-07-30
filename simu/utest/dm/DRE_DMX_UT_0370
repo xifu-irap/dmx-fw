@@ -764,6 +764,13 @@ WCMD W-TEST_PATTERN(3)-0001 W
 WCMD W-TEST_PATTERN(19)-0000 W
 COMM
 COMM ==============================================================================================
+COMM   Reset science frame counter
+COMM ----------------------------------------------------------------------------------------------
+WDIS frm_cnt_sc_rst 1
+WAIT 20 ns
+WDIS frm_cnt_sc_rst 0
+COMM
+COMM ==============================================================================================
 COMM   Send command DATA_ACQ_MODE to test pattern and enable test pattern generation (1 time)
 COMM ----------------------------------------------------------------------------------------------
 WUDI sync 1
@@ -808,7 +815,6 @@ WCMD R-Status-XXXX W
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-0022 N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -887,7 +893,6 @@ WCMD R-Status-XXXX W
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-002F N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -899,7 +904,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-002E N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -911,7 +915,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-002D N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -923,7 +926,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-002C N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -935,7 +937,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-002B N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -947,7 +948,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-002A N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -959,7 +959,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-0029 N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -971,7 +970,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-0028 N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -983,7 +981,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-0027 N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -995,7 +992,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-0026 N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -1007,7 +1003,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-0025 N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -1019,7 +1014,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-0024 N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -1031,7 +1025,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-0023 N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -1043,7 +1036,6 @@ WUDI sync 0
 WUDI sync 1
 CCMD R-TEST_PATTERN_ENABLE-0022 N
 COMM
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0
@@ -4543,7 +4535,6 @@ COMM
 COMM ==============================================================================================
 COMM   Reset science frame counter
 COMM ----------------------------------------------------------------------------------------------
-WAIT 552.276 ns
 WDIS frm_cnt_sc_rst 1
 WAIT 20 ns
 WDIS frm_cnt_sc_rst 0

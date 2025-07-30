@@ -38,7 +38,6 @@ use     work.pkg_ep_cmd_type.all;
 
 entity top_dmx_dm is port (
          i_clk_ref            : in     std_logic                                                            ; --! Reference Clock
-         i_clk_adc_dc         : in     std_logic_vector(c_NB_COL-1 downto 0)                                ; --! SQUID MUX ADC: Data clock
 
          o_clk_sqm_adc        : out    std_logic_vector(c_NB_COL-1 downto 0)                                ; --! SQUID MUX ADC: Clock
          o_clk_sqm_dac        : out    std_logic_vector(c_NB_COL-1 downto 0)                                ; --! SQUID MUX DAC: Clock
@@ -454,7 +453,6 @@ begin
       I_squid_adc_mgt: entity work.squid_adc_mgt port map (
          i_rst_sqm_adc_dac    => rst_sqm_adc_dac      , -- in     std_logic                                 ; --! Reset for SQUID ADC/DAC, de-assertion on system clock ('0' = Inactive, '1' = Active)
          i_clk_sqm_adc_dac    => clk_sqm_adc_dac      , -- in     std_logic                                 ; --! SQUID ADC/DAC internal Clock
-         i_clk_adc_dc         => i_clk_adc_dc(k)      , -- in     std_logic                                 ; --! SQUID MUX ADC: Data clock
 
          i_rst                => rst                  , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk                => clk                  , -- in     std_logic                                 ; --! System Clock

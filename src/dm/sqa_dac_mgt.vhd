@@ -111,6 +111,7 @@ signal   sqa_spi_tx_busy_n_fe : std_logic                                       
 
 signal   sqa_dac_data         : std_logic                                                                   ; --! SQUID AMP DAC: Serial Data
 signal   sqa_dac_sclk         : std_logic                                                                   ; --! SQUID AMP DAC: Serial Clock
+signal   sqa_dac_sclk_r       : std_logic                                                                   ; --! SQUID AMP DAC: Serial Clock register
 signal   sqa_dac_sync_n       : std_logic                                                                   ; --! SQUID AMP DAC: Frame Synchronization ('0' = Active, '1' = Inactive)
 
 attribute syn_preserve        : boolean                                                                     ; --! Disabling signal optimization
@@ -466,13 +467,15 @@ begin
 
       if rst_sqm_adc_dac_lc  = c_RST_LEV_ACT then
          o_sqa_dac_data    <= c_LOW_LEV;
+         sqa_dac_sclk_r    <= c_SQA_SPI_CPOL and c_PAD_REG_SET_AUTH;
          o_sqa_dac_sclk    <= c_SQA_SPI_CPOL and c_PAD_REG_SET_AUTH;
          o_sqa_dac_snc_l_n <= c_PAD_REG_SET_AUTH;
          o_sqa_dac_snc_o_n <= c_PAD_REG_SET_AUTH;
 
       elsif rising_edge(i_clk_sqm_adc_dac) then
          o_sqa_dac_data    <= sqa_dac_data;
-         o_sqa_dac_sclk    <= sqa_dac_sclk;
+         sqa_dac_sclk_r    <= sqa_dac_sclk;
+         o_sqa_dac_sclk    <= sqa_dac_sclk_r;
          o_sqa_dac_snc_l_n <= sqa_dac_sync_n or      sqa_fbk_off_tx_ena;
          o_sqa_dac_snc_o_n <= sqa_dac_sync_n or  not(sqa_fbk_off_tx_ena);
 

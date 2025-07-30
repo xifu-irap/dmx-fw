@@ -1058,58 +1058,60 @@
 # ** Note   : (1031010000 ps) Waiting SPI command end for 2283912 ps
 # ** Note   : (1031010000 ps) Send SPI command value 0A09_0001 (C0_SAMPLING_DELAY, mode Write, data 0001)
 # ** Note   : (1033332000 ps) Waiting SPI command end for 2286000 ps
-# ** Note   : (1033332000 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 1, ADC dump & Science value 3FFF_7C20
-# ** Note   : (1033348416 ps) Waiting event sync = '0' for 408 ps
-# ** Note   : (1034132808 ps) Waiting event sync = '1' for 784392 ps
+# ** Note   : (1033332000 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 0, ADC dump & Science value 3FFF_83E0
+# ** Note   : (1033348008 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 1, ADC dump & Science value 3FFF_7C20
+# ** Note   : (1033364424 ps) Waiting event sync = '0' for 408 ps
+# ** Note   : (1034132808 ps) Waiting event sync = '1' for 768384 ps
 # ** Note   : (1034292888 ps) Waiting event sync = '0' for 160080 ps
 # ** Note   : (1039575528 ps) Waiting event sync = '1' for 5282640 ps
-# ** Note   : (1039575528 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 1, ADC dump & Science value 3FFF_FFFC
-# ** Note   : (1046591536 ps) Waiting time for 7000000 ps
-#             (1046591536 ps) 
-#             (1046591536 ps) ==============================================================================================
-#             (1046591536 ps)   Set command 10: Feedback open loop mem. select, DAC delays,
-#             (1046591536 ps)   ADC sampling delays and sample number for ADC error signal average
-#             (1046591536 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (1046591536 ps) Send SPI command value 8001_0000 (DATA_ACQ_MODE, mode Write, data 0000)
-# ** Note   : (1048902000 ps) Waiting SPI command end for 2274464 ps
-# ** Note   : (1055902000 ps) Waiting time for 7000000 ps
-#             (1055902000 ps) 
-# ** Note   : (1055902000 ps) Send SPI command value 2443_7C20 (C1_MUX_SQ_FB0, mode Write, data 7C20)
-# ** Note   : (1058208000 ps) Waiting SPI command end for 2270000 ps
-# ** Note   : (1058208000 ps) Send SPI command value 4443_7C20 (C2_MUX_SQ_FB0, mode Write, data 7C20)
-# ** Note   : (1060530000 ps) Waiting SPI command end for 2286000 ps
-# ** Note   : (1060530000 ps) Send SPI command value 6443_7C20 (C3_MUX_SQ_FB0, mode Write, data 7C20)
-# ** Note   : (1062852000 ps) Waiting SPI command end for 2286000 ps
-#             (1062852000 ps) 
-# ** Note   : (1062852000 ps) Send SPI command value 2A01_0013 (C1_MUX_SQ_FB_DELAY, mode Write, data 0013)
-# ** Note   : (1065174000 ps) Waiting SPI command end for 2286000 ps
-# ** Note   : (1065174000 ps) Send SPI command value 4A01_0013 (C2_MUX_SQ_FB_DELAY, mode Write, data 0013)
-# ** Note   : (1067496000 ps) Waiting SPI command end for 2286000 ps
-# ** Note   : (1067496000 ps) Send SPI command value 6A01_0013 (C3_MUX_SQ_FB_DELAY, mode Write, data 0013)
-# ** Note   : (1069818000 ps) Waiting SPI command end for 2286000 ps
-#             (1069818000 ps) 
-# ** Note   : (1069818000 ps) Send SPI command value 2A09_0000 (C1_SAMPLING_DELAY, mode Write, data 0000)
-# ** Note   : (1072140000 ps) Waiting SPI command end for 2286000 ps
-# ** Note   : (1072140000 ps) Send SPI command value 4A09_0000 (C2_SAMPLING_DELAY, mode Write, data 0000)
-# ** Note   : (1074462000 ps) Waiting SPI command end for 2286000 ps
-# ** Note   : (1074462000 ps) Send SPI command value 6A09_0000 (C3_SAMPLING_DELAY, mode Write, data 0000)
-# ** Note   : (1076784000 ps) Waiting SPI command end for 2286000 ps
-# ** Note   : (1076784000 ps) Send SPI command value 8401_0000 (BOXCAR_LENGTH, mode Write, data 0000)
-# ** Note   : (1079106000 ps) Waiting SPI command end for 2286000 ps
-#             (1079106000 ps) 
-# ** Note   : (1079106000 ps) Send SPI command value 8001_0002 (DATA_ACQ_MODE, mode Write, data 0002)
-# ** Note   : (1081428000 ps) Waiting SPI command end for 2286000 ps
-# ** Note   : (1088428000 ps) Waiting time for 7000000 ps
-#             (1088428000 ps) 
-#             (1088428000 ps) ==============================================================================================
-#             (1088428000 ps)   Set command 11: Feedback open loop mem. select, DAC delays,
-#             (1088428000 ps)   ADC sampling delays and sample number for ADC error signal average
-#             (1088428000 ps)   No telemetry mode switch off:  Check the science frame is complete with its start and stop,
-#             (1088428000 ps)    but the content can be altered because cross talk parameters is adjusted in the same time of
-#             (1088428000 ps)    science frame sending
-#             (1088428000 ps) ----------------------------------------------------------------------------------------------
-# ** Note   : (1088431944 ps) Waiting event sync = '0' for 3944 ps
-# ** Note   : (1088560008 ps) Waiting event sync = '1' for 128064 ps
+# ** Note   : (1039575528 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 0, ADC dump & Science value 3FFF_7C20
+# ** Note   : (1039591536 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 1, ADC dump & Science value 3FFF_FFFC
+# ** Note   : (1046607544 ps) Waiting time for 7000000 ps
+#             (1046607544 ps) 
+#             (1046607544 ps) ==============================================================================================
+#             (1046607544 ps)   Set command 10: Feedback open loop mem. select, DAC delays,
+#             (1046607544 ps)   ADC sampling delays and sample number for ADC error signal average
+#             (1046607544 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (1046607544 ps) Send SPI command value 8001_0000 (DATA_ACQ_MODE, mode Write, data 0000)
+# ** Note   : (1048920000 ps) Waiting SPI command end for 2276456 ps
+# ** Note   : (1055920000 ps) Waiting time for 7000000 ps
+#             (1055920000 ps) 
+# ** Note   : (1055920000 ps) Send SPI command value 2443_7C20 (C1_MUX_SQ_FB0, mode Write, data 7C20)
+# ** Note   : (1058226000 ps) Waiting SPI command end for 2270000 ps
+# ** Note   : (1058226000 ps) Send SPI command value 4443_7C20 (C2_MUX_SQ_FB0, mode Write, data 7C20)
+# ** Note   : (1060548000 ps) Waiting SPI command end for 2286000 ps
+# ** Note   : (1060548000 ps) Send SPI command value 6443_7C20 (C3_MUX_SQ_FB0, mode Write, data 7C20)
+# ** Note   : (1062870000 ps) Waiting SPI command end for 2286000 ps
+#             (1062870000 ps) 
+# ** Note   : (1062870000 ps) Send SPI command value 2A01_0013 (C1_MUX_SQ_FB_DELAY, mode Write, data 0013)
+# ** Note   : (1065192000 ps) Waiting SPI command end for 2286000 ps
+# ** Note   : (1065192000 ps) Send SPI command value 4A01_0013 (C2_MUX_SQ_FB_DELAY, mode Write, data 0013)
+# ** Note   : (1067514000 ps) Waiting SPI command end for 2286000 ps
+# ** Note   : (1067514000 ps) Send SPI command value 6A01_0013 (C3_MUX_SQ_FB_DELAY, mode Write, data 0013)
+# ** Note   : (1069836000 ps) Waiting SPI command end for 2286000 ps
+#             (1069836000 ps) 
+# ** Note   : (1069836000 ps) Send SPI command value 2A09_0000 (C1_SAMPLING_DELAY, mode Write, data 0000)
+# ** Note   : (1072158000 ps) Waiting SPI command end for 2286000 ps
+# ** Note   : (1072158000 ps) Send SPI command value 4A09_0000 (C2_SAMPLING_DELAY, mode Write, data 0000)
+# ** Note   : (1074480000 ps) Waiting SPI command end for 2286000 ps
+# ** Note   : (1074480000 ps) Send SPI command value 6A09_0000 (C3_SAMPLING_DELAY, mode Write, data 0000)
+# ** Note   : (1076802000 ps) Waiting SPI command end for 2286000 ps
+# ** Note   : (1076802000 ps) Send SPI command value 8401_0000 (BOXCAR_LENGTH, mode Write, data 0000)
+# ** Note   : (1079124000 ps) Waiting SPI command end for 2286000 ps
+#             (1079124000 ps) 
+# ** Note   : (1079124000 ps) Send SPI command value 8001_0002 (DATA_ACQ_MODE, mode Write, data 0002)
+# ** Note   : (1081446000 ps) Waiting SPI command end for 2286000 ps
+# ** Note   : (1088446000 ps) Waiting time for 7000000 ps
+#             (1088446000 ps) 
+#             (1088446000 ps) ==============================================================================================
+#             (1088446000 ps)   Set command 11: Feedback open loop mem. select, DAC delays,
+#             (1088446000 ps)   ADC sampling delays and sample number for ADC error signal average
+#             (1088446000 ps)   No telemetry mode switch off:  Check the science frame is complete with its start and stop,
+#             (1088446000 ps)    but the content can be altered because cross talk parameters is adjusted in the same time of
+#             (1088446000 ps)    science frame sending
+#             (1088446000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (1088447952 ps) Waiting event sync = '0' for 1952 ps
+# ** Note   : (1088560008 ps) Waiting event sync = '1' for 112056 ps
 #             (1088560008 ps) 
 # ** Note   : (1088560008 ps) Send SPI command value 0A01_0012 (C0_MUX_SQ_FB_DELAY, mode Write, data 0012)
 # ** Note   : (1090878000 ps) Waiting SPI command end for 2281992 ps
@@ -1172,6 +1174,6 @@
 # Error check science packets   : '0'
 # Error check pulse shaping     : '0'
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
-# Simulation time               : 1320000000 ps
+# Simulation time               : 1156000000 ps
 # Simulation status             : PASS
 # ------------------------------------------------------------------------------------------------------------------------------------------------------

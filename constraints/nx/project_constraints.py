@@ -209,10 +209,10 @@ def synthesis_constraints(p,modelboard):
         # ------------------------------------------------------------------------------------------------------
         #   SQUID MUX ADC clocks constraints
         # ------------------------------------------------------------------------------------------------------
-        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[0].I_cmd_ck_adc|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[0].I_sqm_adc|cmd_ck_r_reg[0]'], 'cmd_ck_adc_0', 'Soft', CLK_SQM_ADC_0.c, CLK_SQM_ADC_0.r, CLK_SQM_ADC_0.w, CLK_SQM_ADC_0.h, CLK_SQM_ADC_0.n, False)
-        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[1].I_cmd_ck_adc|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[1].I_sqm_adc|cmd_ck_r_reg[0]'], 'cmd_ck_adc_1', 'Soft', CLK_SQM_ADC_1.c, CLK_SQM_ADC_1.r, CLK_SQM_ADC_1.w, CLK_SQM_ADC_1.h, CLK_SQM_ADC_1.n, False)
-        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[2].I_cmd_ck_adc|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[2].I_sqm_adc|cmd_ck_r_reg[0]'], 'cmd_ck_adc_2', 'Soft', CLK_SQM_ADC_2.c, CLK_SQM_ADC_2.r, CLK_SQM_ADC_2.w, CLK_SQM_ADC_2.h, CLK_SQM_ADC_2.n, False)
-        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[3].I_cmd_ck_adc|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[3].I_sqm_adc|cmd_ck_r_reg[0]'], 'cmd_ck_adc_3', 'Soft', CLK_SQM_ADC_3.c, CLK_SQM_ADC_3.r, CLK_SQM_ADC_3.w, CLK_SQM_ADC_3.h, CLK_SQM_ADC_3.n, False)
+        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[0].I_cmd_ck_adc|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[0].I_sqm_adc|cmd_ck_r_reg[0]'], 'cmd_ck_adc_0', 'Soft', CLK_SQM_ADC_0.c, CLK_SQM_ADC_0.r, CLK_SQM_ADC_0.w, CLK_SQM_ADC_0.h, 'CLK_SQM_ADC_0_bis', False)
+        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[1].I_cmd_ck_adc|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[1].I_sqm_adc|cmd_ck_r_reg[0]'], 'cmd_ck_adc_1', 'Soft', CLK_SQM_ADC_1.c, CLK_SQM_ADC_1.r, CLK_SQM_ADC_1.w, CLK_SQM_ADC_1.h, 'CLK_SQM_ADC_1_bis', False)
+        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[2].I_cmd_ck_adc|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[2].I_sqm_adc|cmd_ck_r_reg[0]'], 'cmd_ck_adc_2', 'Soft', CLK_SQM_ADC_2.c, CLK_SQM_ADC_2.r, CLK_SQM_ADC_2.w, CLK_SQM_ADC_2.h, 'CLK_SQM_ADC_2_bis', False)
+        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[3].I_cmd_ck_adc|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[3].I_sqm_adc|cmd_ck_r_reg[0]'], 'cmd_ck_adc_3', 'Soft', CLK_SQM_ADC_3.c, CLK_SQM_ADC_3.r, CLK_SQM_ADC_3.w, CLK_SQM_ADC_3.h, 'CLK_SQM_ADC_3_bis', False)
 
         p.addModule('im_ck(X369A4EF0)', 'I_rst_clk_mgt|G_column_mgt[0].I_sqm_adc', 'ck_adc_0', 'Soft')
         p.addModule('im_ck(X369A4EF0)', 'I_rst_clk_mgt|G_column_mgt[1].I_sqm_adc', 'ck_adc_1', 'Soft')
@@ -255,10 +255,10 @@ def synthesis_constraints(p,modelboard):
         # ------------------------------------------------------------------------------------------------------
         #   SQUID MUX DAC clocks constraints
         # ------------------------------------------------------------------------------------------------------
-        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[0].I_cmd_ck_sqm_dac|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[0].I_sqm_dac_out|cmd_ck_r_reg[0]'], 'cmd_ck_dac_0', 'Soft', CLK_SQM_DAC_0.c, CLK_SQM_DAC_0.r, CLK_SQM_DAC_0.w, CLK_SQM_DAC_0.h, CLK_SQM_DAC_0.n, False)
-        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[1].I_cmd_ck_sqm_dac|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[1].I_sqm_dac_out|cmd_ck_r_reg[0]'], 'cmd_ck_dac_1', 'Soft', CLK_SQM_DAC_1.c, CLK_SQM_DAC_1.r, CLK_SQM_DAC_1.w, CLK_SQM_DAC_1.h, CLK_SQM_DAC_1.n, False)
-        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[2].I_cmd_ck_sqm_dac|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[2].I_sqm_dac_out|cmd_ck_r_reg[0]'], 'cmd_ck_dac_2', 'Soft', CLK_SQM_DAC_2.c, CLK_SQM_DAC_2.r, CLK_SQM_DAC_2.w, CLK_SQM_DAC_2.h, CLK_SQM_DAC_2.n, False)
-        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[3].I_cmd_ck_sqm_dac|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[3].I_sqm_dac_out|cmd_ck_r_reg[0]'], 'cmd_ck_dac_3', 'Soft', CLK_SQM_DAC_3.c, CLK_SQM_DAC_3.r, CLK_SQM_DAC_3.w, CLK_SQM_DAC_3.h, CLK_SQM_DAC_3.n, False)
+        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[0].I_cmd_ck_sqm_dac|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[0].I_sqm_dac_out|cmd_ck_r_reg[0]'], 'cmd_ck_dac_0', 'Soft', CLK_SQM_DAC_0.c, CLK_SQM_DAC_0.r, CLK_SQM_DAC_0.w, CLK_SQM_DAC_0.h, 'CLK_SQM_DAC_0_bis', False)
+        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[1].I_cmd_ck_sqm_dac|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[1].I_sqm_dac_out|cmd_ck_r_reg[0]'], 'cmd_ck_dac_1', 'Soft', CLK_SQM_DAC_1.c, CLK_SQM_DAC_1.r, CLK_SQM_DAC_1.w, CLK_SQM_DAC_1.h, 'CLK_SQM_DAC_1_bis', False)
+        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[2].I_cmd_ck_sqm_dac|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[2].I_sqm_dac_out|cmd_ck_r_reg[0]'], 'cmd_ck_dac_2', 'Soft', CLK_SQM_DAC_2.c, CLK_SQM_DAC_2.r, CLK_SQM_DAC_2.w, CLK_SQM_DAC_2.h, 'CLK_SQM_DAC_2_bis', False)
+        p.constrainPath(['I_rst_clk_mgt|G_column_mgt[3].I_cmd_ck_sqm_dac|o_cmd_ck_reg'],['I_rst_clk_mgt|G_column_mgt[3].I_sqm_dac_out|cmd_ck_r_reg[0]'], 'cmd_ck_dac_3', 'Soft', CLK_SQM_DAC_3.c, CLK_SQM_DAC_3.r, CLK_SQM_DAC_3.w, CLK_SQM_DAC_3.h, 'CLK_SQM_DAC_3_bis', False)
 
         p.addModule('im_ck(X2C9B091B)', 'I_rst_clk_mgt|G_column_mgt[0].I_sqm_dac_out', 'squid_dac_mgt_0', 'Soft')
         p.addModule('im_ck(X2C9B091B)', 'I_rst_clk_mgt|G_column_mgt[1].I_sqm_dac_out', 'squid_dac_mgt_1', 'Soft')
@@ -394,6 +394,7 @@ def placing_constraints(p,modelboard):
         p.addWFGLocation('I_rst_clk_mgt|I_pll|I_wfg_clk_adc_dac','CKG3.WFG_C2')
         p.addWFGLocation('I_rst_clk_mgt|I_pll|I_wfg_clk_90','CKG3.WFG_C3')
         p.addWFGLocation('I_rst_clk_mgt|I_pll|I_wfg_clk_adc_dac_90','CKG3.WFG_C4')
+        p.addWFGLocation('I_rst_clk_mgt|I_pll|I_wfg_clk_adc_out','CKG3.WFG_M1')
         p.addWFGLocation('I_rst_clk_mgt|I_pll|I_wfg_clk_dac_out','CKG3.WFG_M2')
         p.addWFGLocation('I_rst_clk_mgt|I_pll|I_wfg_clk_sync_ref','CKG3.WFG_M3')
 
@@ -403,6 +404,7 @@ def placing_constraints(p,modelboard):
         p.injectLowskew('rst')
         p.injectLowskew('rst_sqm_adc_dac')
         p.setSite('I_rst_clk_mgt|rst_sqm_adc_dac_lc_reg','TILE[37x22]')
+        p.setSite('*G_column_mgt[0].I_squid_adc_mgt|rst_sqm_adc_dac_lc*','TILE[30x18]')
 
         p.setSite('*G_column_mgt[0].I_sqm_fbk_mgt|o_sqm_data_fbk_reg*','TILE[33x6]')
         p.setSite('*G_column_mgt[1].I_sqm_fbk_mgt|o_sqm_data_fbk_reg*','TILE[25x18]')

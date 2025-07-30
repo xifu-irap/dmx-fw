@@ -34,9 +34,15 @@ quietly set TB_DIR $4
 
 ###################### Files compilation ###################
    vlib work
+
+   if {${MODEL_BOARD} == "dm" || ${MODEL_BOARD} == "dk"} {
+      vcom +cover=bcs -work work -2008           \
+         ${SRC_DIR}/common/pkg_type.vhd          \
+         ${SRC_DIR}/common/pkg_func_math.vhd     \
+         ${SRC_DIR}/dm/pkg_mod.vhd
+   }
+
    vcom +cover=bcs -work work -2008              \
-      ${SRC_DIR}/common/pkg_type.vhd             \
-      ${SRC_DIR}/common/pkg_func_math.vhd        \
       ${IP_DIR}/pkg_fpga_tech.vhd                \
       ${SRC_DIR}/common/pkg_project.vhd          \
       ${SRC_DIR}/common/pkg_calc_chain.vhd       \
@@ -52,7 +58,6 @@ quietly set TB_DIR $4
       ${SRC_DIR}/common/im_ck.vhd                \
       ${SRC_DIR}/common/rst_gen.vhd              \
       ${SRC_DIR}/common/rst_clk_mgt.vhd          \
-      ${SRC_DIR}/common/in_rs_clk_adc_dc.vhd     \
       ${SRC_DIR}/common/in_rs_clk.vhd            \
       ${SRC_DIR}/common/round_sat.vhd            \
       ${SRC_DIR}/common/adder_sat.vhd            \
@@ -90,7 +95,6 @@ quietly set TB_DIR $4
 
    if {${MODEL_BOARD} == "dm" || ${MODEL_BOARD} == "dk"} {
       vcom +cover=bcs -work work -2008           \
-         ${SRC_DIR}/dm/pkg_mod.vhd               \
          ${SRC_DIR}/dm/pkg_fir.vhd               \
          ${SRC_DIR}/dm/fir_deci.vhd              \
          ${SRC_DIR}/dm/sqa_under_samp.vhd        \

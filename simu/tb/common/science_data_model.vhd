@@ -262,7 +262,6 @@ begin
          i_science_mem_data   => i_science_mem_data   , -- in     slv c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S    ; --! Science  memory for data compare: data
          i_adc_dmp_mem_cs     => i_adc_dmp_mem_cs     , -- in     std_logic_vector(c_NB_COL-1 downto 0)     ; --! ADC Dump memory for data compare: chip select ('0' = Inactive, '1' = Active)
 
-         i_packet_end         => packet_end           , -- in     std_logic                                 ; --! Science packet end ('0' = No, '1' = Yes)
          i_science_data_ctrl  => science_data_ctrl(science_data_ctrl'low), -- in slv c_SC_DATA_SER_W_S      ; --! Science Data: Control word
          i_science_data       => science_data         , -- in     t_sc_data(0 to c_NB_COL-1)                ; --! Science Data: Data
          i_science_data_rdy   => science_data_rdy     , -- in     std_logic                                 ; --! Science Data Ready ('0' = Inactive, '1' = Active)

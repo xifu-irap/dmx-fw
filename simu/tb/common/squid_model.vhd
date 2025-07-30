@@ -57,7 +57,6 @@ entity squid_model is generic (
          o_sqm_adc_ana        : out    real                                                                 ; --! SQUID MUX ADC: Analog
          o_sqm_adc_data       : out    std_logic_vector(c_SQM_ADC_DATA_S-1 downto 0)                        ; --! SQUID MUX ADC: Data
          o_sqm_adc_oor        : out    std_logic                                                            ; --! SQUID MUX ADC: Out of range ('0' = No, '1' = under/over range)
-         o_clk_adc_dc         : out    std_logic                                                            ; --! SQUID MUX ADC: Data clock
 
          i_sqm_data_comp      : in     std_logic                                                            ; --! SQUID MUX data complemented ('0' = No, '1' = Yes)
          i_clk_sqm_dac        : in     std_logic                                                            ; --! SQUID MUX DAC: Clock
@@ -161,7 +160,7 @@ begin
          i_sclk_dfs           => i_sqm_adc_spi_sclk   , -- in     std_logic                                 ; --! SPI Serial clock, Data Format select ('0' = Binary, '1' = Twos complement)
 
          i_delta_vin          => o_sqm_adc_ana        , -- in     real                                      ; --! Analog voltage (-g_VREF <= Vin+ - Vin- < g_VREF)
-         o_dco                => o_clk_adc_dc         , -- out    std_logic                                 ; --! Data clock
+         o_dco                => open                 , -- out    std_logic                                 ; --! Data clock
          o_d                  => o_sqm_adc_data       , -- out    std_logic_vector(13 downto 0)             ; --! Data
          o_or                 => o_sqm_adc_oor          -- out    std_logic                                   --! Out of range indicator ('0' = Range, '1' = Out of range)
    );

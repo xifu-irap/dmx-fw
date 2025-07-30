@@ -34,13 +34,15 @@ use     work.pkg_model.all;
 
 entity spi_check is generic (
          g_SPI_TIME_CHK       : time_vector(0 to c_SPI_ERR_CHK_NB-3)                                        ; --! SPI timings to check
-         g_CPOL               : std_logic                                                                     --! Clock polarity
+         g_CPOL               : std_logic                                                                   ; --! Clock polarity
+         g_STSCA              : std_logic                                                                   ; --! SPI SCLK state when CS goes to active
+         g_STSCI              : std_logic                                                                     --! SPI SCLK state when CS goes to inactive
    ); port (
          i_spi_mosi           : in     std_logic                                                            ; --! SPI: Master Output Slave Input data
          i_spi_sclk           : in     std_logic                                                            ; --! SPI: Serial Clock
          i_spi_cs_n           : in     std_logic                                                            ; --! SPI: Chip Select
 
-         o_err_n_spi_chk      : out    integer_vector(0 to c_SPI_ERR_CHK_NB-1)                                --! SPI check error number:
+         o_err_n_spi_chk      : out    integer_vector(0 to c_SPI_ERR_CHK_NB-1)                                --! SPI check error number
    );
 end entity spi_check;
 
@@ -61,10 +63,10 @@ begin
 
       wait until i_spi_cs_n'event;
 
-      if i_spi_cs_n = c_HGH_LEV and i_spi_sclk = not(g_CPOL) then
+      if i_spi_cs_n = c_HGH_LEV and i_spi_sclk = not(g_STSCI) then
          o_err_n_spi_chk(c_SPI_ERR_POS_STSCI) <= o_err_n_spi_chk(c_SPI_ERR_POS_STSCI) + 1;
 
-      elsif i_spi_cs_n = c_LOW_LEV and i_spi_sclk = g_CPOL then
+      elsif i_spi_cs_n = c_LOW_LEV and i_spi_sclk = not(g_STSCA) then
          o_err_n_spi_chk(c_SPI_ERR_POS_STSCA) <= o_err_n_spi_chk(c_SPI_ERR_POS_STSCA) + 1;
 
       end if;

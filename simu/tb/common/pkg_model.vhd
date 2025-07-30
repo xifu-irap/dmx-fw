@@ -31,6 +31,8 @@ use     ieee.numeric_std.all;
 library work;
 use     work.pkg_type.all;
 use     work.pkg_func_math.all;
+use     work.pkg_mod.all;
+use     work.pkg_fpga_tech.all;
 use     work.pkg_project.all;
 use     work.pkg_ep_cmd.all;
 
@@ -59,6 +61,8 @@ type     t_clk_chk_prm_arr      is array (natural range <>) of t_clk_chk_prm    
 type     t_spi_chk_prm is record
          spi_name             : string                                                                      ; --! SPI bus name
          spi_cpol             : std_logic                                                                   ; --! SPI CPOL
+         spi_stsca            : std_logic                                                                   ; --! SPI SCLK state when CS goes to active
+         spi_stsci            : std_logic                                                                   ; --! SPI SCLK state when CS goes to inactive
          spi_time             : time_vector                                                                 ; --! SPI time parameter
 end record t_spi_chk_prm                                                                                    ; --! SPI check parameters type
 
@@ -322,6 +326,7 @@ constant c_CLK_ADC_HPER       : time    := c_CLK_REF_PER_DEF/(2 * c_CLK_ADC_DAC_
 constant c_CLK_DAC_HPER       : time    := c_CLK_REF_PER_DEF/(2 * c_CLK_ADC_DAC_MULT)                       ; --! DAC Clock half-period timing
 constant c_CLK_SC_HPER        : time    := c_CLK_REF_PER_DEF/(2 * c_CLK_MULT)                               ; --! Science Data Clock half-period timing
 constant c_CLK_FPA_SHIFT      : time    := c_CLK_FPA_PER_DEF/4                                              ; --! FPASIM Clock shift
+constant c_CLK_ADC_IO_DEL     : time    := c_CLK_ADC_PER_DEF - (c_CLK_ADC_DEL_STEP * c_IO_DEL_STEP * 1 ps)  ; --! SQUID MUX ADC Clock I/O delay
 
 constant c_CLK_ST             : std_logic := c_HGH_LEV                                                      ; --! System Clock state value when the enable signal goes to active
 constant c_CLK_ADC_ST         : std_logic := c_HGH_LEV                                                      ; --! ADC acquisition Clock state value when the enable signal goes to active
@@ -384,15 +389,15 @@ constant c_SPI_TIME_CHK_SQA   : time_vector(0 to c_SPI_ERR_CHK_NB-3) :=
                                 (13000 ps, 13000 ps, 33000 ps, 999999 ms, 20000 ps, 1000 ps,5000 ps,4500 ps); --! SPI timings to check: DAC SQUID AMP DAC121S101
 
 constant c_SCHK               : t_spi_chk_prm_arr(0 to c_CHK_ENA_SPI_NB-1) :=
-                                (("spi_hk           " , '1', c_SPI_TIME_CHK_HK ),
-                                 ("spi_sqa_lsb(0)   " , '0', c_SPI_TIME_CHK_SQA),
-                                 ("spi_sqa_lsb(1)   " , '0', c_SPI_TIME_CHK_SQA),
-                                 ("spi_sqa_lsb(2)   " , '0', c_SPI_TIME_CHK_SQA),
-                                 ("spi_sqa_lsb(3)   " , '0', c_SPI_TIME_CHK_SQA),
-                                 ("spi_sqa_off(0)   " , '0', c_SPI_TIME_CHK_SQA),
-                                 ("spi_sqa_off(1)   " , '0', c_SPI_TIME_CHK_SQA),
-                                 ("spi_sqa_off(2)   " , '0', c_SPI_TIME_CHK_SQA),
-                                 ("spi_sqa_off(3)   " , '0', c_SPI_TIME_CHK_SQA))                           ; --! SPI parameters to check
+                                (("spi_hk           " , '1', '0', '1', c_SPI_TIME_CHK_HK ),
+                                 ("spi_sqa_lsb(0)   " , '0', '0', '0', c_SPI_TIME_CHK_SQA),
+                                 ("spi_sqa_lsb(1)   " , '0', '0', '0', c_SPI_TIME_CHK_SQA),
+                                 ("spi_sqa_lsb(2)   " , '0', '0', '0', c_SPI_TIME_CHK_SQA),
+                                 ("spi_sqa_lsb(3)   " , '0', '0', '0', c_SPI_TIME_CHK_SQA),
+                                 ("spi_sqa_off(0)   " , '0', '0', '0', c_SPI_TIME_CHK_SQA),
+                                 ("spi_sqa_off(1)   " , '0', '0', '0', c_SPI_TIME_CHK_SQA),
+                                 ("spi_sqa_off(2)   " , '0', '0', '0', c_SPI_TIME_CHK_SQA),
+                                 ("spi_sqa_off(3)   " , '0', '0', '0', c_SPI_TIME_CHK_SQA))                 ; --! SPI parameters to check
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Model components
@@ -466,7 +471,6 @@ constant c_SCHK               : t_spi_chk_prm_arr(0 to c_CHK_ENA_SPI_NB-1) :=
          o_sqm_adc_ana        : out    real                                                                 ; --! SQUID MUX ADC: Analog
          o_sqm_adc_data       : out    std_logic_vector(c_SQM_ADC_DATA_S-1 downto 0)                        ; --! SQUID MUX ADC: Data
          o_sqm_adc_oor        : out    std_logic                                                            ; --! SQUID MUX ADC: Out of range ('0' = No, '1' = under/over range)
-         o_clk_adc_dc         : out    std_logic                                                            ; --! SQUID MUX ADC: Data clock
 
          i_sqm_data_comp      : in     std_logic                                                            ; --! SQUID MUX data complemented ('0' = No, '1' = Yes)
          i_clk_sqm_dac        : in     std_logic                                                            ; --! SQUID MUX DAC: Clock
