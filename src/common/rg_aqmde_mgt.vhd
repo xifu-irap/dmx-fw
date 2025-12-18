@@ -46,7 +46,8 @@ entity rg_aqmde_mgt is port (
          i_aqmde_dmp_tx_end   : in     std_logic                                                            ; --! Telemetry mode, dump transmit end ('0' = Inactive, '1' = Active)
 
          o_aqmde              : out    std_logic_vector(c_DFLD_AQMDE_S-1 downto 0)                          ; --! Telemetry mode
-         o_rg_aqmde_dmp_cmp   : out    std_logic                                                              --! EP register: DATA_ACQ_MODE, status "Dump" compared ('0' = Inactive, '1' = Active)
+         o_rg_aqmde_dmp_cmp   : out    std_logic                                                            ; --! EP register: DATA_ACQ_MODE, status "Dump" compared ('0' = Inactive, '1' = Active)
+         o_rg_aqmde_tst_cmp   : out    std_logic                                                              --! EP register: DATA_ACQ_MODE, status "Test Pattern" compared ('0'=Inactive, '1'=Active)
    );
 end entity rg_aqmde_mgt;
 
@@ -96,5 +97,6 @@ begin
    end process P_aqmde;
 
    o_rg_aqmde_dmp_cmp <= c_HGH_LEV when o_aqmde = c_DST_AQMDE_DUMP else c_LOW_LEV;
+   o_rg_aqmde_tst_cmp <= c_HGH_LEV when o_aqmde = c_DST_AQMDE_TEST else c_LOW_LEV;
 
 end architecture RTL;

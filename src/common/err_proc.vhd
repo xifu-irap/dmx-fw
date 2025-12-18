@@ -127,6 +127,12 @@ signal   nrm_pn_rnd_sat       : std_logic_vector(c_NRM_PN_S-1      downto 0)    
 signal   sc_pn                : std_logic_vector(c_NRM_PN_S-1      downto 0)                                ; --! Result: SC(p,n) = knorm(p)*(E(p,n) - Elp(p)) + FB(p,n)
 signal   sc_pn_car            : std_logic_vector(c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S   downto 0)             ; --! SC(p,n) with carry
 
+attribute syn_preserve        : boolean                                                                     ; --! Disabling signal optimization
+attribute syn_preserve          of o_sqm_data_sc_first : signal is true                                     ; --! Disabling signal optimization: o_sqm_data_sc_first
+attribute syn_preserve          of o_sqm_data_sc_rdy   : signal is true                                     ; --! Disabling signal optimization: o_sqm_data_sc_rdy
+attribute syn_preserve          of o_sqm_dta_err_frst  : signal is true                                     ; --! Disabling signal optimization: o_sqm_dta_err_frst
+attribute syn_preserve          of o_sqm_dta_err_cor_cs: signal is true                                     ; --! Disabling signal optimization: o_sqm_dta_err_cor_cs
+
 begin
 
    -- ------------------------------------------------------------------------------------------------------
@@ -346,6 +352,7 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    --!   Adder with accumulator: FB(p,n+1) = FB(p,n) + M(p,n) + a(p) * dFB(p,n)
    --    @Req : DRE-DMX-FW-REQ-0160
+   --    @Req : DRE-DMX-FW-REQ-0396
    --    @Req : DRE-DMX-FW-REQ-0400
    -- ------------------------------------------------------------------------------------------------------
    fb_mem_eln_add    <= pixel_pos_r(       c_FB_PN_SRT);
@@ -386,13 +393,15 @@ begin
          o_data_rnd_sat       => o_sqm_dta_err_cor      -- out    slv(g_DATA_CARRY_S-2 downto 0)              --! Data rounded with saturation (signed)
    );
 
-   o_sqm_dta_pixel_pos  <= pixel_pos_r(c_FB_PNP1_NPER-1);
-   o_sqm_dta_err_cor_cs <= sqm_data_err_rdy_r(c_FB_PNP1_NPER);
-   o_sqm_dta_err_frst   <= sqm_data_err_frst_r(c_FB_PNP1_NPER);
+   o_sqm_dta_pixel_pos  <= pixel_pos_r(c_FB_PNP1_NPER-c_TST_PAT_SC_NPER-1);
+   o_sqm_dta_err_cor_cs <= sqm_data_err_rdy_r(c_FB_PNP1_NPER-c_TST_PAT_SC_NPER);
+   o_sqm_dta_err_frst   <= sqm_data_err_frst_r(c_FB_PNP1_NPER-c_TST_PAT_SC_NPER);
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Result: NRM(p,n) = gain*knorm(p)*(E(p,n) - Elp(p)) (bus size result +1 bit for rounding)
    --    @Req : DRE-DMX-FW-REQ-0390
+   --    @Req : DRE-DMX-FW-REQ-0391
+   --    @Req : DRE-DMX-FW-REQ-0396
    -- ------------------------------------------------------------------------------------------------------
    I_nrm_pn: entity work.dsp generic map (
          g_PORTA_S            => c_SGN_P_S            , -- integer                                          ; --! Port A bus size (<= c_MULT_ALU_PORTA_S)
@@ -432,6 +441,8 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    --!   Result: SC(p,n) = knorm(p)*(E(p,n) - Elp(p)) + FB(p,n)
    --    @Req : DRE-DMX-FW-REQ-0390
+   --    @Req : DRE-DMX-FW-REQ-0391
+   --    @Req : DRE-DMX-FW-REQ-0396
    -- ------------------------------------------------------------------------------------------------------
    I_sc_pn: entity work.adder_sat generic map (
          g_RST_LEV_ACT        => c_RST_LEV_ACT        , -- std_logic                                        ; --! Reset level activation value
@@ -459,8 +470,22 @@ begin
          o_data_rnd_sat       => o_sqm_data_sc          -- out    slv(g_DATA_CARRY_S-2 downto 0)              --! Data rounded with saturation (signed)
    );
 
-   o_sqm_data_sc_first  <= sqm_data_err_frst_r(c_SC_O_PN_NPER);
+   --!   Science telemetry control
+   P_sqm_data_sc_ctrl : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         o_sqm_data_sc_first  <= c_LOW_LEV;
+         o_sqm_data_sc_rdy    <= c_LOW_LEV;
+
+      elsif rising_edge(i_clk) then
+         o_sqm_data_sc_first  <= sqm_data_err_frst_r(c_SC_PN_NPER);
+         o_sqm_data_sc_rdy    <= sqm_data_err_rdy_r( c_SC_PN_NPER);
+
+      end if;
+
+   end process P_sqm_data_sc_ctrl;
+
    o_sqm_data_sc_last   <= sqm_data_err_last_r(c_SC_O_PN_NPER);
-   o_sqm_data_sc_rdy    <= sqm_data_err_rdy_r( c_SC_O_PN_NPER);
 
 end architecture RTL;

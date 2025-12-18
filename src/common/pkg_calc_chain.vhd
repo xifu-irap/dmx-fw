@@ -99,6 +99,7 @@ constant c_M_PN_NPER          : integer := c_FGN_P_NPER    + c_DSP_NPER + 1     
 constant c_PC1_PN_NPER        : integer := c_M_PN_NPER     + c_DSP_NPER + 1                                 ; --! Clock period number for PC1(p,n)           from ki(p)*knorm(p) start memory reading
 constant c_RL_ENA_NPER        : integer := c_PC1_PN_NPER   + 2                                              ; --! Clock period number for Relock enable      from ki(p)*knorm(p) start memory reading
 constant c_FB_PNP1_NPER       : integer := c_RL_ENA_NPER   + 2                                              ; --! Clock period number for FB(p,n+1)          from ki(p)*knorm(p) start memory reading
+constant c_TST_PAT_SC_NPER    : integer := 4                                                                ; --! Clock period number for test pattern on science before FB(p,n+1) elaboration
 
 constant c_A_P_SRT            : integer := c_M_PN_NPER     - c_MEM_PAR_NPER                                 ; --! Start memory reading: parameters a(p)
 constant c_ELP_P_SRT          : integer := c_DIF_E_PN_NPER - c_MEM_PAR_NPER - 2                             ; --! Start memory reading: parameters Elp(p)

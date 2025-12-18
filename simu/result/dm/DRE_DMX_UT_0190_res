@@ -39,7 +39,7 @@
 # ** Note   : (6915456 ps) Waiting event rst = '0' for 6835456 ps
 #             (6915456 ps) 
 #             (6915456 ps) ==============================================================================================
-#             (6915456 ps)   Check each AMP SQUID DAC output goes to zero, synchronous with sync rising edge
+#             (6915456 ps)   Check each AMP SQUID DAC output goes to initial value, synchronous with sync rising edge
 #             (6915456 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (6919458 ps) Waiting event sync = '0' for 4002 ps
 # ** Note   : (10901448 ps) Waiting event sync = '1' for 3981990 ps
@@ -47,13 +47,13 @@
 # ** Note   : (16344168 ps) Waiting event sync = '1' for 5282640 ps
 # ** Note   : (16360168 ps) Waiting time for 16000 ps
 # ** Note   : (16360168 ps) Check ADC level: PASS
-# ** Note   : (16360168 ps)  * Read ADC channel 0, value 0.000000e+00, expected 0.000000e+00
+# ** Note   : (16360168 ps)  * Read ADC channel 0, value 1.302083e-03, expected 1.302083e-03
 # ** Note   : (16360168 ps) Check ADC level: PASS
-# ** Note   : (16360168 ps)  * Read ADC channel 1, value 0.000000e+00, expected 0.000000e+00
+# ** Note   : (16360168 ps)  * Read ADC channel 1, value 1.302083e-03, expected 1.302083e-03
 # ** Note   : (16360168 ps) Check ADC level: PASS
-# ** Note   : (16360168 ps)  * Read ADC channel 2, value 0.000000e+00, expected 0.000000e+00
+# ** Note   : (16360168 ps)  * Read ADC channel 2, value 1.302083e-03, expected 1.302083e-03
 # ** Note   : (16360168 ps) Check ADC level: PASS
-# ** Note   : (16360168 ps)  * Read ADC channel 3, value 0.000000e+00, expected 0.000000e+00
+# ** Note   : (16360168 ps)  * Read ADC channel 3, value 1.302083e-03, expected 1.302083e-03
 #             (16360168 ps) 
 #             (16360168 ps) ==============================================================================================
 #             (16360168 ps)   Configure AMP SQUID DAC LSB column 0
@@ -198,110 +198,110 @@
 # ** Note   : (106700256 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 32, ADC dump & Science value 15AD_0000
 # ** Note   : (106716264 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 33, ADC dump & Science value 15AD_0000
 #             (106732272 ps) 
-# ** Note   : (106732272 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 0, ADC dump & Science value 0000_0000
-# ** Note   : (106748280 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 1, ADC dump & Science value 0000_0000
-# ** Note   : (106764288 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 2, ADC dump & Science value 0000_0000
-# ** Note   : (106780296 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 3, ADC dump & Science value 0000_0000
-# ** Note   : (106796304 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 4, ADC dump & Science value 0000_0000
-# ** Note   : (106812312 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 5, ADC dump & Science value 0000_0000
-# ** Note   : (106828320 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 6, ADC dump & Science value 0000_0000
-# ** Note   : (106844328 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 7, ADC dump & Science value 0000_0000
-# ** Note   : (106860336 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 8, ADC dump & Science value 0000_0000
-# ** Note   : (106876344 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 9, ADC dump & Science value 0000_0000
-# ** Note   : (106892352 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 10, ADC dump & Science value 0000_0000
-# ** Note   : (106908360 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 11, ADC dump & Science value 0000_0000
-# ** Note   : (106924368 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 12, ADC dump & Science value 0000_0000
-# ** Note   : (106940376 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 13, ADC dump & Science value 0000_0000
-# ** Note   : (106956384 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 14, ADC dump & Science value 0000_0000
-# ** Note   : (106972392 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 15, ADC dump & Science value 0000_0000
-# ** Note   : (106988400 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 16, ADC dump & Science value 0000_0000
-# ** Note   : (107004408 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 17, ADC dump & Science value 0000_0000
-# ** Note   : (107020416 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 18, ADC dump & Science value 0000_0000
-# ** Note   : (107036424 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 19, ADC dump & Science value 0000_0000
-# ** Note   : (107052432 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 20, ADC dump & Science value 0000_0000
-# ** Note   : (107068440 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 21, ADC dump & Science value 0000_0000
-# ** Note   : (107084448 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 22, ADC dump & Science value 0000_0000
-# ** Note   : (107100456 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 23, ADC dump & Science value 0000_0000
-# ** Note   : (107116464 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 24, ADC dump & Science value 0000_0000
-# ** Note   : (107132472 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 25, ADC dump & Science value 0000_0000
-# ** Note   : (107148480 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 26, ADC dump & Science value 0000_0000
-# ** Note   : (107164488 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 27, ADC dump & Science value 0000_0000
-# ** Note   : (107180496 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 28, ADC dump & Science value 0000_0000
-# ** Note   : (107196504 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 29, ADC dump & Science value 0000_0000
-# ** Note   : (107212512 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 30, ADC dump & Science value 0000_0000
-# ** Note   : (107228520 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 31, ADC dump & Science value 0000_0000
-# ** Note   : (107244528 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 32, ADC dump & Science value 0000_0000
-# ** Note   : (107260536 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 33, ADC dump & Science value 0000_0000
+# ** Note   : (106732272 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 0, ADC dump & Science value 000B_0000
+# ** Note   : (106748280 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 1, ADC dump & Science value 000B_0000
+# ** Note   : (106764288 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 2, ADC dump & Science value 000B_0000
+# ** Note   : (106780296 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 3, ADC dump & Science value 000B_0000
+# ** Note   : (106796304 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 4, ADC dump & Science value 000B_0000
+# ** Note   : (106812312 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 5, ADC dump & Science value 000B_0000
+# ** Note   : (106828320 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 6, ADC dump & Science value 000B_0000
+# ** Note   : (106844328 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 7, ADC dump & Science value 000B_0000
+# ** Note   : (106860336 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 8, ADC dump & Science value 000B_0000
+# ** Note   : (106876344 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 9, ADC dump & Science value 000B_0000
+# ** Note   : (106892352 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 10, ADC dump & Science value 000B_0000
+# ** Note   : (106908360 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 11, ADC dump & Science value 000B_0000
+# ** Note   : (106924368 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 12, ADC dump & Science value 000B_0000
+# ** Note   : (106940376 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 13, ADC dump & Science value 000B_0000
+# ** Note   : (106956384 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 14, ADC dump & Science value 000B_0000
+# ** Note   : (106972392 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 15, ADC dump & Science value 000B_0000
+# ** Note   : (106988400 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 16, ADC dump & Science value 000B_0000
+# ** Note   : (107004408 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 17, ADC dump & Science value 000B_0000
+# ** Note   : (107020416 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 18, ADC dump & Science value 000B_0000
+# ** Note   : (107036424 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 19, ADC dump & Science value 000B_0000
+# ** Note   : (107052432 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 20, ADC dump & Science value 000B_0000
+# ** Note   : (107068440 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 21, ADC dump & Science value 000B_0000
+# ** Note   : (107084448 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 22, ADC dump & Science value 000B_0000
+# ** Note   : (107100456 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 23, ADC dump & Science value 000B_0000
+# ** Note   : (107116464 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 24, ADC dump & Science value 000B_0000
+# ** Note   : (107132472 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 25, ADC dump & Science value 000B_0000
+# ** Note   : (107148480 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 26, ADC dump & Science value 000B_0000
+# ** Note   : (107164488 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 27, ADC dump & Science value 000B_0000
+# ** Note   : (107180496 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 28, ADC dump & Science value 000B_0000
+# ** Note   : (107196504 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 29, ADC dump & Science value 000B_0000
+# ** Note   : (107212512 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 30, ADC dump & Science value 000B_0000
+# ** Note   : (107228520 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 31, ADC dump & Science value 000B_0000
+# ** Note   : (107244528 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 32, ADC dump & Science value 000B_0000
+# ** Note   : (107260536 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 33, ADC dump & Science value 000B_0000
 #             (107276544 ps) 
-# ** Note   : (107276544 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 0, ADC dump & Science value 0000_0000
-# ** Note   : (107292552 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 1, ADC dump & Science value 0000_0000
-# ** Note   : (107308560 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 2, ADC dump & Science value 0000_0000
-# ** Note   : (107324568 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 3, ADC dump & Science value 0000_0000
-# ** Note   : (107340576 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 4, ADC dump & Science value 0000_0000
-# ** Note   : (107356584 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 5, ADC dump & Science value 0000_0000
-# ** Note   : (107372592 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 6, ADC dump & Science value 0000_0000
-# ** Note   : (107388600 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 7, ADC dump & Science value 0000_0000
-# ** Note   : (107404608 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 8, ADC dump & Science value 0000_0000
-# ** Note   : (107420616 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 9, ADC dump & Science value 0000_0000
-# ** Note   : (107436624 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 10, ADC dump & Science value 0000_0000
-# ** Note   : (107452632 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 11, ADC dump & Science value 0000_0000
-# ** Note   : (107468640 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 12, ADC dump & Science value 0000_0000
-# ** Note   : (107484648 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 13, ADC dump & Science value 0000_0000
-# ** Note   : (107500656 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 14, ADC dump & Science value 0000_0000
-# ** Note   : (107516664 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 15, ADC dump & Science value 0000_0000
-# ** Note   : (107532672 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 16, ADC dump & Science value 0000_0000
-# ** Note   : (107548680 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 17, ADC dump & Science value 0000_0000
-# ** Note   : (107564688 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 18, ADC dump & Science value 0000_0000
-# ** Note   : (107580696 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 19, ADC dump & Science value 0000_0000
-# ** Note   : (107596704 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 20, ADC dump & Science value 0000_0000
-# ** Note   : (107612712 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 21, ADC dump & Science value 0000_0000
-# ** Note   : (107628720 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 22, ADC dump & Science value 0000_0000
-# ** Note   : (107644728 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 23, ADC dump & Science value 0000_0000
-# ** Note   : (107660736 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 24, ADC dump & Science value 0000_0000
-# ** Note   : (107676744 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 25, ADC dump & Science value 0000_0000
-# ** Note   : (107692752 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 26, ADC dump & Science value 0000_0000
-# ** Note   : (107708760 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 27, ADC dump & Science value 0000_0000
-# ** Note   : (107724768 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 28, ADC dump & Science value 0000_0000
-# ** Note   : (107740776 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 29, ADC dump & Science value 0000_0000
-# ** Note   : (107756784 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 30, ADC dump & Science value 0000_0000
-# ** Note   : (107772792 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 31, ADC dump & Science value 0000_0000
-# ** Note   : (107788800 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 32, ADC dump & Science value 0000_0000
-# ** Note   : (107804808 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 33, ADC dump & Science value 0000_0000
+# ** Note   : (107276544 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 0, ADC dump & Science value 000B_0000
+# ** Note   : (107292552 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 1, ADC dump & Science value 000B_0000
+# ** Note   : (107308560 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 2, ADC dump & Science value 000B_0000
+# ** Note   : (107324568 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 3, ADC dump & Science value 000B_0000
+# ** Note   : (107340576 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 4, ADC dump & Science value 000B_0000
+# ** Note   : (107356584 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 5, ADC dump & Science value 000B_0000
+# ** Note   : (107372592 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 6, ADC dump & Science value 000B_0000
+# ** Note   : (107388600 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 7, ADC dump & Science value 000B_0000
+# ** Note   : (107404608 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 8, ADC dump & Science value 000B_0000
+# ** Note   : (107420616 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 9, ADC dump & Science value 000B_0000
+# ** Note   : (107436624 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 10, ADC dump & Science value 000B_0000
+# ** Note   : (107452632 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 11, ADC dump & Science value 000B_0000
+# ** Note   : (107468640 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 12, ADC dump & Science value 000B_0000
+# ** Note   : (107484648 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 13, ADC dump & Science value 000B_0000
+# ** Note   : (107500656 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 14, ADC dump & Science value 000B_0000
+# ** Note   : (107516664 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 15, ADC dump & Science value 000B_0000
+# ** Note   : (107532672 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 16, ADC dump & Science value 000B_0000
+# ** Note   : (107548680 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 17, ADC dump & Science value 000B_0000
+# ** Note   : (107564688 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 18, ADC dump & Science value 000B_0000
+# ** Note   : (107580696 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 19, ADC dump & Science value 000B_0000
+# ** Note   : (107596704 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 20, ADC dump & Science value 000B_0000
+# ** Note   : (107612712 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 21, ADC dump & Science value 000B_0000
+# ** Note   : (107628720 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 22, ADC dump & Science value 000B_0000
+# ** Note   : (107644728 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 23, ADC dump & Science value 000B_0000
+# ** Note   : (107660736 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 24, ADC dump & Science value 000B_0000
+# ** Note   : (107676744 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 25, ADC dump & Science value 000B_0000
+# ** Note   : (107692752 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 26, ADC dump & Science value 000B_0000
+# ** Note   : (107708760 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 27, ADC dump & Science value 000B_0000
+# ** Note   : (107724768 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 28, ADC dump & Science value 000B_0000
+# ** Note   : (107740776 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 29, ADC dump & Science value 000B_0000
+# ** Note   : (107756784 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 30, ADC dump & Science value 000B_0000
+# ** Note   : (107772792 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 31, ADC dump & Science value 000B_0000
+# ** Note   : (107788800 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 32, ADC dump & Science value 000B_0000
+# ** Note   : (107804808 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 33, ADC dump & Science value 000B_0000
 #             (107820816 ps) 
-# ** Note   : (107820816 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 0, ADC dump & Science value 0000_0000
-# ** Note   : (107836824 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 1, ADC dump & Science value 0000_0000
-# ** Note   : (107852832 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 2, ADC dump & Science value 0000_0000
-# ** Note   : (107868840 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 3, ADC dump & Science value 0000_0000
-# ** Note   : (107884848 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 4, ADC dump & Science value 0000_0000
-# ** Note   : (107900856 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 5, ADC dump & Science value 0000_0000
-# ** Note   : (107916864 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 6, ADC dump & Science value 0000_0000
-# ** Note   : (107932872 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 7, ADC dump & Science value 0000_0000
-# ** Note   : (107948880 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 8, ADC dump & Science value 0000_0000
-# ** Note   : (107964888 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 9, ADC dump & Science value 0000_0000
-# ** Note   : (107980896 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 10, ADC dump & Science value 0000_0000
-# ** Note   : (107996904 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 11, ADC dump & Science value 0000_0000
-# ** Note   : (108012912 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 12, ADC dump & Science value 0000_0000
-# ** Note   : (108028920 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 13, ADC dump & Science value 0000_0000
-# ** Note   : (108044928 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 14, ADC dump & Science value 0000_0000
-# ** Note   : (108060936 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 15, ADC dump & Science value 0000_0000
-# ** Note   : (108076944 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 16, ADC dump & Science value 0000_0000
-# ** Note   : (108092952 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 17, ADC dump & Science value 0000_0000
-# ** Note   : (108108960 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 18, ADC dump & Science value 0000_0000
-# ** Note   : (108124968 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 19, ADC dump & Science value 0000_0000
-# ** Note   : (108140976 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 20, ADC dump & Science value 0000_0000
-# ** Note   : (108156984 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 21, ADC dump & Science value 0000_0000
-# ** Note   : (108172992 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 22, ADC dump & Science value 0000_0000
-# ** Note   : (108189000 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 23, ADC dump & Science value 0000_0000
-# ** Note   : (108205008 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 24, ADC dump & Science value 0000_0000
-# ** Note   : (108221016 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 25, ADC dump & Science value 0000_0000
-# ** Note   : (108237024 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 26, ADC dump & Science value 0000_0000
-# ** Note   : (108253032 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 27, ADC dump & Science value 0000_0000
-# ** Note   : (108269040 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 28, ADC dump & Science value 0000_0000
-# ** Note   : (108285048 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 29, ADC dump & Science value 0000_0000
-# ** Note   : (108301056 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 30, ADC dump & Science value 0000_0000
-# ** Note   : (108317064 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 31, ADC dump & Science value 0000_0000
-# ** Note   : (108333072 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 32, ADC dump & Science value 0000_0000
-# ** Note   : (108349080 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 33, ADC dump & Science value 0000_0000
+# ** Note   : (107820816 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 0, ADC dump & Science value 000B_0000
+# ** Note   : (107836824 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 1, ADC dump & Science value 000B_0000
+# ** Note   : (107852832 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 2, ADC dump & Science value 000B_0000
+# ** Note   : (107868840 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 3, ADC dump & Science value 000B_0000
+# ** Note   : (107884848 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 4, ADC dump & Science value 000B_0000
+# ** Note   : (107900856 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 5, ADC dump & Science value 000B_0000
+# ** Note   : (107916864 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 6, ADC dump & Science value 000B_0000
+# ** Note   : (107932872 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 7, ADC dump & Science value 000B_0000
+# ** Note   : (107948880 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 8, ADC dump & Science value 000B_0000
+# ** Note   : (107964888 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 9, ADC dump & Science value 000B_0000
+# ** Note   : (107980896 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 10, ADC dump & Science value 000B_0000
+# ** Note   : (107996904 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 11, ADC dump & Science value 000B_0000
+# ** Note   : (108012912 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 12, ADC dump & Science value 000B_0000
+# ** Note   : (108028920 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 13, ADC dump & Science value 000B_0000
+# ** Note   : (108044928 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 14, ADC dump & Science value 000B_0000
+# ** Note   : (108060936 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 15, ADC dump & Science value 000B_0000
+# ** Note   : (108076944 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 16, ADC dump & Science value 000B_0000
+# ** Note   : (108092952 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 17, ADC dump & Science value 000B_0000
+# ** Note   : (108108960 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 18, ADC dump & Science value 000B_0000
+# ** Note   : (108124968 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 19, ADC dump & Science value 000B_0000
+# ** Note   : (108140976 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 20, ADC dump & Science value 000B_0000
+# ** Note   : (108156984 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 21, ADC dump & Science value 000B_0000
+# ** Note   : (108172992 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 22, ADC dump & Science value 000B_0000
+# ** Note   : (108189000 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 23, ADC dump & Science value 000B_0000
+# ** Note   : (108205008 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 24, ADC dump & Science value 000B_0000
+# ** Note   : (108221016 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 25, ADC dump & Science value 000B_0000
+# ** Note   : (108237024 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 26, ADC dump & Science value 000B_0000
+# ** Note   : (108253032 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 27, ADC dump & Science value 000B_0000
+# ** Note   : (108269040 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 28, ADC dump & Science value 000B_0000
+# ** Note   : (108285048 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 29, ADC dump & Science value 000B_0000
+# ** Note   : (108301056 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 30, ADC dump & Science value 000B_0000
+# ** Note   : (108317064 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 31, ADC dump & Science value 000B_0000
+# ** Note   : (108333072 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 32, ADC dump & Science value 000B_0000
+# ** Note   : (108349080 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 33, ADC dump & Science value 000B_0000
 #             (108365088 ps) 
 #             (108365088 ps) ==============================================================================================
 #             (108365088 ps)   Record AMP SQUID DAC column 0 by requesting an ADC dump on science
@@ -341,7 +341,7 @@
 # ** Note   : (293938888 ps) Check time, ADC channel 0 last event: PASS
 # ** Note   : (293938888 ps)  * ADC channel 0 last event 12000 ps equal to expected value 12000 ps
 # ** Note   : (293938888 ps) Check ADC level: PASS
-# ** Note   : (293938888 ps)  * Read ADC channel 0, value 0.000000e+00, expected 0.000000e+00
+# ** Note   : (293938888 ps)  * Read ADC channel 0, value 1.302083e-03, expected 1.302083e-03
 # ** Note   : (293938888 ps) Check time, ADC channel 1 last event: PASS
 # ** Note   : (293938888 ps)  * ADC channel 1 last event 16000 ps equal to expected value 16000 ps
 # ** Note   : (293938888 ps) Check ADC level: PASS
@@ -460,40 +460,40 @@
 # ** Note   : (373388256 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 32, ADC dump & Science value 15AD_0000
 # ** Note   : (373404264 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 33, ADC dump & Science value 15AD_0000
 #             (373420272 ps) 
-# ** Note   : (373420272 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 0, ADC dump & Science value 0000_0000
-# ** Note   : (373436280 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 1, ADC dump & Science value 0000_0000
-# ** Note   : (373452288 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 2, ADC dump & Science value 0000_0000
-# ** Note   : (373468296 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 3, ADC dump & Science value 0000_0000
-# ** Note   : (373484304 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 4, ADC dump & Science value 0000_0000
-# ** Note   : (373500312 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 5, ADC dump & Science value 0000_0000
-# ** Note   : (373516320 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 6, ADC dump & Science value 0000_0000
-# ** Note   : (373532328 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 7, ADC dump & Science value 0000_0000
-# ** Note   : (373548336 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 8, ADC dump & Science value 0000_0000
-# ** Note   : (373564344 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 9, ADC dump & Science value 0000_0000
-# ** Note   : (373580352 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 10, ADC dump & Science value 0000_0000
-# ** Note   : (373596360 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 11, ADC dump & Science value 0000_0000
-# ** Note   : (373612368 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 12, ADC dump & Science value 0000_0000
-# ** Note   : (373628376 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 13, ADC dump & Science value 0000_0000
-# ** Note   : (373644384 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 14, ADC dump & Science value 0000_0000
-# ** Note   : (373660392 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 15, ADC dump & Science value 0000_0000
-# ** Note   : (373676400 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 16, ADC dump & Science value 0000_0000
-# ** Note   : (373692408 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 17, ADC dump & Science value 0000_0000
-# ** Note   : (373708416 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 18, ADC dump & Science value 0000_0000
-# ** Note   : (373724424 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 19, ADC dump & Science value 0000_0000
-# ** Note   : (373740432 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 20, ADC dump & Science value 0000_0000
-# ** Note   : (373756440 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 21, ADC dump & Science value 0000_0000
-# ** Note   : (373772448 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 22, ADC dump & Science value 0000_0000
-# ** Note   : (373788456 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 23, ADC dump & Science value 0000_0000
-# ** Note   : (373804464 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 24, ADC dump & Science value 0000_0000
-# ** Note   : (373820472 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 25, ADC dump & Science value 0000_0000
-# ** Note   : (373836480 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 26, ADC dump & Science value 0000_0000
-# ** Note   : (373852488 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 27, ADC dump & Science value 0000_0000
-# ** Note   : (373868496 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 28, ADC dump & Science value 0000_0000
-# ** Note   : (373884504 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 29, ADC dump & Science value 0000_0000
-# ** Note   : (373900512 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 30, ADC dump & Science value 0000_0000
-# ** Note   : (373916520 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 31, ADC dump & Science value 0000_0000
-# ** Note   : (373932528 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 32, ADC dump & Science value 0000_0000
-# ** Note   : (373948536 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 33, ADC dump & Science value 0000_0000
+# ** Note   : (373420272 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 0, ADC dump & Science value 000B_0000
+# ** Note   : (373436280 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 1, ADC dump & Science value 000B_0000
+# ** Note   : (373452288 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 2, ADC dump & Science value 000B_0000
+# ** Note   : (373468296 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 3, ADC dump & Science value 000B_0000
+# ** Note   : (373484304 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 4, ADC dump & Science value 000B_0000
+# ** Note   : (373500312 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 5, ADC dump & Science value 000B_0000
+# ** Note   : (373516320 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 6, ADC dump & Science value 000B_0000
+# ** Note   : (373532328 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 7, ADC dump & Science value 000B_0000
+# ** Note   : (373548336 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 8, ADC dump & Science value 000B_0000
+# ** Note   : (373564344 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 9, ADC dump & Science value 000B_0000
+# ** Note   : (373580352 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 10, ADC dump & Science value 000B_0000
+# ** Note   : (373596360 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 11, ADC dump & Science value 000B_0000
+# ** Note   : (373612368 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 12, ADC dump & Science value 000B_0000
+# ** Note   : (373628376 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 13, ADC dump & Science value 000B_0000
+# ** Note   : (373644384 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 14, ADC dump & Science value 000B_0000
+# ** Note   : (373660392 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 15, ADC dump & Science value 000B_0000
+# ** Note   : (373676400 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 16, ADC dump & Science value 000B_0000
+# ** Note   : (373692408 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 17, ADC dump & Science value 000B_0000
+# ** Note   : (373708416 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 18, ADC dump & Science value 000B_0000
+# ** Note   : (373724424 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 19, ADC dump & Science value 000B_0000
+# ** Note   : (373740432 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 20, ADC dump & Science value 000B_0000
+# ** Note   : (373756440 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 21, ADC dump & Science value 000B_0000
+# ** Note   : (373772448 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 22, ADC dump & Science value 000B_0000
+# ** Note   : (373788456 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 23, ADC dump & Science value 000B_0000
+# ** Note   : (373804464 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 24, ADC dump & Science value 000B_0000
+# ** Note   : (373820472 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 25, ADC dump & Science value 000B_0000
+# ** Note   : (373836480 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 26, ADC dump & Science value 000B_0000
+# ** Note   : (373852488 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 27, ADC dump & Science value 000B_0000
+# ** Note   : (373868496 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 28, ADC dump & Science value 000B_0000
+# ** Note   : (373884504 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 29, ADC dump & Science value 000B_0000
+# ** Note   : (373900512 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 30, ADC dump & Science value 000B_0000
+# ** Note   : (373916520 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 31, ADC dump & Science value 000B_0000
+# ** Note   : (373932528 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 32, ADC dump & Science value 000B_0000
+# ** Note   : (373948536 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 33, ADC dump & Science value 000B_0000
 #             (373964544 ps) 
 #             (373964544 ps) ==============================================================================================
 #             (373964544 ps)   Record AMP SQUID DAC column 1 by requesting an ADC dump on science
@@ -533,7 +533,7 @@
 # ** Note   : (560632168 ps) Check time, ADC channel 1 last event: PASS
 # ** Note   : (560632168 ps)  * ADC channel 1 last event 12000 ps equal to expected value 12000 ps
 # ** Note   : (560632168 ps) Check ADC level: PASS
-# ** Note   : (560632168 ps)  * Read ADC channel 1, value 0.000000e+00, expected 0.000000e+00
+# ** Note   : (560632168 ps)  * Read ADC channel 1, value 1.302083e-03, expected 1.302083e-03
 # ** Note   : (560632168 ps) Check time, ADC channel 2 last event: PASS
 # ** Note   : (560632168 ps)  * ADC channel 2 last event 16000 ps equal to expected value 16000 ps
 # ** Note   : (560632168 ps) Check ADC level: PASS
@@ -652,40 +652,40 @@
 # ** Note   : (640076256 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 32, ADC dump & Science value 15AD_0000
 # ** Note   : (640092264 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 33, ADC dump & Science value 15AD_0000
 #             (640108272 ps) 
-# ** Note   : (640108272 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 0, ADC dump & Science value 0000_0000
-# ** Note   : (640124280 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 1, ADC dump & Science value 0000_0000
-# ** Note   : (640140288 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 2, ADC dump & Science value 0000_0000
-# ** Note   : (640156296 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 3, ADC dump & Science value 0000_0000
-# ** Note   : (640172304 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 4, ADC dump & Science value 0000_0000
-# ** Note   : (640188312 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 5, ADC dump & Science value 0000_0000
-# ** Note   : (640204320 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 6, ADC dump & Science value 0000_0000
-# ** Note   : (640220328 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 7, ADC dump & Science value 0000_0000
-# ** Note   : (640236336 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 8, ADC dump & Science value 0000_0000
-# ** Note   : (640252344 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 9, ADC dump & Science value 0000_0000
-# ** Note   : (640268352 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 10, ADC dump & Science value 0000_0000
-# ** Note   : (640284360 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 11, ADC dump & Science value 0000_0000
-# ** Note   : (640300368 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 12, ADC dump & Science value 0000_0000
-# ** Note   : (640316376 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 13, ADC dump & Science value 0000_0000
-# ** Note   : (640332384 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 14, ADC dump & Science value 0000_0000
-# ** Note   : (640348392 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 15, ADC dump & Science value 0000_0000
-# ** Note   : (640364400 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 16, ADC dump & Science value 0000_0000
-# ** Note   : (640380408 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 17, ADC dump & Science value 0000_0000
-# ** Note   : (640396416 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 18, ADC dump & Science value 0000_0000
-# ** Note   : (640412424 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 19, ADC dump & Science value 0000_0000
-# ** Note   : (640428432 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 20, ADC dump & Science value 0000_0000
-# ** Note   : (640444440 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 21, ADC dump & Science value 0000_0000
-# ** Note   : (640460448 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 22, ADC dump & Science value 0000_0000
-# ** Note   : (640476456 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 23, ADC dump & Science value 0000_0000
-# ** Note   : (640492464 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 24, ADC dump & Science value 0000_0000
-# ** Note   : (640508472 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 25, ADC dump & Science value 0000_0000
-# ** Note   : (640524480 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 26, ADC dump & Science value 0000_0000
-# ** Note   : (640540488 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 27, ADC dump & Science value 0000_0000
-# ** Note   : (640556496 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 28, ADC dump & Science value 0000_0000
-# ** Note   : (640572504 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 29, ADC dump & Science value 0000_0000
-# ** Note   : (640588512 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 30, ADC dump & Science value 0000_0000
-# ** Note   : (640604520 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 31, ADC dump & Science value 0000_0000
-# ** Note   : (640620528 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 32, ADC dump & Science value 0000_0000
-# ** Note   : (640636536 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 33, ADC dump & Science value 0000_0000
+# ** Note   : (640108272 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 0, ADC dump & Science value 000B_0000
+# ** Note   : (640124280 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 1, ADC dump & Science value 000B_0000
+# ** Note   : (640140288 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 2, ADC dump & Science value 000B_0000
+# ** Note   : (640156296 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 3, ADC dump & Science value 000B_0000
+# ** Note   : (640172304 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 4, ADC dump & Science value 000B_0000
+# ** Note   : (640188312 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 5, ADC dump & Science value 000B_0000
+# ** Note   : (640204320 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 6, ADC dump & Science value 000B_0000
+# ** Note   : (640220328 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 7, ADC dump & Science value 000B_0000
+# ** Note   : (640236336 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 8, ADC dump & Science value 000B_0000
+# ** Note   : (640252344 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 9, ADC dump & Science value 000B_0000
+# ** Note   : (640268352 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 10, ADC dump & Science value 000B_0000
+# ** Note   : (640284360 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 11, ADC dump & Science value 000B_0000
+# ** Note   : (640300368 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 12, ADC dump & Science value 000B_0000
+# ** Note   : (640316376 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 13, ADC dump & Science value 000B_0000
+# ** Note   : (640332384 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 14, ADC dump & Science value 000B_0000
+# ** Note   : (640348392 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 15, ADC dump & Science value 000B_0000
+# ** Note   : (640364400 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 16, ADC dump & Science value 000B_0000
+# ** Note   : (640380408 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 17, ADC dump & Science value 000B_0000
+# ** Note   : (640396416 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 18, ADC dump & Science value 000B_0000
+# ** Note   : (640412424 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 19, ADC dump & Science value 000B_0000
+# ** Note   : (640428432 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 20, ADC dump & Science value 000B_0000
+# ** Note   : (640444440 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 21, ADC dump & Science value 000B_0000
+# ** Note   : (640460448 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 22, ADC dump & Science value 000B_0000
+# ** Note   : (640476456 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 23, ADC dump & Science value 000B_0000
+# ** Note   : (640492464 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 24, ADC dump & Science value 000B_0000
+# ** Note   : (640508472 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 25, ADC dump & Science value 000B_0000
+# ** Note   : (640524480 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 26, ADC dump & Science value 000B_0000
+# ** Note   : (640540488 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 27, ADC dump & Science value 000B_0000
+# ** Note   : (640556496 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 28, ADC dump & Science value 000B_0000
+# ** Note   : (640572504 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 29, ADC dump & Science value 000B_0000
+# ** Note   : (640588512 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 30, ADC dump & Science value 000B_0000
+# ** Note   : (640604520 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 31, ADC dump & Science value 000B_0000
+# ** Note   : (640620528 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 32, ADC dump & Science value 000B_0000
+# ** Note   : (640636536 ps) Write in ADC dump and science memories column 1, frame number 0, adress index 33, ADC dump & Science value 000B_0000
 #             (640652544 ps) 
 #             (640652544 ps) ==============================================================================================
 #             (640652544 ps)   Record AMP SQUID DAC column 2 by requesting an ADC dump on science
@@ -725,7 +725,7 @@
 # ** Note   : (827325448 ps) Check time, ADC channel 2 last event: PASS
 # ** Note   : (827325448 ps)  * ADC channel 2 last event 12000 ps equal to expected value 12000 ps
 # ** Note   : (827325448 ps) Check ADC level: PASS
-# ** Note   : (827325448 ps)  * Read ADC channel 2, value 0.000000e+00, expected 0.000000e+00
+# ** Note   : (827325448 ps)  * Read ADC channel 2, value 1.302083e-03, expected 1.302083e-03
 # ** Note   : (827325448 ps) Check time, ADC channel 3 last event: PASS
 # ** Note   : (827325448 ps)  * ADC channel 3 last event 16000 ps equal to expected value 16000 ps
 # ** Note   : (827325448 ps) Check ADC level: PASS
@@ -844,40 +844,40 @@
 # ** Note   : (906782256 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 32, ADC dump & Science value 15AD_0000
 # ** Note   : (906798264 ps) Write in ADC dump and science memories column 3, frame number 0, adress index 33, ADC dump & Science value 15AD_0000
 #             (906814272 ps) 
-# ** Note   : (906814272 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 0, ADC dump & Science value 0000_0000
-# ** Note   : (906830280 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 1, ADC dump & Science value 0000_0000
-# ** Note   : (906846288 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 2, ADC dump & Science value 0000_0000
-# ** Note   : (906862296 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 3, ADC dump & Science value 0000_0000
-# ** Note   : (906878304 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 4, ADC dump & Science value 0000_0000
-# ** Note   : (906894312 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 5, ADC dump & Science value 0000_0000
-# ** Note   : (906910320 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 6, ADC dump & Science value 0000_0000
-# ** Note   : (906926328 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 7, ADC dump & Science value 0000_0000
-# ** Note   : (906942336 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 8, ADC dump & Science value 0000_0000
-# ** Note   : (906958344 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 9, ADC dump & Science value 0000_0000
-# ** Note   : (906974352 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 10, ADC dump & Science value 0000_0000
-# ** Note   : (906990360 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 11, ADC dump & Science value 0000_0000
-# ** Note   : (907006368 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 12, ADC dump & Science value 0000_0000
-# ** Note   : (907022376 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 13, ADC dump & Science value 0000_0000
-# ** Note   : (907038384 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 14, ADC dump & Science value 0000_0000
-# ** Note   : (907054392 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 15, ADC dump & Science value 0000_0000
-# ** Note   : (907070400 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 16, ADC dump & Science value 0000_0000
-# ** Note   : (907086408 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 17, ADC dump & Science value 0000_0000
-# ** Note   : (907102416 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 18, ADC dump & Science value 0000_0000
-# ** Note   : (907118424 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 19, ADC dump & Science value 0000_0000
-# ** Note   : (907134432 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 20, ADC dump & Science value 0000_0000
-# ** Note   : (907150440 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 21, ADC dump & Science value 0000_0000
-# ** Note   : (907166448 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 22, ADC dump & Science value 0000_0000
-# ** Note   : (907182456 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 23, ADC dump & Science value 0000_0000
-# ** Note   : (907198464 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 24, ADC dump & Science value 0000_0000
-# ** Note   : (907214472 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 25, ADC dump & Science value 0000_0000
-# ** Note   : (907230480 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 26, ADC dump & Science value 0000_0000
-# ** Note   : (907246488 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 27, ADC dump & Science value 0000_0000
-# ** Note   : (907262496 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 28, ADC dump & Science value 0000_0000
-# ** Note   : (907278504 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 29, ADC dump & Science value 0000_0000
-# ** Note   : (907294512 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 30, ADC dump & Science value 0000_0000
-# ** Note   : (907310520 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 31, ADC dump & Science value 0000_0000
-# ** Note   : (907326528 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 32, ADC dump & Science value 0000_0000
-# ** Note   : (907342536 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 33, ADC dump & Science value 0000_0000
+# ** Note   : (906814272 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 0, ADC dump & Science value 000B_0000
+# ** Note   : (906830280 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 1, ADC dump & Science value 000B_0000
+# ** Note   : (906846288 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 2, ADC dump & Science value 000B_0000
+# ** Note   : (906862296 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 3, ADC dump & Science value 000B_0000
+# ** Note   : (906878304 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 4, ADC dump & Science value 000B_0000
+# ** Note   : (906894312 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 5, ADC dump & Science value 000B_0000
+# ** Note   : (906910320 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 6, ADC dump & Science value 000B_0000
+# ** Note   : (906926328 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 7, ADC dump & Science value 000B_0000
+# ** Note   : (906942336 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 8, ADC dump & Science value 000B_0000
+# ** Note   : (906958344 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 9, ADC dump & Science value 000B_0000
+# ** Note   : (906974352 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 10, ADC dump & Science value 000B_0000
+# ** Note   : (906990360 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 11, ADC dump & Science value 000B_0000
+# ** Note   : (907006368 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 12, ADC dump & Science value 000B_0000
+# ** Note   : (907022376 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 13, ADC dump & Science value 000B_0000
+# ** Note   : (907038384 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 14, ADC dump & Science value 000B_0000
+# ** Note   : (907054392 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 15, ADC dump & Science value 000B_0000
+# ** Note   : (907070400 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 16, ADC dump & Science value 000B_0000
+# ** Note   : (907086408 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 17, ADC dump & Science value 000B_0000
+# ** Note   : (907102416 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 18, ADC dump & Science value 000B_0000
+# ** Note   : (907118424 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 19, ADC dump & Science value 000B_0000
+# ** Note   : (907134432 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 20, ADC dump & Science value 000B_0000
+# ** Note   : (907150440 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 21, ADC dump & Science value 000B_0000
+# ** Note   : (907166448 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 22, ADC dump & Science value 000B_0000
+# ** Note   : (907182456 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 23, ADC dump & Science value 000B_0000
+# ** Note   : (907198464 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 24, ADC dump & Science value 000B_0000
+# ** Note   : (907214472 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 25, ADC dump & Science value 000B_0000
+# ** Note   : (907230480 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 26, ADC dump & Science value 000B_0000
+# ** Note   : (907246488 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 27, ADC dump & Science value 000B_0000
+# ** Note   : (907262496 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 28, ADC dump & Science value 000B_0000
+# ** Note   : (907278504 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 29, ADC dump & Science value 000B_0000
+# ** Note   : (907294512 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 30, ADC dump & Science value 000B_0000
+# ** Note   : (907310520 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 31, ADC dump & Science value 000B_0000
+# ** Note   : (907326528 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 32, ADC dump & Science value 000B_0000
+# ** Note   : (907342536 ps) Write in ADC dump and science memories column 2, frame number 0, adress index 33, ADC dump & Science value 000B_0000
 #             (907358544 ps) 
 #             (907358544 ps) ==============================================================================================
 #             (907358544 ps)   Record AMP SQUID DAC column 3 by requesting an ADC dump on science
@@ -905,7 +905,7 @@
 # ** Note   : (1088576008 ps) Check time, ADC channel 3 last event: PASS
 # ** Note   : (1088576008 ps)  * ADC channel 3 last event 12000 ps equal to expected value 12000 ps
 # ** Note   : (1088576008 ps) Check ADC level: PASS
-# ** Note   : (1088576008 ps)  * Read ADC channel 3, value 0.000000e+00, expected 0.000000e+00
+# ** Note   : (1088576008 ps)  * Read ADC channel 3, value 1.302083e-03, expected 1.302083e-03
 # ----------------------------------------------------------------------------------------------------
 # Parameters check, SPI spi_sqa_lsb(0)   
 # ----------------------------------------------------------------------------------------------------

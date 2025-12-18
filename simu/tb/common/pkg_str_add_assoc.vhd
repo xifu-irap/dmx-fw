@@ -123,7 +123,7 @@ constant c_PAD                : character := ' '                                
             o_fld_add_val:= c_EP_CMD_ADD_HKEEP(o_fld_add_val'high downto c_MEM_HKEEP_ADD_S) & c_HK_ADD_VREF_R2R;
 
          when "HK_VGND                       "  =>
-            o_fld_add_val:= c_EP_CMD_ADD_HKEEP(o_fld_add_val'high downto c_MEM_HKEEP_ADD_S) & c_HK_ADD_VGND_OFF;
+            o_fld_add_val:= c_EP_CMD_ADD_HKEEP(o_fld_add_val'high downto c_MEM_HKEEP_ADD_S) & c_HK_ADD_SPARE;
 
          when "HK_P5V0_ANA                   "  =>
             o_fld_add_val:= c_EP_CMD_ADD_HKEEP(o_fld_add_val'high downto c_MEM_HKEEP_ADD_S) & c_HK_ADD_P5V0_ANA;
