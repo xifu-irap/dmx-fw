@@ -441,8 +441,8 @@ constant c_PAD                : character := ' '                                
          when "HK_VREF_R2R_VAL               "  =>
             o_fld_data_val:= std_logic_vector(resize(unsigned(c_HK_VREF_R2R_DEF), o_fld_data_val'length));
 
-         when "HK_VGND_OFF_VAL               "  =>
-            o_fld_data_val:= std_logic_vector(resize(unsigned(c_HK_VGND_OFF_DEF), o_fld_data_val'length));
+         when "HK_SPARE_VAL                  "  =>
+            o_fld_data_val:= std_logic_vector(resize(unsigned(c_HK_SPARE_DEF),    o_fld_data_val'length));
 
          when "HK_P5V0_ANA_VAL               "  =>
             o_fld_data_val:= std_logic_vector(resize(unsigned(c_HK_P5V0_ANA_DEF), o_fld_data_val'length));

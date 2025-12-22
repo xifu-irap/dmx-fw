@@ -52,7 +52,6 @@ entity test_pattern_gen is port (
 
          o_test_pattern_sqm   : out    std_logic_vector(c_SQM_DATA_FBK_S-1 downto 0)                        ; --! Test pattern: MUX SQUID
          o_test_pattern_sqa   : out    std_logic_vector(c_SQA_DAC_DATA_S-1 downto 0)                        ; --! Test pattern: AMP SQUID
-         o_test_pattern_sc    : out    std_logic_vector(c_SC_DATA_SER_W_S*c_SC_DATA_SER_NB-1 downto 0)      ; --! Test pattern: Science Telemetry
          o_tst_pat_new_step   : out    std_logic                                                            ; --! Test pattern new step ('0' = Inactive, '1' = Active)
          o_tst_pat_end_pat    : out    std_logic                                                            ; --! Test pattern end of one pattern  ('0' = Inactive, '1' = Active)
          o_tst_pat_end        : out    std_logic                                                            ; --! Test pattern end of all patterns ('0' = Inactive, '1' = Active)
@@ -515,15 +514,6 @@ begin
    ) port map (
          i_data               => test_pattern         , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
          o_data_stall_msb     => o_test_pattern_sqa   , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
-         o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
-   );
-
-   I_test_pattern_sc  : entity work.resize_stall_msb generic map (
-         g_DATA_S             => c_DFLD_TSTPT_S       , -- integer                                          ; --! Data input bus size
-         g_DATA_STALL_MSB_S   => c_SC_DATA_SER_W_S*c_SC_DATA_SER_NB  -- integer                               --! Data stalled on Mean Significant Bit bus size
-   ) port map (
-         i_data               => test_pattern         , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
-         o_data_stall_msb     => o_test_pattern_sc    , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
          o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
    );
 

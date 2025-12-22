@@ -4,8 +4,8 @@ DRE-DEMUX TDM firmware, specific to Demonstrator Model Board 2: https://github.c
    - FPGA target: DM2: NG-LARGE (NanoXplore)
    - Synthesis tool: nxdesignsuite v24.3.0.0
    - Firmware specification:
-      + IRAP/XIFU-DRE/FM/SP/0065 - DRE TDM firmware requirements, ed. 1.0
-      + IRAP/XIFU-DRE/FM/SP/0069 - DRE Inter-Modules Telemetry And Commands Definition, ed. 5.0
+      + IRAP/XIFU-DRE/FM/SP/0065 - DRE TDM firmware requirements, ed. 2.0
+      + IRAP/XIFU-DRE/FM/SP/0069 - DRE Inter-Modules Telemetry And Commands Definition, ed. 6.0
       + IRAP/XIFU-DRE/FM/SP/0136 - FPAsim command dictionnary, ed. ??
    - FPASIM simulation coupling: https://github.com/xifu-irap/fpasim-fw (tag 2.2.3)
 
@@ -310,7 +310,7 @@ DRE-DEMUX TDM firmware, specific to Demonstrator Model Board 2: https://github.c
       + HK_P3V3_DIG: 2048
       + HK_VREF_TMP: 3803
       + HK_VREF_R2R: 4000
-      + HK_VGND_OFF: 1261
+      + HK_SPARE   : 1261
       + HK_P5V0_ANA:  293
       + HK_TEMP_AVE: 2925
       + HK_TEMP_MAX: 3218

@@ -141,6 +141,7 @@ def __main__(ProjectName,ModelBoard,Variant,TopCellName,TopCellLib,Seed,TimingDr
 
     p.reportInstances()
     p.reportRegions()
+    p.reportDesignComplexity('design_complexity.html')
 
     ##########################################BISTREAM GENERATION#######################################
 

@@ -145,7 +145,7 @@ signal   sqa_pls_cnt_init     : t_slv_arr(0 to c_NB_COL-1)(   c_SQA_PLS_CNT_S-1 
 
 signal   test_pattern_sqm     : std_logic_vector(c_SQM_DATA_FBK_S-1 downto 0)                               ; --! Test pattern: MUX SQUID
 signal   test_pattern_sqa     : std_logic_vector(c_SQA_DAC_DATA_S-1 downto 0)                               ; --! Test pattern: AMP SQUID
-signal   test_pattern_sc      : std_logic_vector(c_SC_DATA_SER_W_S*c_SC_DATA_SER_NB-1 downto 0)             ; --! Test pattern: Science Telemetry
+signal   test_pattern_sc      : t_slv_arr(0 to c_NB_COL-1)(c_SC_DATA_SER_W_S*c_SC_DATA_SER_NB-1 downto 0)   ; --! Test pattern: Science Telemetry
 signal   tst_pat_new_step     : std_logic                                                                   ; --! Test pattern new step ('0' = Inactive, '1' = Active)
 signal   tst_pat_end_pat      : std_logic                                                                   ; --! Test pattern end of one pattern  ('0' = Inactive, '1' = Active)
 signal   tst_pat_end          : std_logic                                                                   ; --! Test pattern end of all patterns ('0' = Inactive, '1' = Active)
@@ -171,6 +171,7 @@ signal   ep_cmd_tx_wd_rd_rg   : std_logic_vector(c_EP_SPI_WD_S-1 downto 0)      
 signal   aqmde_dmp_tx_end     : std_logic                                                                   ; --! Telemetry mode, dump transmit end ('0' = Inactive, '1' = Active)
 signal   aqmde                : std_logic_vector(c_DFLD_AQMDE_S-1 downto 0)                                 ; --! Telemetry mode
 signal   aqmde_dmp_cmp        : std_logic_vector(c_NB_COL-1 downto 0)                                       ; --! Telemetry mode, status "Dump" compared ('0' = Inactive, '1' = Active)
+signal   aqmde_tst_cmp        : std_logic_vector(c_NB_COL-1 downto 0)                                       ; --! Telemetry mode, status "Test Pattern" compared ('0' = Inactive, '1' = Active)
 signal   aqmde_sync           : t_slv_arr(0 to c_NB_COL-1)(c_DFLD_AQMDE_S-1 downto 0)                       ; --! Telemetry mode, sync. on first pixel
 
 signal   tsten_lop            : std_logic_vector(c_DFLD_TSTEN_LOP_S-1 downto 0)                             ; --! Test pattern enable, field Loop number
@@ -275,7 +276,7 @@ begin
          i_tst_pat_end_pat    => tst_pat_end_pat      , -- in     std_logic                                 ; --! Test pattern end of one pattern  ('0' = Inactive, '1' = Active)
          i_tst_pat_new_step   => tst_pat_new_step     , -- in     std_logic                                 ; --! Test pattern new step ('0' = Inactive, '1' = Active)
 
-         i_test_pattern       => test_pattern_sc      , -- in     slv c_SC_DATA_SER_W_S*c_SC_DATA_SER_NB    ; --! Test pattern
+         i_test_pattern_sc    => test_pattern_sc      , -- in     t_slv_arr c_NB_COL                        ; --! Test pattern: Science Telemetry
          i_err_sig            => err_sig              , -- in     t_slv_arr c_NB_COL                        ; --! Error signal (signed)
          i_sqm_data_sc        => sqm_data_sc          , -- in     t_slv_arr c_NB_COL                        ; --! SQUID MUX Data science
          i_sqm_data_sc_first  => sqm_data_sc_first    , -- in     std_logic_vector(c_NB_COL-1 downto 0)     ; --! SQUID MUX Data science first pixel ('0' = No, '1' = Yes)
@@ -319,6 +320,7 @@ begin
          i_aqmde_dmp_tx_end   => aqmde_dmp_tx_end     , -- in     std_logic                                 ; --! Telemetry mode, dump transmit end ('0' = Inactive, '1' = Active)
          o_aqmde              => aqmde                , -- out    slv(c_DFLD_AQMDE_S-1 downto 0)            ; --! Telemetry mode
          o_aqmde_dmp_cmp      => aqmde_dmp_cmp        , -- out    std_logic_vector(c_NB_COL-1 downto 0)     ; --! Telemetry mode, status "Dump" compared ('0' = Inactive, '1' = Active)
+         o_aqmde_tst_cmp      => aqmde_tst_cmp        , -- out    std_logic_vector(c_NB_COL-1 downto 0)     ; --! Telemetry mode, status "Test pattern" compared ('0' = Inactive, '1' = Active)
 
          i_tst_pat_end_pat    => tst_pat_end_pat      , -- in     std_logic                                 ; --! Test pattern end of one pattern  ('0' = Inactive, '1' = Active)
          i_tst_pat_end_re     => tst_pat_end_re       , -- in     std_logic                                 ; --! Test pattern end of all patterns rising edge ('0' = Inactive, '1' = Active)
@@ -429,7 +431,6 @@ begin
 
          o_test_pattern_sqm   => test_pattern_sqm     , -- out    slv(c_SQM_DATA_FBK_S-1 downto 0)          ; --! Test pattern: MUX SQUID
          o_test_pattern_sqa   => test_pattern_sqa     , -- out    slv(c_SQA_DAC_DATA_S-1 downto 0)          ; --! Test pattern: AMP SQUID
-         o_test_pattern_sc    => test_pattern_sc      , -- out    slv c_SC_DATA_SER_W_S*c_SC_DATA_SER_NB    ; --! Test pattern: Science Telemetry
          o_tst_pat_new_step   => tst_pat_new_step     , -- out    std_logic                                 ; --! Test pattern new step ('0' = Inactive, '1' = Active)
          o_tst_pat_end_pat    => tst_pat_end_pat      , -- out    std_logic                                 ; --! Test pattern end of one pattern  ('0' = Inactive, '1' = Active)
          o_tst_pat_end        => tst_pat_end          , -- out    std_logic                                 ; --! Test pattern end of all patterns ('0' = Inactive, '1' = Active)
@@ -534,14 +535,17 @@ begin
          i_test_pattern       => test_pattern_sqm     , -- in     slv(c_SQM_DATA_FBK_S-1 downto 0)          ; --! Test pattern
          i_sqm_dta_pixel_pos  => sqm_dta_pixel_pos(k) , -- in     slv(    c_MUX_FACT_S-1 downto 0)          ; --! SQUID MUX Data error corrected pixel position
          i_sqm_dta_err_cor    => sqm_dta_err_cor(k)   , -- in     slv(c_SQM_DATA_FBK_S-1 downto 0)          ; --! SQUID MUX Data error corrected (signed)
+         i_sqm_dta_err_frst   => sqm_dta_err_frst(k)  , -- in     std_logic                                 ; --! SQUID MUX Data error corrected first pixel
          i_sqm_dta_err_cor_cs => sqm_dta_err_cor_cs(k), -- in     std_logic                                 ; --! SQUID MUX Data error corrected chip select ('0' = Inactive, '1' = Active)
 
+         i_aqmde_tst_cmp      => aqmde_tst_cmp(k)     , -- in     std_logic                                 ; --! Telemetry mode, status "Test pattern" compared ('0' = Inactive, '1' = Active)
          i_mem_smfb0          => mem_prc(k).smfb0     , -- in     t_mem                                     ; --! SQUID MUX feedback value in open loop: memory inputs
          i_smfmd              => smfmd(k)             , -- in     slv(c_DFLD_SMFMD_COL_S-1 downto 0)        ; --! SQUID MUX feedback mode
          i_smfbd              => rg_col(k).smfbd      , -- in     slv(c_DFLD_SMFBD_COL_S-1 downto 0)        ; --! SQUID MUX feedback delay
          i_mem_smfbm          => ep_mem(k).smfbm      , -- in     t_mem                                     ; --! SQUID MUX feedback mode: memory inputs
          o_smfbm_data         => ep_mem_data(k).smfbm , -- out    slv(c_DFLD_SMFBM_PIX_S-1 downto 0)        ; --! SQUID MUX feedback mode: data read
 
+         o_test_pattern_sc    => test_pattern_sc(k)   , -- out    slv c_SC_DATA_SER_W_S*c_SC_DATA_SER_NB    ; --! Test pattern: Science Telemetry
          o_sqm_data_fbk       => sqm_data_fbk(k)      , -- out    slv( c_SQM_DATA_FBK_S-1 downto 0)         ; --! SQUID MUX Data feedback (signed)
          o_sqm_pixel_pos_init => sqm_pixel_pos_init(k), -- out    slv( c_SQM_PXL_POS_S-1 downto 0)          ; --! SQUID MUX Pixel position initialization
          o_sqm_pls_cnt_init   => sqm_pls_cnt_init(k)    -- out    slv( c_SQM_PLS_CNT_S-1 downto 0)          ; --! SQUID MUX Pulse shaping counter initialization

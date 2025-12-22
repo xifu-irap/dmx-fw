@@ -45,7 +45,8 @@ entity science_data_mgt is port (
          i_tst_pat_end_pat    : in     std_logic                                                            ; --! Test pattern end of one pattern  ('0' = Inactive, '1' = Active)
          i_tst_pat_new_step   : in     std_logic                                                            ; --! Test pattern new step ('0' = Inactive, '1' = Active)
 
-         i_test_pattern       : in     std_logic_vector(c_SC_DATA_SER_W_S*c_SC_DATA_SER_NB-1 downto 0)      ; --! Test pattern
+         i_test_pattern_sc    : in     t_slv_arr(0 to c_NB_COL-1)
+                                                (c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)             ; --! Test pattern: Science Telemetry
          i_err_sig            : in     t_slv_arr(0 to c_NB_COL-1)
                                                 (c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)             ; --! Error signal (signed)
          i_sqm_data_sc        : in     t_slv_arr(0 to c_NB_COL-1)
@@ -465,8 +466,8 @@ begin
                      c_SC_CTRL_TPT when  aqmde_sync = c_DST_AQMDE_TEST else
                      c_SC_CTRL_IDL;
 
-   sc_ctrl_sec_w  <= c_SC_CTRL_TPT when ((aqmde_sync = c_DST_AQMDE_SCIE or aqmde_sync = c_DST_AQMDE_ERRS) and tst_pat_bgn = c_HGH_LEV) else
-                     c_SC_CTRL_DDV when ((aqmde_sync = c_DST_AQMDE_SCIE or aqmde_sync = c_DST_AQMDE_ERRS) and (i_tsten_ena and i_tst_pat_new_step) = c_HGH_LEV) else
+   sc_ctrl_sec_w  <= c_SC_CTRL_TPT when ((aqmde_sync = c_DST_AQMDE_SCIE or aqmde_sync = c_DST_AQMDE_ERRS or aqmde_sync = c_DST_AQMDE_TEST) and tst_pat_bgn = c_HGH_LEV) else
+                     c_SC_CTRL_DDV when ((aqmde_sync = c_DST_AQMDE_SCIE or aqmde_sync = c_DST_AQMDE_ERRS or aqmde_sync = c_DST_AQMDE_TEST) and (i_tsten_ena and i_tst_pat_new_step) = c_HGH_LEV) else
                      c_SC_CTRL_RDV when ((aqmde_sync = c_DST_AQMDE_SCIE or aqmde_sync = c_DST_AQMDE_ERRS) and ras_data_valid_ltc = c_HGH_LEV) else
                      c_SC_CTRL_DTW;
 
@@ -522,11 +523,11 @@ begin
                science_data(c_SC_DATA_SER_NB*k+1)  <= sqm_data_sc_msb_mux(k);
                science_data(c_SC_DATA_SER_NB*k)    <= sqm_data_sc_lsb_mux(k);
 
-            elsif aqmde_sync = c_DST_AQMDE_TEST and (not(tst_pat_end_sync) and sqm_dta_sc_fst_all_r) = c_HGH_LEV then
-               science_data(c_SC_DATA_SER_NB*k+1)  <= i_test_pattern(    c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto c_SC_DATA_SER_W_S);
-               science_data(c_SC_DATA_SER_NB*k)    <= i_test_pattern(                     c_SC_DATA_SER_W_S-1 downto                 0);
+            elsif aqmde_sync = c_DST_AQMDE_TEST then
+               science_data(c_SC_DATA_SER_NB*k+1)  <= i_test_pattern_sc(k)(    c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto c_SC_DATA_SER_W_S);
+               science_data(c_SC_DATA_SER_NB*k)    <= i_test_pattern_sc(k)(                     c_SC_DATA_SER_W_S-1 downto                 0);
 
-            elsif aqmde_sync = c_DST_AQMDE_IDLE or tst_pat_end_sync = c_HGH_LEV then
+            else
                science_data(c_SC_DATA_SER_NB*k+1)  <= c_SC_DATA_IDLE_VAL(c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto c_SC_DATA_SER_W_S);
                science_data(c_SC_DATA_SER_NB*k)    <= c_SC_DATA_IDLE_VAL(                 c_SC_DATA_SER_W_S-1 downto                 0);
 

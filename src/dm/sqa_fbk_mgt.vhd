@@ -592,7 +592,7 @@ begin
                o_sqa_fbk_off <= std_logic_vector(signed(i_test_pattern) + to_signed(c_SQA_DAC_MDL_POINT, o_sqa_fbk_off'length));
 
             else
-               o_sqa_fbk_off <= c_ZERO(o_sqa_fbk_off'range);
+               o_sqa_fbk_off <= c_EP_CMD_DEF_SAOFC;
 
             end if;
 

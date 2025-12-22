@@ -102,6 +102,7 @@ signal   mem_knorm_pp_rdy     : std_logic                                       
 signal   mem_smfb0_pp_rdy     : std_logic                                                                   ; --! Parameter smfb0(p): ping-pong buffer bit ready ('0' = Inactive, '1' = Active)
 signal   mem_smlkv_pp_rdy     : std_logic                                                                   ; --! Parameter Elp(p): ping-pong buffer bit ready ('0' = Inactive, '1' = Active)
 
+signal   sqm_dta_err_cor_cs_r : std_logic_vector(c_TST_PAT_SC_NPER-1 downto 0)                              ; --! SQUID MUX Data error corrected chip select register
 signal   squid_amp_close_sync : std_logic                                                                   ; --! SQUID AMP Close mode synchronized on first pixel
 signal   mem_rl_rd_add        : std_logic_vector(c_MUX_FACT_S-1 downto 0)                                   ; --! Relock memories read address
 signal   rl_ena               : std_logic                                                                   ; --! Relock enable ('0' = No, '1' = Yes)
@@ -129,9 +130,12 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
+         sqm_dta_err_cor_cs_r <= (others => c_LOW_LEV);
          squid_amp_close_sync <= c_LOW_LEV;
 
       elsif rising_edge(i_clk) then
+         sqm_dta_err_cor_cs_r <= sqm_dta_err_cor_cs_r(sqm_dta_err_cor_cs_r'high-1 downto 0) & o_sqm_dta_err_cor_cs;
+
          if (i_sqm_data_err_frst and i_sqm_data_err_rdy) = c_HGH_LEV then
             squid_amp_close_sync <= i_squid_amp_close;
 
@@ -305,7 +309,7 @@ begin
 
          i_sqm_dta_err_cor    => o_sqm_dta_err_cor    , -- in     slv(c_SQM_DATA_FBK_S-1 downto 0)          ; --! SQUID MUX Data error corrected (signed)
          i_fb0_rl_aln         => fb0_rl_aln           , -- in     slv(c_SQM_DATA_FBK_S-1 downto 0)          ; --! Feedback value in open loop for relock alignment
-         i_sqm_dta_err_cor_cs => o_sqm_dta_err_cor_cs , -- in     std_logic                                 ; --! SQUID MUX Data error corrected chip select ('0' = Inactive, '1' = Active)
+         i_sqm_dta_err_cor_cs => sqm_dta_err_cor_cs_r(sqm_dta_err_cor_cs_r'high),-- in     std_logic        ; --! SQUID MUX Data error corrected chip select ('0' = Inactive, '1' = Active)
 
          i_mem_rl_rd_add      => mem_rl_rd_add        , -- in     slv(c_MUX_FACT_S-1 downto 0)              ; --! Relock memories read address
          i_smfmd              => i_smfmd              , -- in     slv(c_DFLD_SMFMD_COL_S-1 downto 0)        ; --! SQUID MUX feedback mode

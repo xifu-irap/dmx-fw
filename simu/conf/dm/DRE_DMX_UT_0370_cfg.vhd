@@ -33,7 +33,7 @@ configuration DRE_DMX_UT_0370_cfg of top_dmx_tb is
       -- ------------------------------------------------------------------------------------------------------
       for I_parser : parser
          use entity work.parser generic map (
-            g_SIM_TIME           =>  835 us              , -- time    := c_SIM_TIME_DEF                     ; --! Simulation time
+            g_SIM_TIME           => 1500 us              , -- time    := c_SIM_TIME_DEF                     ; --! Simulation time
             g_BRD_MDL            => "dm"                 , -- string  := c_BRD_MDL_DEF                      ; --! Board model
             g_TST_NUM            => "0370"                 -- string  := c_TST_NUM_DEF                        --! Test number
          );
@@ -44,7 +44,7 @@ configuration DRE_DMX_UT_0370_cfg of top_dmx_tb is
       -- ------------------------------------------------------------------------------------------------------
       for I_science_data_model: science_data_model
          use entity work.science_data_model generic map (
-            g_SIM_TIME           =>  835 us              , -- time      := c_SIM_TIME_DEF                   ; --! Simulation time
+            g_SIM_TIME           => 1500 us              , -- time      := c_SIM_TIME_DEF                   ; --! Simulation time
             g_BRD_MDL            => "dm"                 , -- string    := c_BRD_MDL_DEF                    ; --! Board model
             g_ERR_SC_DTA_ENA     => c_ERR_SC_DTA_ENA_DEF , -- std_logic := c_ERR_SC_DTA_ENA_DEF             ; --! Error science data enable ('0' = No, '1' = Yes)
             g_FRM_CNT_SC_ENA     => '1'                  , -- std_logic := c_FRM_CNT_SC_ENA_DEF             ; --! Frame counter science enable ('0' = No, '1' = Yes)

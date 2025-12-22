@@ -345,4 +345,4 @@ COMM
 COMM ==============================================================================================
 COMM   Check Housekeeping content
 COMM ----------------------------------------------------------------------------------------------
-CCMD R-HK_VGND-HK_VGND_OFF_VAL W       # Return Command 51
+CCMD R-HK_VGND-HK_SPARE_VAL W          # Return Command 51

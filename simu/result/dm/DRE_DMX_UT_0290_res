@@ -1059,9 +1059,8 @@
 # ** Note   : (1031010000 ps) Send SPI command value 0A09_0001 (C0_SAMPLING_DELAY, mode Write, data 0001)
 # ** Note   : (1033332000 ps) Waiting SPI command end for 2286000 ps
 # ** Note   : (1033332000 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 0, ADC dump & Science value 3FFF_83E0
-# ** Note   : (1033348008 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 1, ADC dump & Science value 3FFF_7C20
-# ** Note   : (1033364424 ps) Waiting event sync = '0' for 408 ps
-# ** Note   : (1034132808 ps) Waiting event sync = '1' for 768384 ps
+# ** Note   : (1033348416 ps) Waiting event sync = '0' for 408 ps
+# ** Note   : (1034132808 ps) Waiting event sync = '1' for 784392 ps
 # ** Note   : (1034292888 ps) Waiting event sync = '0' for 160080 ps
 # ** Note   : (1039575528 ps) Waiting event sync = '1' for 5282640 ps
 # ** Note   : (1039575528 ps) Write in ADC dump and science memories column 0, frame number 0, adress index 0, ADC dump & Science value 3FFF_7C20

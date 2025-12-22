@@ -26,6 +26,10 @@ COMM
 COMM ==============================================================================================
 COMM   Configure MUX SQUID column 0 to ON, DAC pulse shaping set 0: fc = No filter
 COMM ----------------------------------------------------------------------------------------------
+WUDI sync 0
+WUDI sync 1
+WUDI sync 0
+WUDI sync 1
 WCMD W-C0_PULSE_SHAPING_SELECTION-0000 W
 WCMD W-MUX_SQ_FB_ON_OFF-0001 W
 WPFC 0 2147483647
@@ -214,6 +218,8 @@ COMM
 COMM ==============================================================================================
 COMM   Check MUX SQUID column 0 output stay to its middle point until the next sync rising edge
 COMM ----------------------------------------------------------------------------------------------
+WUDI sync 0
+WUDI sync 1
 WUDI sync 0
 WUDI sync 1
 CTDC 0 == now
@@ -453,6 +459,8 @@ COMM   Check MUX SQUID column 1 output stay to its middle point until the next s
 COMM ----------------------------------------------------------------------------------------------
 WUDI sync 0
 WUDI sync 1
+WUDI sync 0
+WUDI sync 1
 CTDC 1 == now
 CLDC 1 0.0
 WUDI clk_sqm_dac(1) 0
@@ -688,6 +696,9 @@ COMM
 COMM ==============================================================================================
 COMM   Check MUX SQUID column 2 output stay to its middle point until the next sync rising edge
 COMM ----------------------------------------------------------------------------------------------
+WUDI sync 0
+WUDI sync 1
+WUDI sync 0
 WUDI sync 1
 CTDC 2 == now
 CLDC 2 0.0
@@ -924,6 +935,9 @@ COMM
 COMM ==============================================================================================
 COMM   Check MUX SQUID column 3 output stay to its middle point until the next sync rising edge
 COMM ----------------------------------------------------------------------------------------------
+WUDI sync 0
+WUDI sync 1
+WUDI sync 0
 WUDI sync 1
 CTDC 3 == now
 CLDC 3 0.0
