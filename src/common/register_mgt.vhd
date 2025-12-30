@@ -60,6 +60,7 @@ entity register_mgt is port (
          i_aqmde_dmp_tx_end   : in     std_logic                                                            ; --! Telemetry mode, dump transmit end ('0' = Inactive, '1' = Active)
          o_aqmde              : out    std_logic_vector(c_DFLD_AQMDE_S-1 downto 0)                          ; --! Telemetry mode
          o_aqmde_dmp_cmp      : out    std_logic_vector(c_NB_COL-1 downto 0)                                ; --! Telemetry mode, status "Dump" compared ('0' = Inactive, '1' = Active)
+         o_aqmde_tst_cmp      : out    std_logic_vector(c_NB_COL-1 downto 0)                                ; --! Telemetry mode, status "Test Pattern" compared ('0' = Inactive, '1' = Active)
 
          i_tst_pat_end_pat    : in     std_logic                                                            ; --! Test pattern end of one pattern  ('0' = Inactive, '1' = Active)
          i_tst_pat_end_re     : in     std_logic                                                            ; --! Test pattern end of all patterns rising edge ('0' = Inactive, '1' = Active)
@@ -102,6 +103,7 @@ signal   ep_cmd_rx_nerr_rdy_r : std_logic                                       
 signal   ep_cmd_sts_rg_r      : std_logic_vector(c_EP_SPI_WD_S-1 downto 0)                                  ; --! EP command: Status register, registered
 
 signal   rg_aqmde_dmp_cmp     : std_logic                                                                   ; --! EP register: DATA_ACQ_MODE, status "Dump" compared ('0' = Inactive, '1' = Active)
+signal   rg_aqmde_tst_cmp     : std_logic                                                                   ; --! EP register: DATA_ACQ_MODE, status "Test Pattern" compared ('0'=Inactive, '1'=Active)
 signal   rg_tsten             : std_logic_vector(    c_DFLD_TSTEN_S-1 downto 0)                             ; --! Test pattern enable
 
 signal   rg_smfmd             : t_slv_arr(0 to c_NB_COL-1)(c_DFLD_SMFMD_COL_S-1 downto 0)                   ; --! EP register: MUX_SQ_FB_ON_OFF
@@ -122,6 +124,7 @@ signal   cs_rg_r              : std_logic_vector(c_EP_CMD_REG_MX_STIN(1)-1 downt
 
 attribute syn_preserve        : boolean                                                                     ; --! Disabling signal optimization
 attribute syn_preserve          of o_aqmde_dmp_cmp   : signal is true                                       ; --! Disabling signal optimization: o_aqmde_dmp_cmp
+attribute syn_preserve          of o_aqmde_tst_cmp   : signal is true                                       ; --! Disabling signal optimization: o_aqmde_tst_cmp
 
 begin
 
@@ -180,7 +183,8 @@ begin
          i_aqmde_dmp_tx_end   => i_aqmde_dmp_tx_end   , -- in     std_logic                                 ; --! Telemetry mode, dump transmit end ('0' = Inactive, '1' = Active)
 
          o_aqmde              => o_aqmde              , -- out    slv(c_DFLD_AQMDE_S-1 downto 0)            ; --! Telemetry mode
-         o_rg_aqmde_dmp_cmp   => rg_aqmde_dmp_cmp       -- out    std_logic                                   --! EP register: DATA_ACQ_MODE, status "Dump" compared ('0' = Inactive, '1' = Active)
+         o_rg_aqmde_dmp_cmp   => rg_aqmde_dmp_cmp     , -- out    std_logic                                 ; --! EP register: DATA_ACQ_MODE, status "Dump" compared ('0' = Inactive, '1' = Active)
+         o_rg_aqmde_tst_cmp   => rg_aqmde_tst_cmp       -- out    std_logic                                   --! EP register: DATA_ACQ_MODE, status "Test Pattern" compared ('0'=Inactive, '1'=Active)
    );
 
    -- @Req : REG_TEST_PATTERN_ENABLE
@@ -310,6 +314,7 @@ begin
       --    @Req : DRE-DMX-FW-REQ-0380
       --    @Req : DRE-DMX-FW-REQ-0387
       --    @Req : DRE-DMX-FW-REQ-0392
+      --    @Req : DRE-DMX-FW-REQ-0393
       --    @Req : DRE-DMX-FW-REQ-0410
       --    @Req : DRE-DMX-FW-REQ-0420
       -- ------------------------------------------------------------------------------------------------------
@@ -572,6 +577,7 @@ begin
 
       if i_rst = c_RST_LEV_ACT then
          o_aqmde_dmp_cmp <= (others => c_LOW_LEV);
+         o_aqmde_tst_cmp <= (others => c_LOW_LEV);
          o_tsten_lop     <= c_EP_CMD_DEF_TSTEN(c_DFLD_TSTEN_LOP_S + c_DFLD_TSTEN_LOP_POS-1 downto c_DFLD_TSTEN_LOP_POS);
          o_tsten_inf     <= c_EP_CMD_DEF_TSTEN(c_DFLD_TSTEN_INF_POS);
          o_tsten_ena     <= c_EP_CMD_DEF_TSTEN(c_DFLD_TSTEN_ENA_POS);
@@ -583,6 +589,7 @@ begin
 
       elsif rising_edge(i_clk) then
          o_aqmde_dmp_cmp <= (others => rg_aqmde_dmp_cmp);
+         o_aqmde_tst_cmp <= (others => rg_aqmde_tst_cmp);
          o_tsten_lop     <= rg_tsten(c_DFLD_TSTEN_LOP_S + c_DFLD_TSTEN_LOP_POS-1 downto c_DFLD_TSTEN_LOP_POS);
          o_tsten_inf     <= rg_tsten(c_DFLD_TSTEN_INF_POS);
          o_tsten_ena     <= rg_tsten(c_DFLD_TSTEN_ENA_POS);

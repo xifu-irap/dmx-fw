@@ -236,8 +236,8 @@ constant c_HK_ADD_VREF_TMP    : std_logic_vector(c_MEM_HKEEP_ADD_S-1 downto 0):=
                                 std_logic_vector(to_unsigned(12, c_MEM_HKEEP_ADD_S))                        ; --! EP command: Housekeeping memory position, VREF_TMP
 constant c_HK_ADD_VREF_R2R    : std_logic_vector(c_MEM_HKEEP_ADD_S-1 downto 0):=
                                 std_logic_vector(to_unsigned(13, c_MEM_HKEEP_ADD_S))                        ; --! EP command: Housekeeping memory position, VREF_R2R
-constant c_HK_ADD_VGND_OFF    : std_logic_vector(c_MEM_HKEEP_ADD_S-1 downto 0):=
-                                std_logic_vector(to_unsigned(14, c_MEM_HKEEP_ADD_S))                        ; --! EP command: Housekeeping memory position, VGND_OFF
+constant c_HK_ADD_SPARE       : std_logic_vector(c_MEM_HKEEP_ADD_S-1 downto 0):=
+                                std_logic_vector(to_unsigned(14, c_MEM_HKEEP_ADD_S))                        ; --! EP command: Housekeeping memory position, SPARE
 constant c_HK_ADD_P5V0_ANA    : std_logic_vector(c_MEM_HKEEP_ADD_S-1 downto 0):=
                                 std_logic_vector(to_unsigned( 0, c_MEM_HKEEP_ADD_S))                        ; --! EP command: Housekeeping memory position, P5V0_ANA
 constant c_HK_ADD_TEMP_AVE    : std_logic_vector(c_MEM_HKEEP_ADD_S-1 downto 0):=
@@ -248,7 +248,7 @@ constant c_HK_ADD_TEMP_MAX    : std_logic_vector(c_MEM_HKEEP_ADD_S-1 downto 0):=
 constant c_HK_ADD_SEQ         : t_slv_arr(0 to c_HK_NW-1)(c_MEM_HKEEP_ADD_S-1 downto 0) :=
                                 (c_HK_ADD_P1V8_ANA, c_HK_ADD_P2V5_ANA, c_HK_ADD_M2V5_ANA, c_HK_ADD_P3V3_ANA,
                                  c_HK_ADD_M5V0_ANA, c_HK_ADD_P1V2_DIG, c_HK_ADD_P2V5_DIG, c_HK_ADD_P2V5_AUX,
-                                 c_HK_ADD_P3V3_DIG, c_HK_ADD_VREF_TMP, c_HK_ADD_VREF_R2R, c_HK_ADD_VGND_OFF,
+                                 c_HK_ADD_P3V3_DIG, c_HK_ADD_VREF_TMP, c_HK_ADD_VREF_R2R, c_HK_ADD_SPARE   ,
                                  c_HK_ADD_P5V0_ANA, c_HK_ADD_TEMP_AVE, c_HK_ADD_TEMP_MAX)                   ; --! Housekeeping memory position sequence
 
    -- ------------------------------------------------------------------------------------------------------

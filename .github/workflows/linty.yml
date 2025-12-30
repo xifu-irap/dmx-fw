@@ -63,7 +63,7 @@ jobs:
             -e TABBY_CAD_LICENSE="$TABBY_CAD_LICENSE" \
             -v "$PWD:/usr/src" \
             -v "$HOME/.sonar/cache:/opt/sonar-scanner/.sonar/cache" \
-            lintyservices/linty-scanner:${{ env.LINTY_SCANNER }} \
+            lintyservices/linty-scanner:${{ env.LINTY_SCANNER }} -Dproject.settings=".linty/linty.properties" \
             ${{ steps.linty_analysis_parameters.outputs.value }}
         env:
           TABBY_CAD_LICENSE: ${{ secrets.TABBY_CAD_LICENSE }}

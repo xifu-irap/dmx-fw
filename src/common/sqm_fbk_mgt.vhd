@@ -46,8 +46,10 @@ entity sqm_fbk_mgt is port (
          i_test_pattern       : in     std_logic_vector(c_SQM_DATA_FBK_S-1 downto 0)                        ; --! Test pattern
          i_sqm_dta_pixel_pos  : in     std_logic_vector(    c_MUX_FACT_S-1 downto 0)                        ; --! SQUID MUX Data error corrected pixel position
          i_sqm_dta_err_cor    : in     std_logic_vector(c_SQM_DATA_FBK_S-1 downto 0)                        ; --! SQUID MUX Data error corrected (signed)
+         i_sqm_dta_err_frst   : in     std_logic                                                            ; --! SQUID MUX Data error corrected first pixel
          i_sqm_dta_err_cor_cs : in     std_logic                                                            ; --! SQUID MUX Data error corrected chip select ('0' = Inactive, '1' = Active)
 
+         i_aqmde_tst_cmp      : in     std_logic                                                            ; --! Telemetry mode, status "Test pattern" compared ('0' = Inactive, '1' = Active)
          i_mem_smfb0          : in     t_mem(
                                        add(              c_MEM_SMFB0_ADD_S-1 downto 0),
                                        data_w(          c_DFLD_SMFB0_PIX_S-1 downto 0))                     ; --! SQUID MUX feedback value in open loop: memory inputs
@@ -58,6 +60,7 @@ entity sqm_fbk_mgt is port (
                                        data_w(          c_DFLD_SMFBM_PIX_S-1 downto 0))                     ; --! SQUID MUX feedback mode: memory inputs
          o_smfbm_data         : out    std_logic_vector(c_DFLD_SMFBM_PIX_S-1 downto 0)                      ; --! SQUID MUX feedback mode: data read
 
+         o_test_pattern_sc    : out    std_logic_vector(c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)      ; --! Test pattern: Science Telemetry
          o_sqm_data_fbk       : out    std_logic_vector( c_SQM_DATA_FBK_S-1 downto 0)                       ; --! SQUID MUX Data feedback (signed)
          o_sqm_pixel_pos_init : out    std_logic_vector(  c_SQM_PXL_POS_S-1 downto 0)                       ; --! SQUID MUX Pixel position initialization
          o_sqm_pls_cnt_init   : out    std_logic_vector(  c_SQM_PLS_CNT_S-1 downto 0)                         --! SQUID MUX Pulse shaping counter initialization
@@ -88,13 +91,20 @@ constant c_PXL_DAC_NCYC_NEG_V : std_logic_vector(c_MULT_ALU_PORTA_S-1 downto 0) 
 
 constant c_FBK_PXL_POS_INIT   : integer:= c_SQM_PXL_POS_INIT - 2                                            ; --! Feedback Pixel position: initialization value
 constant c_FBK_PXL_POS_SHIFT  : integer:= 2                                                                 ; --! Feedback Pixel position: shift
+constant c_ERR_COR_CS_R_NB    : integer:= 5                                                                 ; --! SQUID MUX Data error corrected chip select register number
+constant c_PRM_RDY_R_NB       : integer:= 1                                                                 ; --! Parameter ready register number
+constant c_RST_SMFBM_R_NB     : integer:= 2                                                                 ; --! Reset SQUID MUX feedback mode register number
 
 signal   tst_pat_end_r        : std_logic                                                                   ; --! Test pattern end of all patterns register
 signal   tst_pat_end_dtc      : std_logic                                                                   ; --! Test pattern end of all patterns dectect
-signal   tst_pat_end_sync     : std_logic                                                                   ; --! Test pattern end of all patterns, sync on pixel sequence
-signal   test_pattern_sync    : std_logic_vector(  c_SQM_DATA_FBK_S-1 downto 0)                             ; --! Test pattern, synchronized on first pixel sequence
+signal   tst_pat_end_dtc_sync : std_logic                                                                   ; --! Test pattern end of all patterns dectect, sync on pixel sequence
+signal   test_pattern_sync    : std_logic_vector(c_SQM_DATA_FBK_S-1 downto 0)                               ; --! Test pattern, sync on pixel sequence
 
 signal   mem_sqm_dta_err_cor  : t_slv_arr(0 to 2**c_MUX_FACT_S-1)(c_SQM_DATA_FBK_S-1 downto 0)              ; --! Memory data storage SQUID MUX Data error corrected
+
+signal   sqm_dta_pixel_pos_r  : std_logic_vector(     c_MUX_FACT_S-1 downto 0)                              ; --! SQUID MUX Data error corrected pixel position register
+signal   sqm_dta_err_cor_cs_r : std_logic_vector(c_ERR_COR_CS_R_NB-1 downto 0)                              ; --! SQUID MUX Data error corrected chip select register
+signal   sqm_dta_err_cor_wr   : std_logic_vector( c_SQM_DATA_FBK_S-1 downto 0)                              ; --! SQUID MUX Data error corrected (signed) write to memory
 signal   sqm_dta_err_cor_rd   : std_logic_vector( c_SQM_DATA_FBK_S-1 downto 0)                              ; --! SQUID MUX Data error corrected (signed) read from memory
 
 signal   smfbd_r              : std_logic_vector(c_DFLD_SMFBD_COL_S-1 downto 0)                             ; --! SQUID MUX feedback delay register
@@ -124,6 +134,7 @@ signal   mem_smfbm_prm        : t_mem(
                                 add(              c_MEM_SMFBM_ADD_S-1 downto 0),
                                 data_w(          c_DFLD_SMFBM_PIX_S-1 downto 0))                            ; --! SQUID MUX feedback mode, getting parameter side: memory inputs
 
+signal   aqmde_tst_cmp_sync   : std_logic                                                                   ; --! Telemetry mode, status "Test pattern" compared synchronized on first Pixel sequence
 signal   smfmd_sync           : std_logic_vector(c_DFLD_SMFMD_COL_S-1 downto 0)                             ; --! SQUID MUX feedback mode synchronized on first Pixel sequence
 
 signal   smfbm                : std_logic_vector(c_DFLD_SMFBM_PIX_S-1 downto 0)                             ; --! SQUID MUX feedback mode
@@ -141,7 +152,6 @@ begin
       if i_rst = c_RST_LEV_ACT then
          tst_pat_end_r     <= c_HGH_LEV;
          tst_pat_end_dtc   <= c_LOW_LEV;
-         tst_pat_end_sync  <= c_LOW_LEV;
 
       elsif rising_edge(i_clk) then
          tst_pat_end_r     <= i_tst_pat_end;
@@ -151,11 +161,6 @@ begin
 
          elsif i_sync_re = c_HGH_LEV then
             tst_pat_end_dtc <= c_LOW_LEV;
-
-         end if;
-
-         if i_sync_re = c_HGH_LEV then
-            tst_pat_end_sync  <= tst_pat_end_dtc;
 
          end if;
 
@@ -447,15 +452,35 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         smfmd_sync            <= c_DST_SMFMD_OFF;
+         sqm_dta_pixel_pos_r   <= c_ZERO(sqm_dta_pixel_pos_r'range);
+         sqm_dta_err_cor_cs_r  <= (others => c_LOW_LEV);
+
          mem_smfb0_prm.pp      <= c_MEM_STR_ADD_PP_DEF;
          mem_smfbm_prm.pp      <= c_MEM_STR_ADD_PP_DEF;
+         aqmde_tst_cmp_sync    <= c_LOW_LEV;
+         test_pattern_sync     <= c_ZERO(test_pattern_sync'range);
+         tst_pat_end_dtc_sync  <= c_LOW_LEV;
+         smfmd_sync            <= c_DST_SMFMD_OFF;
 
       elsif rising_edge(i_clk) then
+         sqm_dta_pixel_pos_r  <= i_sqm_dta_pixel_pos;
+         sqm_dta_err_cor_cs_r <= sqm_dta_err_cor_cs_r(sqm_dta_err_cor_cs_r'high-1 downto 0) & i_sqm_dta_err_cor_cs;
+
+         if (i_sqm_dta_err_frst and i_sqm_dta_err_cor_cs) = c_HGH_LEV then
+            tst_pat_end_dtc_sync <= tst_pat_end_dtc;
+            mem_smfb0_prm.pp     <= mem_smfb0_pp;
+            mem_smfbm_prm.pp     <= mem_smfbm_pp;
+
+         end if;
+
+         if (i_sqm_dta_err_frst and sqm_dta_err_cor_cs_r(c_PRM_RDY_R_NB)) = c_HGH_LEV then
+            aqmde_tst_cmp_sync   <= i_aqmde_tst_cmp;
+            test_pattern_sync    <= i_test_pattern;
+
+         end if;
+
          if (pls_cnt(pls_cnt'high) and pixel_pos(pixel_pos'high)) = c_HGH_LEV then
             smfmd_sync         <= i_smfmd;
-            mem_smfb0_prm.pp   <= mem_smfb0_pp;
-            mem_smfbm_prm.pp   <= mem_smfbm_pp;
 
          end if;
 
@@ -498,7 +523,7 @@ begin
    --!   Dual port memory SQUID MUX feedback value in open loop: memory signals management
    --!      (Getting parameter side)
    -- ------------------------------------------------------------------------------------------------------
-   mem_smfb0_prm.add     <= pixel_pos_inc;
+   mem_smfb0_prm.add     <= sqm_dta_pixel_pos_r;
    mem_smfb0_prm.we      <= c_LOW_LEV;
    mem_smfb0_prm.cs      <= c_HGH_LEV;
    mem_smfb0_prm.data_w  <= c_ZERO(mem_smfb0_prm.data_w'range);
@@ -538,7 +563,7 @@ begin
    --!   Dual port memory SQUID MUX feedback mode: writing data signals
    --!      (Getting parameter side)
    -- ------------------------------------------------------------------------------------------------------
-   mem_smfbm_prm.add     <= pixel_pos_inc;
+   mem_smfbm_prm.add     <= sqm_dta_pixel_pos_r;
    mem_smfbm_prm.cs      <= c_HGH_LEV;
    mem_smfbm_prm.data_w  <= c_DST_SMFBM_OPEN;
 
@@ -550,7 +575,7 @@ begin
          mem_smfbm_prm.we  <= c_LOW_LEV;
 
       elsif rising_edge(i_clk) then
-         if (smfbm = c_DST_SMFBM_TEST) and (pls_cnt = std_logic_vector(to_unsigned(c_MEM_RD_DATA_NPER, pls_cnt'length))) and (tst_pat_end_sync = c_HGH_LEV) then
+         if (smfbm = c_DST_SMFBM_TEST) and (tst_pat_end_dtc_sync and sqm_dta_err_cor_cs_r(c_RST_SMFBM_R_NB)) = c_HGH_LEV then
             mem_smfbm_prm.we  <= c_HGH_LEV;
 
          else
@@ -563,14 +588,52 @@ begin
    end process P_mem_smfbm_prm_we;
 
    -- ------------------------------------------------------------------------------------------------------
+   --!   Test pattern, synchronized at pixel sequence start
+   -- ------------------------------------------------------------------------------------------------------
+   I_smfb0_rs : entity work.resize_stall_msb generic map (
+         g_DATA_S             => c_DFLD_SMFB0_PIX_S   , -- integer                                          ; --! Data input bus size
+         g_DATA_STALL_MSB_S   => c_SQM_DATA_FBK_S       -- integer                                            --! Data stalled on Mean Significant Bit bus size
+   ) port map (
+         i_data               => smfb0                , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
+         o_data_stall_msb     => smfb0_rs             , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
+         o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
+   );
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   SQUID MUX Data feedback
+   --    @Req : DRE-DMX-FW-REQ-0210
+   -- ------------------------------------------------------------------------------------------------------
+   P_sqm_dta_err_cor_w : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         sqm_dta_err_cor_wr <= c_ZERO(sqm_dta_err_cor_wr'range);
+
+      elsif rising_edge(i_clk) then
+         if smfbm = c_DST_SMFBM_CLOSE then
+            sqm_dta_err_cor_wr <= i_sqm_dta_err_cor;
+
+         elsif smfbm = c_DST_SMFBM_TEST and (not(tst_pat_end_dtc_sync) and not(aqmde_tst_cmp_sync)) = c_HGH_LEV then
+            sqm_dta_err_cor_wr <= test_pattern_sync;
+
+         else
+            sqm_dta_err_cor_wr <= smfb0_rs;
+
+         end if;
+
+      end if;
+
+   end process P_sqm_dta_err_cor_w;
+
+   -- ------------------------------------------------------------------------------------------------------
    --!   Dual port memory data storage SQUID MUX Data error corrected
    -- ------------------------------------------------------------------------------------------------------
    P_sqm_dta_err_cor_wr : process (i_clk)
    begin
 
       if rising_edge(i_clk) then
-         if i_sqm_dta_err_cor_cs = c_HGH_LEV then
-            mem_sqm_dta_err_cor(to_integer(unsigned(i_sqm_dta_pixel_pos))) <= i_sqm_dta_err_cor;
+         if sqm_dta_err_cor_cs_r(sqm_dta_err_cor_cs_r'high) = c_HGH_LEV then
+            mem_sqm_dta_err_cor(to_integer(unsigned(sqm_dta_pixel_pos_r))) <= sqm_dta_err_cor_wr;
          end if;
       end if;
 
@@ -590,43 +653,7 @@ begin
    end process P_sqm_dta_err_cor_rd;
 
    -- ------------------------------------------------------------------------------------------------------
-   --!   Test pattern, synchronized at pixel sequence start
-   -- ------------------------------------------------------------------------------------------------------
-   I_smfb0_rs : entity work.resize_stall_msb generic map (
-         g_DATA_S             => c_DFLD_SMFB0_PIX_S   , -- integer                                          ; --! Data input bus size
-         g_DATA_STALL_MSB_S   => c_SQM_DATA_FBK_S       -- integer                                            --! Data stalled on Mean Significant Bit bus size
-   ) port map (
-         i_data               => smfb0                , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
-         o_data_stall_msb     => smfb0_rs             , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
-         o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
-   );
-
-   --! Test pattern, synchronized on first pixel sequence
-   P_test_pattern_sync : process (i_rst, i_clk)
-   begin
-
-      if i_rst = c_RST_LEV_ACT then
-         test_pattern_sync <= c_ZERO(test_pattern_sync'range);
-
-      elsif rising_edge(i_clk) then
-         if (pixel_pos(pixel_pos'high) and pls_cnt(pls_cnt'high)) = c_HGH_LEV then
-            if i_tst_pat_end = c_LOW_LEV then
-               test_pattern_sync <= i_test_pattern;
-
-            else
-               test_pattern_sync <= smfb0_rs;
-
-            end if;
-
-         end if;
-
-      end if;
-
-   end process P_test_pattern_sync;
-
-   -- ------------------------------------------------------------------------------------------------------
    --!   SQUID MUX Data feedback
-   --    @Req : DRE-DMX-FW-REQ-0210
    -- ------------------------------------------------------------------------------------------------------
    P_sqm_data_fbk : process (i_rst, i_clk)
    begin
@@ -638,19 +665,36 @@ begin
          if smfmd_sync = c_DST_SMFMD_OFF then
             o_sqm_data_fbk <= c_ZERO(o_sqm_data_fbk'range);
 
-         elsif smfbm = c_DST_SMFBM_CLOSE then
-            o_sqm_data_fbk <= sqm_dta_err_cor_rd;
-
-         elsif smfbm = c_DST_SMFBM_TEST then
-            o_sqm_data_fbk <= test_pattern_sync;
-
          else
-            o_sqm_data_fbk <= smfb0_rs;
+            o_sqm_data_fbk <= sqm_dta_err_cor_rd;
 
          end if;
 
       end if;
 
    end process P_sqm_data_fbk;
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Test pattern Science Telemetry
+   --    @Req : DRE-DMX-FW-REQ-0580
+   -- ------------------------------------------------------------------------------------------------------
+   P_test_pattern_sc : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         o_test_pattern_sc <= std_logic_vector(to_unsigned(c_EP_CMD_DEF_SMFB0(c_EP_CMD_DEF_SMFB0'low), o_test_pattern_sc'length));
+
+      elsif rising_edge(i_clk) then
+         if smfbm = c_DST_SMFBM_TEST and aqmde_tst_cmp_sync = c_HGH_LEV then
+            o_test_pattern_sc <= test_pattern_sync(o_test_pattern_sc'range);
+
+         else
+            o_test_pattern_sc <= smfb0_rs(o_test_pattern_sc'range);
+
+         end if;
+
+      end if;
+
+   end process P_test_pattern_sc;
 
 end architecture RTL;

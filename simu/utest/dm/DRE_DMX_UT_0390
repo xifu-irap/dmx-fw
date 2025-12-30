@@ -20,6 +20,11 @@ COMM   Wait internal reset deactivated
 COMM ----------------------------------------------------------------------------------------------
 WUDI rst 0
 COMM
+WCMD W-C0_SAMPLING_DELAY-0013 W
+WCMD W-C1_SAMPLING_DELAY-0013 W
+WCMD W-C2_SAMPLING_DELAY-0013 W
+WCMD W-C3_SAMPLING_DELAY-0013 W
+COMM
 COMM ==============================================================================================
 COMM   Writing science data expected
 COMM ----------------------------------------------------------------------------------------------

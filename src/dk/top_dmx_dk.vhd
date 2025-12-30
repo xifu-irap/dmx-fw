@@ -111,8 +111,8 @@ constant c_HK_VREF_TMP        : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
                                 std_logic_vector(to_unsigned( 3803, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_VREF_TMP value
 constant c_HK_VREF_R2R        : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
                                 std_logic_vector(to_unsigned( 4000, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_VREF_R2R value
-constant c_HK_VGND_OFF        : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
-                                std_logic_vector(to_unsigned( 1261, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_VGND_OFF value
+constant c_HK_SPARE           : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
+                                std_logic_vector(to_unsigned( 1261, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_SPARE    value
 constant c_HK_P5V0_ANA        : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
                                 std_logic_vector(to_unsigned(  293, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_P5V0_ANA value
 constant c_HK_TEMP_AVE        : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
@@ -263,7 +263,7 @@ begin
                   hk_mux_data <= c_HK_VREF_R2R;
 
                when c_ADD7 =>
-                  hk_mux_data <= c_HK_VGND_OFF;
+                  hk_mux_data <= c_HK_SPARE;
 
                when others =>
                   hk_mux_data <= c_ZERO(hk_mux_data'range);

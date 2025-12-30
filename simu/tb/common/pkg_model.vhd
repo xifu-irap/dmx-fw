@@ -302,8 +302,8 @@ constant c_HK_VREF_TMP_DEF    : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
                                 std_logic_vector(to_unsigned( 3803, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_VREF_TMP default value
 constant c_HK_VREF_R2R_DEF    : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
                                 std_logic_vector(to_unsigned( 4000, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_VREF_R2R default value
-constant c_HK_VGND_OFF_DEF    : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
-                                std_logic_vector(to_unsigned( 1261, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_VGND_OFF default value
+constant c_HK_SPARE_DEF       : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
+                                std_logic_vector(to_unsigned( 1261, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_SPARE    default value
 constant c_HK_P5V0_ANA_DEF    : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=
                                 std_logic_vector(to_unsigned(  293, c_HK_SPI_DATA_S))                       ; --! Housekeeping, HK_P5V0_ANA default value
 constant c_HK_TEMP_AVE_DEF    : std_logic_vector(c_HK_SPI_DATA_S-1 downto 0):=

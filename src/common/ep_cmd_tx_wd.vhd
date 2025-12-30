@@ -236,7 +236,7 @@ begin
    data_rg_rd(c_EP_CMD_POS_KNORM) <= std_logic_vector(resize(unsigned(ep_mem_data_mux(c_EP_MEM_ACC(c_EP_MEM_NUM_KNORM+1)-1 downto c_EP_MEM_ACC(c_EP_MEM_NUM_KNORM))), c_EP_SPI_WD_S));
 
    -- @Req : REG_CY_AMP_SQ_KNORM
-   -- @Req : DRE-DMX-FW-REQ-0392
+   -- @Req : DRE-DMX-FW-REQ-0393
    data_rg_rd(c_EP_CMD_POS_SAKRM) <= std_logic_vector(resize(unsigned(rg_col_data_mux(c_EP_RGC_ACC(c_EP_RGC_NUM_SAKRM+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAKRM))), c_EP_SPI_WD_S));
 
    -- @Req : REG_CY_MUX_SQ_FB0
