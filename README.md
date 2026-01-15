@@ -5,7 +5,7 @@ DRE-DEMUX TDM firmware: https://github.com/xifu-irap/dmx-fw
    - Synthesis tool: nxdesignsuite v24.3.0.0
    - Firmware specification:
       + IRAP/XIFU-DRE/FM/SP/0065 - DRE TDM firmware requirements, ed. 2.0
-      + IRAP/XIFU-DRE/FM/SP/0069 - DRE Inter-Modules Telemetry And Commands Definition, ed. 6.0
+      + IRAP/XIFU-DRE/FM/SP/0069 - DRE Inter-Modules Telemetry And Commands Definition, ed. 6.1
       + IRAP/XIFU-DRE/FM/SP/0136 - FPAsim command dictionnary, ed. ??
    - FPASIM simulation coupling: https://github.com/xifu-irap/fpasim-fw (tag 2.2.3)
 

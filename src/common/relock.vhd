@@ -69,7 +69,7 @@ constant c_DLCNT_SAT          : integer := 2**c_DFLD_DLCNT_PIX_S - 1            
 constant c_CNT_THR_EXC_INIT   : std_logic_vector(c_DFLD_RLDEL_COL_S downto 0) :=
                                 std_logic_vector(to_unsigned(1, c_DFLD_RLDEL_COL_S+1))                      ; --! Counter threshold exceed initialization value
 
-signal   diff_sqm_dta_fb0     : std_logic_vector(  c_SQM_DATA_FBK_S   downto 0)                             ; --! Data error corrected minus feedback value in open loop
+signal   abs_dif_sqm_dta_fb0  : std_logic_vector(  c_SQM_DATA_FBK_S-1 downto 0)                             ; --! Absolute Data error corrected minus feedback value in open loop
 
 signal   rlthr_r              : std_logic_vector(c_DFLD_RLTHR_COL_S-1 downto 0)                             ; --! Relock threshold register
 signal   squid_close_mode_n_r : std_logic                                                                   ; --! SQUID MUX/AMP Close mode register ('0' = Yes, '1' = No)
@@ -115,24 +115,30 @@ begin
    end process P_sig_r;
 
    -- ------------------------------------------------------------------------------------------------------
-   --!   Relock: Difference between Data error corrected and feedback value in open loop
+   --!   Relock: Absolute difference between Data error corrected and feedback value in open loop
    --    @Req : DRE-DMX-FW-REQ-0400
    -- ------------------------------------------------------------------------------------------------------
-   P_diff_sqm_dta_fb0 : process (i_rst, i_clk)
+   P_abs_dif_sqm_dt_fb0 : process (i_rst, i_clk)
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         diff_sqm_dta_fb0   <= c_ZERO(diff_sqm_dta_fb0'range);
+         abs_dif_sqm_dta_fb0   <= c_ZERO(abs_dif_sqm_dta_fb0'range);
 
       elsif rising_edge(i_clk) then
          if i_sqm_dta_err_cor_cs = c_HGH_LEV then
-            diff_sqm_dta_fb0  <= std_logic_vector(resize(signed(i_sqm_dta_err_cor), diff_sqm_dta_fb0'length) -
-                                                  resize(signed(i_fb0_rl_aln), diff_sqm_dta_fb0'length));
+            if (signed(i_sqm_dta_err_cor) > signed(i_fb0_rl_aln)) then
+               abs_dif_sqm_dta_fb0  <= std_logic_vector(signed(i_sqm_dta_err_cor) - signed(i_fb0_rl_aln));
+
+            else
+               abs_dif_sqm_dta_fb0  <= std_logic_vector(signed(i_fb0_rl_aln) - signed(i_sqm_dta_err_cor));
+
+            end if;
+
          end if;
 
       end if;
 
-   end process P_diff_sqm_dta_fb0;
+   end process P_abs_dif_sqm_dt_fb0;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Dual port memory counter threshold exceed
@@ -177,8 +183,7 @@ begin
             elsif cnt_thr_exd_rd_cmp = c_HGH_LEV then
                cnt_thr_exceed_wr <= c_CNT_THR_EXC_INIT;
 
-            elsif (signed(diff_sqm_dta_fb0) > signed(resize(unsigned(rlthr_r), diff_sqm_dta_fb0'length))) or
-                 ((resize(signed(diff_sqm_dta_fb0), diff_sqm_dta_fb0'length+1) + signed(resize(unsigned(rlthr_r), diff_sqm_dta_fb0'length+1))) < 0 ) then
+            elsif (unsigned(abs_dif_sqm_dta_fb0) > resize(unsigned(rlthr_r), abs_dif_sqm_dta_fb0'length)) then
                cnt_thr_exceed_wr <= std_logic_vector(unsigned(cnt_thr_exceed_rd_r) + 1);
 
             else
