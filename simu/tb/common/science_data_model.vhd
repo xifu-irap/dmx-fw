@@ -280,7 +280,6 @@ begin
    variable v_err_sc_pkt_start: std_logic                                                                   ; --! Error science packet start missing ('0' = No error, '1' = Error)
    variable v_err_sc_pkt_eod  : std_logic                                                                   ; --! Error science packet end of data missing ('0' = No error, '1' = Error)
    variable v_err_sc_pkt_size : std_logic                                                                   ; --! Error science packet size ('0' = No error, '1' = Error)
-   variable v_err_sc_data     : std_logic_vector(c_NB_COL-1 downto 0)                                       ; --! Error science data ('0' = No error, '1' = Error)
 
    variable v_sc_ctrl_fst_w   : std_logic := c_LOW_LEV                                                      ; --! Science data, first control word detected ('0' = No, '1' = Yes)
    variable v_packet_tx_time  : time := c_ZERO_TIME                                                         ; --! Science packet first word transmit time
@@ -327,7 +326,6 @@ begin
             v_err_sc_pkt_start:= c_LOW_LEV;
             v_err_sc_pkt_eod  := c_LOW_LEV;
             v_err_sc_pkt_size := c_LOW_LEV;
-            v_err_sc_data     := c_ZERO(v_err_sc_data'range);
 
             -- Increase science packet size
             v_packet_size := v_packet_size + 1;
@@ -387,18 +385,10 @@ begin
 
             end case;
 
-            -- Check science data
-            for k in 0 to c_NB_COL-1 loop
-               if (v_packet_dump = c_HGH_LEV) and (science_data_r(k) /= std_logic_vector(resize(unsigned(mem_dump_sc_data_out(k)), science_data_r(k)'length))) then
-                  v_err_sc_data(k) := c_HGH_LEV;
-
-               end if;
-            end loop;
-
             -- Science data error display
-            sc_data_err_display( g_ERR_SC_DTA_ENA,    science_data_r,   science_data_err, mem_dump_sc_data_out,
-                                v_err_sc_ctrl_dif, v_err_sc_ctrl_ukn, v_err_sc_pkt_start, v_err_sc_pkt_eod,
-                                v_err_sc_pkt_size,     v_err_sc_data,       o_sc_pkt_err, scd_file);
+            sc_data_err_display(       v_packet_dump,  g_ERR_SC_DTA_ENA,    science_data_r,   science_data_err,
+                                mem_dump_sc_data_out, v_err_sc_ctrl_dif, v_err_sc_ctrl_ukn, v_err_sc_pkt_start,
+                                    v_err_sc_pkt_eod, v_err_sc_pkt_size,      o_sc_pkt_err, scd_file);
 
             wait until falling_edge(science_data_rdy_r) for g_SIM_TIME-now;
 

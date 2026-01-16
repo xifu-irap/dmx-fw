@@ -481,10 +481,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03FF W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-03FE W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-03FD W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-03FC W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FFFF W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FFFE W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FFFD W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FFFC W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -498,10 +498,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03FB W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-03FA W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-03F9 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-03F8 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FFFB W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FFFA W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FFF9 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FFF8 W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -515,10 +515,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03F7 W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-03F6 W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-03F5 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-03F4 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FFF7 W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FFF6 W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FFF5 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FFF4 W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -532,10 +532,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03F3 W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-03F2 W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-03F1 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-03F0 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FFF3 W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FFF2 W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FFF1 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FFF0 W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -549,10 +549,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03EF W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-03EE W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-03ED W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-03EC W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FFEF W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FFEE W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FFED W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FFEC W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -566,10 +566,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03EB W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-03EA W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-03E9 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-03E8 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FFEB W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FFEA W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FFE9 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FFE8 W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -583,10 +583,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03E7 W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-03E6 W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-03E5 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-03E4 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FFE7 W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FFE6 W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FFE5 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FFE4 W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -600,10 +600,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03E3 W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-03E2 W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-03E1 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-03E0 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FFE3 W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FFE2 W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FFE1 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FFE0 W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -617,10 +617,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-03CB W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-03B6 W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-03A1 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-038C W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FFCB W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FFB6 W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FFA1 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FF8C W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -634,10 +634,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-0377 W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-0362 W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-034D W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-0338 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FF77 W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FF62 W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FF4D W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FF38 W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -651,10 +651,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-0323 W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-030E W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-02F9 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-02E4 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FF23 W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FF0E W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FEF9 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FEE4 W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -668,10 +668,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-02CF W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-02BA W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-02A5 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-0290 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FECF W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FEBA W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FEA5 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FE90 W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -685,10 +685,10 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-027B W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-0266 W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-0251 W
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-023C W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FE7B W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FE66 W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FE51 W
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FE3C W
 WUDI sync 0
 WUDI sync 1
 WUDI sync 0
@@ -702,9 +702,9 @@ COMM
 COMM ==============================================================================================
 COMM   Send a SQUID MUX DAC delay on each channels
 COMM ----------------------------------------------------------------------------------------------
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-0227 W
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-0212 W
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-0200 W
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FE27 W
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FE12 W
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FE00 W
 WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-0028 W
 WUDI sync 0
 WUDI sync 1

@@ -272,7 +272,7 @@ begin
 
    -- @Req : REG_CY_MUX_SQ_FB_DELAY
    -- @Req : DRE-DMX-FW-REQ-0280
-   data_rg_rd(c_EP_CMD_POS_SMFBD) <= std_logic_vector(resize(unsigned(rg_col_data_mux(c_EP_RGC_ACC(c_EP_RGC_NUM_SMFBD+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SMFBD))), c_EP_SPI_WD_S));
+   data_rg_rd(c_EP_CMD_POS_SMFBD) <= std_logic_vector(resize(  signed(rg_col_data_mux(c_EP_RGC_ACC(c_EP_RGC_NUM_SMFBD+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SMFBD))), c_EP_SPI_WD_S));
 
    -- @Req : REG_CY_AMP_SQ_OFFSET_DAC_DELAY
    -- @Req : DRE-DMX-FW-REQ-0387
@@ -280,7 +280,7 @@ begin
 
    -- @Req : REG_CY_AMP_SQ_OFFSET_MUX_DELAY
    -- @Req : DRE-DMX-FW-REQ-0380
-   data_rg_rd(c_EP_CMD_POS_SAOMD) <= std_logic_vector(resize(unsigned(rg_col_data_mux(c_EP_RGC_ACC(c_EP_RGC_NUM_SAOMD+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAOMD))), c_EP_SPI_WD_S));
+   data_rg_rd(c_EP_CMD_POS_SAOMD) <= std_logic_vector(resize(  signed(rg_col_data_mux(c_EP_RGC_ACC(c_EP_RGC_NUM_SAOMD+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAOMD))), c_EP_SPI_WD_S));
 
    -- @Req : REG_CY_SAMPLING_DELAY
    -- @Req : DRE-DMX-FW-REQ-0150

@@ -271,7 +271,7 @@
 # ** Note   : (72006000 ps) Check command return: PASS
 # ** Note   : (72006000 ps)  * Read 0A00_0015, expected value 0A00_0015 (C0_MUX_SQ_FB_DELAY, mode Read, data 0015)
 # ** Note   : (74238000 ps) Waiting SPI command end for 2232000 ps
-# ** Note   : (74238000 ps) Send SPI command value 0A01_02FF (C0_MUX_SQ_FB_DELAY, mode Write, data 02FF)
+# ** Note   : (74238000 ps) Send SPI command value 0A01_FEFF (C0_MUX_SQ_FB_DELAY, mode Write, data FEFF)
 # ** Note   : (74310000 ps) Waiting SPI command return end for 36000 ps
 #             (74310000 ps) 
 #             (74310000 ps) ==============================================================================================
@@ -305,7 +305,7 @@
 #             (81276000 ps)   Check C0_MUX_SQ_FB_DELAY content
 #             (81276000 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (81294000 ps) Check command return: PASS
-# ** Note   : (81294000 ps)  * Read 0A00_02FF, expected value 0A00_02FF (C0_MUX_SQ_FB_DELAY, mode Read, data 02FF)
+# ** Note   : (81294000 ps)  * Read 0A00_FEFF, expected value 0A00_FEFF (C0_MUX_SQ_FB_DELAY, mode Read, data FEFF)
 # ** Note   : (83526000 ps) Waiting SPI command end for 2232000 ps
 # ** Note   : (83526000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
 # ** Note   : (83598000 ps) Waiting SPI command return end for 36000 ps
@@ -576,7 +576,7 @@
 # ** Note   : (153276000 ps) Check command return: PASS
 # ** Note   : (153276000 ps)  * Read 2A00_0015, expected value 2A00_0015 (C1_MUX_SQ_FB_DELAY, mode Read, data 0015)
 # ** Note   : (155508000 ps) Waiting SPI command end for 2232000 ps
-# ** Note   : (155508000 ps) Send SPI command value 2A01_02FF (C1_MUX_SQ_FB_DELAY, mode Write, data 02FF)
+# ** Note   : (155508000 ps) Send SPI command value 2A01_FEFF (C1_MUX_SQ_FB_DELAY, mode Write, data FEFF)
 # ** Note   : (155580000 ps) Waiting SPI command return end for 36000 ps
 #             (155580000 ps) 
 #             (155580000 ps) ==============================================================================================
@@ -610,7 +610,7 @@
 #             (162546000 ps)   Check C1_MUX_SQ_FB_DELAY content
 #             (162546000 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (162564000 ps) Check command return: PASS
-# ** Note   : (162564000 ps)  * Read 2A00_02FF, expected value 2A00_02FF (C1_MUX_SQ_FB_DELAY, mode Read, data 02FF)
+# ** Note   : (162564000 ps)  * Read 2A00_FEFF, expected value 2A00_FEFF (C1_MUX_SQ_FB_DELAY, mode Read, data FEFF)
 # ** Note   : (164796000 ps) Waiting SPI command end for 2232000 ps
 # ** Note   : (164796000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
 # ** Note   : (164868000 ps) Waiting SPI command return end for 36000 ps
@@ -881,7 +881,7 @@
 # ** Note   : (234546000 ps) Check command return: PASS
 # ** Note   : (234546000 ps)  * Read 4A00_0015, expected value 4A00_0015 (C2_MUX_SQ_FB_DELAY, mode Read, data 0015)
 # ** Note   : (236778000 ps) Waiting SPI command end for 2232000 ps
-# ** Note   : (236778000 ps) Send SPI command value 4A01_02FF (C2_MUX_SQ_FB_DELAY, mode Write, data 02FF)
+# ** Note   : (236778000 ps) Send SPI command value 4A01_FEFF (C2_MUX_SQ_FB_DELAY, mode Write, data FEFF)
 # ** Note   : (236850000 ps) Waiting SPI command return end for 36000 ps
 #             (236850000 ps) 
 #             (236850000 ps) ==============================================================================================
@@ -915,7 +915,7 @@
 #             (243816000 ps)   Check C2_MUX_SQ_FB_DELAY content
 #             (243816000 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (243834000 ps) Check command return: PASS
-# ** Note   : (243834000 ps)  * Read 4A00_02FF, expected value 4A00_02FF (C2_MUX_SQ_FB_DELAY, mode Read, data 02FF)
+# ** Note   : (243834000 ps)  * Read 4A00_FEFF, expected value 4A00_FEFF (C2_MUX_SQ_FB_DELAY, mode Read, data FEFF)
 # ** Note   : (246066000 ps) Waiting SPI command end for 2232000 ps
 # ** Note   : (246066000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
 # ** Note   : (246138000 ps) Waiting SPI command return end for 36000 ps
@@ -1186,7 +1186,7 @@
 # ** Note   : (315816000 ps) Check command return: PASS
 # ** Note   : (315816000 ps)  * Read 6A00_0015, expected value 6A00_0015 (C3_MUX_SQ_FB_DELAY, mode Read, data 0015)
 # ** Note   : (318048000 ps) Waiting SPI command end for 2232000 ps
-# ** Note   : (318048000 ps) Send SPI command value 6A01_02FF (C3_MUX_SQ_FB_DELAY, mode Write, data 02FF)
+# ** Note   : (318048000 ps) Send SPI command value 6A01_FEFF (C3_MUX_SQ_FB_DELAY, mode Write, data FEFF)
 # ** Note   : (318120000 ps) Waiting SPI command return end for 36000 ps
 #             (318120000 ps) 
 #             (318120000 ps) ==============================================================================================
@@ -1220,7 +1220,7 @@
 #             (325086000 ps)   Check C3_MUX_SQ_FB_DELAY content
 #             (325086000 ps) ----------------------------------------------------------------------------------------------
 # ** Note   : (325104000 ps) Check command return: PASS
-# ** Note   : (325104000 ps)  * Read 6A00_02FF, expected value 6A00_02FF (C3_MUX_SQ_FB_DELAY, mode Read, data 02FF)
+# ** Note   : (325104000 ps)  * Read 6A00_FEFF, expected value 6A00_FEFF (C3_MUX_SQ_FB_DELAY, mode Read, data FEFF)
 # ** Note   : (327336000 ps) Waiting SPI command end for 2232000 ps
 # ** Note   : (327336000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
 # ** Note   : (327408000 ps) Waiting SPI command return end for 36000 ps

@@ -141,6 +141,10 @@ signal   smfbm                : std_logic_vector(c_DFLD_SMFBM_PIX_S-1 downto 0) 
 signal   smfb0                : std_logic_vector(c_DFLD_SMFB0_PIX_S-1 downto 0)                             ; --! SQUID MUX feedback value in open loop (signed)
 signal   smfb0_rs             : std_logic_vector(  c_SQM_DATA_FBK_S-1 downto 0)                             ; --! SQUID MUX feedback value in open loop resized data stalled on MSB (signed)
 
+attribute syn_preserve        : boolean                                                                     ; --! Disabling signal optimization
+attribute syn_preserve          of i_sqm_dta_err_frst  : signal is true                                     ; --! Disabling signal optimization: i_sqm_dta_err_frst
+attribute syn_preserve          of i_sqm_dta_err_cor_cs: signal is true                                     ; --! Disabling signal optimization: i_sqm_dta_err_cor_cs
+
 begin
 
    -- ------------------------------------------------------------------------------------------------------
