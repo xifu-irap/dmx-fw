@@ -26,6 +26,7 @@
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 library ieee;
 use     ieee.std_logic_1164.all;
+use     ieee.numeric_std.all;
 
 library work;
 use     work.pkg_type.all;
@@ -90,6 +91,7 @@ signal   o_sc_pkt_type        : out    t_slv_arr(0 to c_SC_PKT_W_NB-1)(c_SC_DATA
    --! Science data error display
    -- ------------------------------------------------------------------------------------------------------
    procedure sc_data_err_display (
+         i_packet_dump        : in     std_logic                                                            ; --  Science packet dump ('0' = No, '1' = Yes)
          i_err_sc_dta_ena     : in     std_logic                                                            ; --  Error science data enable ('0' = No, '1' = Yes)
          i_science_data       : in     t_slv_arr(0 to c_NB_COL-1)
                                                 (c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)             ; --  Science Data: Data
@@ -100,7 +102,6 @@ signal   o_sc_pkt_type        : out    t_slv_arr(0 to c_SC_PKT_W_NB-1)(c_SC_DATA
          i_err_sc_pkt_start   : in     std_logic                                                            ; --  Error science packet start missing ('0' = No error, '1' = Error)
          i_err_sc_pkt_eod     : in     std_logic                                                            ; --  Error science packet end of data missing ('0' = No error, '1' = Error)
          i_err_sc_pkt_size    : in     std_logic                                                            ; --  Error science packet size ('0' = No error, '1' = Error)
-         i_err_sc_data        : in     std_logic_vector(c_NB_COL-1 downto 0)                                ; --  Error science data ('0' = No error, '1' = Error)
 signal   o_sc_pkt_err         : out    std_logic                                                            ; --  Science packet error ('0' = No error, '1' = Error)
          file scd_file        : text                                                                          --  Science Data Result file
    );
@@ -254,6 +255,7 @@ signal   o_sc_pkt_type        : out    t_slv_arr(0 to c_SC_PKT_W_NB-1)(c_SC_DATA
    --! Science data error display
    -- ------------------------------------------------------------------------------------------------------
    procedure sc_data_err_display (
+         i_packet_dump        : in     std_logic                                                            ; --  Science packet dump ('0' = No, '1' = Yes)
          i_err_sc_dta_ena     : in     std_logic                                                            ; --  Error science data enable ('0' = No, '1' = Yes)
          i_science_data       : in     t_slv_arr(0 to c_NB_COL-1)
                                                 (c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)             ; --  Science Data: Data
@@ -264,11 +266,20 @@ signal   o_sc_pkt_type        : out    t_slv_arr(0 to c_SC_PKT_W_NB-1)(c_SC_DATA
          i_err_sc_pkt_start   : in     std_logic                                                            ; --  Error science packet start missing ('0' = No error, '1' = Error)
          i_err_sc_pkt_eod     : in     std_logic                                                            ; --  Error science packet end of data missing ('0' = No error, '1' = Error)
          i_err_sc_pkt_size    : in     std_logic                                                            ; --  Error science packet size ('0' = No error, '1' = Error)
-         i_err_sc_data        : in     std_logic_vector(c_NB_COL-1 downto 0)                                ; --  Error science data ('0' = No error, '1' = Error)
 signal   o_sc_pkt_err         : out    std_logic                                                            ; --  Science packet error ('0' = No error, '1' = Error)
          file scd_file        : text                                                                          --  Science Data Result file
    ) is
+   variable v_err_sc_data     : std_logic_vector(c_NB_COL-1 downto 0)                                       ; --  Error science data ('0' = No error, '1' = Error)
    begin
+
+      -- Check science data
+      for k in 0 to c_NB_COL-1 loop
+         v_err_sc_data(k) := c_LOW_LEV;
+         if (i_packet_dump = c_HGH_LEV) and (i_science_data(k) /= std_logic_vector(resize(unsigned(i_mem_dmp_sc_dta_out(k)), i_science_data(k)'length))) then
+            v_err_sc_data(k) := c_HGH_LEV;
+
+         end if;
+      end loop;
 
       -- Errors display
       if i_err_sc_ctrl_dif = c_HGH_LEV then
@@ -298,7 +309,7 @@ signal   o_sc_pkt_err         : out    std_logic                                
 
       G_science_data_err : for k in 0 to c_NB_COL-1 loop
 
-         if (i_err_sc_data(k) and i_err_sc_dta_ena) = c_HGH_LEV then
+         if (v_err_sc_data(k) and i_err_sc_dta_ena) = c_HGH_LEV then
             o_sc_pkt_err <= c_HGH_LEV;
             fprintf(error, "Science Data packet content, column " & integer'image(k) &
                            ", does not correspond to ADC input (Read: " & hfield_format(i_science_data(k)).all & ", Expected: " & hfield_format(i_mem_dmp_sc_dta_out(k)).all & ")", scd_file);

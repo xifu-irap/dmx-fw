@@ -185,7 +185,7 @@ COMM ===========================================================================
 COMM   Check C0_AMP_SQ_OFFSET_MUX_DELAY content
 COMM ----------------------------------------------------------------------------------------------
 CCMD R-C0_AMP_SQ_OFFSET_MUX_DELAY-0015 W       # Return Command C0-26
-WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-02FF R       # Command C0-29
+WCMD W-C0_AMP_SQ_OFFSET_MUX_DELAY-FEFF R       # Command C0-29
 COMM
 COMM ==============================================================================================
 COMM   Check no error
@@ -208,7 +208,7 @@ COMM
 COMM ==============================================================================================
 COMM   Check C0_AMP_SQ_OFFSET_MUX_DELAY content
 COMM ----------------------------------------------------------------------------------------------
-CCMD R-C0_AMP_SQ_OFFSET_MUX_DELAY-02FF W       # Return Command C0-30
+CCMD R-C0_AMP_SQ_OFFSET_MUX_DELAY-FEFF W       # Return Command C0-30
 WCMD R-Status-XXXX R
 COMM
 COMM ==============================================================================================
@@ -389,7 +389,7 @@ COMM ===========================================================================
 COMM   Check C1_AMP_SQ_OFFSET_MUX_DELAY content
 COMM ----------------------------------------------------------------------------------------------
 CCMD R-C1_AMP_SQ_OFFSET_MUX_DELAY-0015 W       # Return Command C1-26
-WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-02FF R       # Command C1-29
+WCMD W-C1_AMP_SQ_OFFSET_MUX_DELAY-FEFF R       # Command C1-29
 COMM
 COMM ==============================================================================================
 COMM   Check no error
@@ -412,7 +412,7 @@ COMM
 COMM ==============================================================================================
 COMM   Check C1_AMP_SQ_OFFSET_MUX_DELAY content
 COMM ----------------------------------------------------------------------------------------------
-CCMD R-C1_AMP_SQ_OFFSET_MUX_DELAY-02FF W       # Return Command C1-30
+CCMD R-C1_AMP_SQ_OFFSET_MUX_DELAY-FEFF W       # Return Command C1-30
 WCMD R-Status-XXXX R
 COMM
 COMM ==============================================================================================
@@ -593,7 +593,7 @@ COMM ===========================================================================
 COMM   Check C2_AMP_SQ_OFFSET_MUX_DELAY content
 COMM ----------------------------------------------------------------------------------------------
 CCMD R-C2_AMP_SQ_OFFSET_MUX_DELAY-0015 W       # Return Command C2-26
-WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-02FF R       # Command C2-29
+WCMD W-C2_AMP_SQ_OFFSET_MUX_DELAY-FEFF R       # Command C2-29
 COMM
 COMM ==============================================================================================
 COMM   Check no error
@@ -616,7 +616,7 @@ COMM
 COMM ==============================================================================================
 COMM   Check C2_AMP_SQ_OFFSET_MUX_DELAY content
 COMM ----------------------------------------------------------------------------------------------
-CCMD R-C2_AMP_SQ_OFFSET_MUX_DELAY-02FF W       # Return Command C2-30
+CCMD R-C2_AMP_SQ_OFFSET_MUX_DELAY-FEFF W       # Return Command C2-30
 WCMD R-Status-XXXX R
 COMM
 COMM ==============================================================================================
@@ -797,7 +797,7 @@ COMM ===========================================================================
 COMM   Check C3_AMP_SQ_OFFSET_MUX_DELAY content
 COMM ----------------------------------------------------------------------------------------------
 CCMD R-C3_AMP_SQ_OFFSET_MUX_DELAY-0015 W       # Return Command C3-26
-WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-02FF R       # Command C3-29
+WCMD W-C3_AMP_SQ_OFFSET_MUX_DELAY-FEFF R       # Command C3-29
 COMM
 COMM ==============================================================================================
 COMM   Check no error
@@ -820,7 +820,7 @@ COMM
 COMM ==============================================================================================
 COMM   Check C3_AMP_SQ_OFFSET_MUX_DELAY content
 COMM ----------------------------------------------------------------------------------------------
-CCMD R-C3_AMP_SQ_OFFSET_MUX_DELAY-02FF W       # Return Command C3-30
+CCMD R-C3_AMP_SQ_OFFSET_MUX_DELAY-FEFF W       # Return Command C3-30
 WCMD R-Status-XXXX R
 COMM
 COMM ==============================================================================================

@@ -121,16 +121,16 @@ begin
    cond_saofc     <= c_HGH_LEV when i_ep_cmd_rx_wd_data(i_ep_cmd_rx_wd_data'high downto c_DFLD_SAOFC_COL_S) /= c_ZERO(i_ep_cmd_rx_wd_data'high downto c_DFLD_SAOFC_COL_S) else
                      c_LOW_LEV;
 
-   cond_smfbd     <= c_HGH_LEV when i_ep_cmd_rx_wd_data(i_ep_cmd_rx_wd_data'high downto c_DFLD_SMFBD_COL_S) /= c_ZERO(i_ep_cmd_rx_wd_data'high downto c_DFLD_SMFBD_COL_S) else
-                     c_HGH_LEV when   signed(i_ep_cmd_rx_wd_data(c_DFLD_SMFBD_COL_S-1 downto 0)) > to_signed(  c_DFLD_SMFBD_MAX, c_DFLD_SMFBD_COL_S) else
-                     c_LOW_LEV;
+   cond_smfbd     <= c_LOW_LEV when i_ep_cmd_rx_wd_data(i_ep_cmd_rx_wd_data'high downto c_DFLD_SMFBD_COL_S-1) = c_MINUSONE(i_ep_cmd_rx_wd_data'high downto c_DFLD_SMFBD_COL_S-1) else
+                     c_LOW_LEV when unsigned(i_ep_cmd_rx_wd_data) <= to_unsigned(  c_DFLD_SMFBD_MAX, i_ep_cmd_rx_wd_data'length) else
+                     c_HGH_LEV;
 
    cond_saodd     <= c_HGH_LEV when i_ep_cmd_rx_wd_data(i_ep_cmd_rx_wd_data'high downto c_DFLD_SAODD_COL_S) /= c_ZERO(i_ep_cmd_rx_wd_data'high downto c_DFLD_SAODD_COL_S) else
                      c_LOW_LEV;
 
-   cond_saomd     <= c_HGH_LEV when i_ep_cmd_rx_wd_data(i_ep_cmd_rx_wd_data'high downto c_DFLD_SAOMD_COL_S) /= c_ZERO(i_ep_cmd_rx_wd_data'high downto c_DFLD_SAOMD_COL_S) else
-                     c_HGH_LEV when   signed(i_ep_cmd_rx_wd_data(c_DFLD_SAOMD_COL_S-1 downto 0)) > to_signed(  c_DFLD_SAOMD_MAX, c_DFLD_SAOMD_COL_S) else
-                     c_LOW_LEV;
+   cond_saomd     <= c_LOW_LEV when i_ep_cmd_rx_wd_data(i_ep_cmd_rx_wd_data'high downto c_DFLD_SAOMD_COL_S-1) = c_MINUSONE(i_ep_cmd_rx_wd_data'high downto c_DFLD_SAOMD_COL_S-1) else
+                     c_LOW_LEV when unsigned(i_ep_cmd_rx_wd_data) <= to_unsigned(  c_DFLD_SAOMD_MAX, i_ep_cmd_rx_wd_data'length) else
+                     c_HGH_LEV;
 
    cond_smpdl     <= c_HGH_LEV when i_ep_cmd_rx_wd_data(i_ep_cmd_rx_wd_data'high downto c_DFLD_SMPDL_COL_S) /= c_ZERO(i_ep_cmd_rx_wd_data'high downto c_DFLD_SMPDL_COL_S) else
                      c_HGH_LEV when unsigned(i_ep_cmd_rx_wd_data(c_DFLD_SMPDL_COL_S-1 downto 0)) > to_unsigned(c_DFLD_SMPDL_MAX, c_DFLD_SMPDL_COL_S) else
