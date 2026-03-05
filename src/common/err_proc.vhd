@@ -65,6 +65,7 @@ entity err_proc is port (
 
          o_adc_smp_ave_frst   : out    std_logic                                                            ; --! ADC sample average first pixel
          o_adc_smp_ave_cs     : out    std_logic                                                            ; --! ADC sample average chip select ('0' = Inactive, '1' = Active)
+         o_sqa_close_sync_ena : out    std_logic                                                            ; --! SQUID AMP Close mode synchronized on first pixel enable ('0' = No, '1' = Yes)
          o_smfbm_add          : out    std_logic_vector( c_MEM_SMFBM_ADD_S-1 downto 0)                      ; --! SQUID MUX feedback mode: address, memory output
          o_smfbm_cs           : out    std_logic                                                            ; --! SQUID MUX feedback mode: chip select, memory output ('0' = Inactive, '1' = Active)
          o_mem_rl_rd_add      : out    std_logic_vector(   c_MUX_FACT_S-1 downto 0)                         ; --! Relock memories read address
@@ -98,8 +99,6 @@ signal   pixel_pos            : std_logic_vector(            c_PIXEL_POS_S-1 dow
 signal   pixel_pos_r          : t_slv_arr(0 to c_DATA_ERR_RDY_R_NB-1)(c_PIXEL_POS_S-1 downto 0)             ; --! Pixel position register
 
 signal   rl_ena_rdy           : std_logic                                                                   ; --! Relock enable ready
-
-signal   adc_smp_ave_r        : t_slv_arr(0 to c_ADC_SMP_AVE_R_NB-1)(c_ADC_SMP_AVE_S-1 downto 0)            ; --! ADC sample average register
 
 signal   dfb_mem_acc_add      : std_logic_vector(c_PIXEL_POS_S-1 downto 0)                                  ; --! dFB(p,n): Memory accumulator address Data to accumulate
 signal   dfb_mem_eln_add      : std_logic_vector(c_PIXEL_POS_S-1 downto 0)                                  ; --! dFB(p,n): Memory accumulator address Data element n
@@ -146,14 +145,12 @@ begin
          sqm_data_err_last_r  <= (others => c_LOW_LEV);
          sqm_data_err_rdy_r   <= (others => c_LOW_LEV);
          pixel_pos_r          <= (others => c_MINUSONE(pixel_pos_r(pixel_pos_r'low)'range));
-         adc_smp_ave_r        <= (others => c_ZERO(adc_smp_ave_r(adc_smp_ave_r'low)'range));
 
       elsif rising_edge(i_clk) then
          sqm_data_err_frst_r  <= sqm_data_err_frst_r(sqm_data_err_frst_r'high-1 downto 0) & i_sqm_data_err_frst;
          sqm_data_err_last_r  <= sqm_data_err_last_r(sqm_data_err_last_r'high-1 downto 0) & i_sqm_data_err_last;
          sqm_data_err_rdy_r   <= sqm_data_err_rdy_r( sqm_data_err_rdy_r'high-1  downto 0) & i_sqm_data_err_rdy;
          pixel_pos_r          <= pixel_pos & pixel_pos_r(0 to pixel_pos_r'high-1);
-         adc_smp_ave_r        <= i_adc_smp_ave & adc_smp_ave_r(0 to adc_smp_ave_r'high-1);
 
       end if;
 
@@ -206,8 +203,9 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    --!   External element synchronization
    -- ------------------------------------------------------------------------------------------------------
-   o_adc_smp_ave_frst   <= sqm_data_err_frst_r(c_ADC_SMP_AVE_NPER-1);
-   o_adc_smp_ave_cs     <= sqm_data_err_rdy_r( c_ADC_SMP_AVE_NPER-1);
+   o_adc_smp_ave_frst   <= sqm_data_err_frst_r(c_ADC_SMP_AVE_NPER);
+   o_adc_smp_ave_cs     <= sqm_data_err_rdy_r( c_ADC_SMP_AVE_NPER);
+   o_sqa_close_sync_ena <= sqm_data_err_frst_r(c_KNORM_P_SRT) and sqm_data_err_rdy_r(c_KNORM_P_SRT);
    o_smfbm_add          <= pixel_pos_r(        c_INI_DFB_PN_SRT);
    o_smfbm_cs           <= sqm_data_err_rdy_r( c_INI_DFB_PN_SRT);
    o_mem_rl_rd_add      <= pixel_pos_r(c_MEM_RL_RD_ADD_SRT);
@@ -224,7 +222,7 @@ begin
    )  port map (
          i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk                => i_clk                , -- in     std_logic                                 ; --! Clock
-         i_data_fst           => adc_smp_ave_r(adc_smp_ave_r'high), -- in  slv g_DATA_S                     ; --! Data first (signed)
+         i_data_fst           => i_adc_smp_ave        , -- in     slv g_DATA_S                              ; --! Data first (signed)
          i_data_sec           => i_minus_elp_p_aln    , -- in     std_logic_vector(g_DATA_S-1 downto 0)     ; --! Data second (signed)
          o_data_add_sat       => e_pn_minus_elp_p       -- out    std_logic_vector(g_DATA_S-1 downto 0)       --! Data added with saturation (signed)
    );

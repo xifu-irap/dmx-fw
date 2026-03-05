@@ -37,6 +37,7 @@ use     work.pkg_project.all;
 entity fir_deci is generic (
          g_FIR_DCI_VAL        : integer                                                                     ; --! Filter FIR decimation value
          g_FIR_TAB_NW         : integer                                                                     ; --! Filter FIR table number word
+         g_FIR_START_NB_CYC   : integer                                                                     ; --! Filter FIR number of system clock before calculation
          g_FIR_COEF_S         : integer                                                                     ; --! Filter FIR coefficient bus size
          g_FIR_COEF           : t_slv_arr(0 to g_FIR_TAB_NW-1)(g_FIR_COEF_S-1 downto 0)                     ; --! Filter FIR coefficients
          g_FIR_COEF_SUM_S     : integer                                                                     ; --! Filter FIR coefficient sum bus size
@@ -48,6 +49,8 @@ entity fir_deci is generic (
 
          i_fir_init_val       : in     std_logic_vector(g_FIR_DATA_S-1 downto 0)                            ; --! Filter FIR data initialization value
          i_fir_init_ena       : in     std_logic                                                            ; --! Filter FIR data initialization enable ('0' = No, '1' = Yes)
+         i_fir_init_ena_fe    : in     std_logic                                                            ; --! Filter FIR data initialization enable falling edge
+         i_fir_start_cond     : in     std_logic                                                            ; --! Filter FIR start calculation condition ('0' = Inactive, '1' during one clock cycle = Active)
 
          i_data               : in     std_logic_vector(g_FIR_DATA_S-1 downto 0)                            ; --! Data (signed)
          i_data_rdy           : in     std_logic                                                            ; --! Data ready ('0' = Inactive, '1' = Active)
@@ -58,23 +61,11 @@ entity fir_deci is generic (
 end entity fir_deci;
 
 architecture RTL of fir_deci is
-constant c_DATA_IN_RDY_POS    : integer := 0                                                                ; --! Ready position: Data
-constant c_DATA_CNT_RDY_POS   : integer := c_DATA_IN_RDY_POS + 1                                            ; --! Ready position: Data counter
-constant c_FIR_DT_CNT_RDY_POS : integer := c_DATA_IN_RDY_POS + 1                                            ; --! Ready position: Filter FIR data decimation word counter
-constant c_FIR_PRD_RDY_POS    : integer := c_FIR_DT_CNT_RDY_POS + c_MEM_RD_DATA_NPER + c_DSP_NPER + 1       ; --! Ready position: Filter FIR product result
-constant c_FIR_A_MSB_RDY_POS  : integer := c_FIR_PRD_RDY_POS - c_FIR_DT_CNT_RDY_POS + 2                     ; --! Ready position: Filter FIR address counter MSB sync. with FIR sum result
-constant c_FIR_SUM_RDY_POS    : integer := c_FIR_PRD_RDY_POS + 1                                            ; --! Ready position: Filter FIR sum result
-
-constant c_TOT_RDY_POS        : integer := c_FIR_SUM_RDY_POS                                                ; --! Ready position: Total
-
-constant c_FIR_SYNC_COEF_DATA : integer := 3                                                                ; --! Filter FIR synchronization between FIR coefficient and data
+constant c_FIR_SYNC_COEF_DATA : integer := c_MEM_RD_DATA_NPER + 1                                           ; --! Filter FIR synchronization between FIR coefficient and data
 constant c_FIR_ADD_INIT       : integer := g_FIR_TAB_NW - g_FIR_DCI_VAL                                     ; --! Filter FIR data address initialization value
 
-constant c_FIR_W_CNT_MAX_VAL  : integer:= g_FIR_DCI_VAL - 2                                                 ; --! Filter FIR data decimation word counter: maximal value
-constant c_FIR_W_CNT_S        : integer:= log2_ceil(c_FIR_W_CNT_MAX_VAL + 1) + 1                            ; --! Filter FIR data decimation word counter: size bus (signed)
-
-constant c_FIR_A_CNT_MAX_VAL  : integer:= g_FIR_TAB_NW - 2                                                  ; --! Filter FIR address counter: maximal value
-constant c_FIR_A_CNT_S        : integer:= log2_ceil(c_FIR_A_CNT_MAX_VAL + 1) + 1                            ; --! Filter FIR address counter: size bus (signed)
+constant c_FIR_ST_CNT_MAX_VAL : integer:= g_FIR_START_NB_CYC - 2                                            ; --! Filter FIR calculation start counter: maximal value
+constant c_FIR_ST_CNT_S       : integer:= log2_ceil(c_FIR_ST_CNT_MAX_VAL + 1) + 1                           ; --! Filter FIR calculation start counter: size bus (signed)
 
 constant c_FIR_ADD_S          : integer := log2_ceil(g_FIR_TAB_NW)                                          ; --! Filter FIR address bus size
 constant c_FIR_PROD_S         : integer := g_FIR_DATA_S + g_FIR_COEF_S - 1                                  ; --! Filter FIR product result bus size
@@ -88,20 +79,17 @@ signal   mem_fir_data_rd      : t_mem(
                                 add(    c_FIR_ADD_S-1 downto 0),
                                 data_w(g_FIR_DATA_S-1 downto 0))                                            ; --! Filter FIR data read: memory inputs
 
-signal   fir_init_ena_r       : std_logic                                                                   ; --! Filter FIR initialization enable register
-signal   fir_init_ena_fe      : std_logic                                                                   ; --! Filter FIR initialization enable falling edge
-
-signal   data_rdy_r           : std_logic_vector(c_TOT_RDY_POS  downto 0)                                   ; --! Data ready register
+signal   data_rdy_r           : std_logic                                                                   ; --! Data ready register
 signal   data_mux_init        : std_logic_vector(g_FIR_DATA_S-1 downto 0)                                   ; --! Data multiplexed with initialization value
 signal   cnt_data             : std_logic_vector(c_FIR_ADD_S -1 downto 0)                                   ; --! Data counter
 
-signal   cnt_fir_data_wd      : std_logic_vector(c_FIR_W_CNT_S-1 downto 0)                                  ; --! Filter FIR data decimation word counter
-signal   cnt_fir_data_wd_lst  : std_logic                                                                   ; --! Filter FIR data decimation word counter MSB last
-signal   cnt_fir_add          : std_logic_vector(c_FIR_A_CNT_S-1 downto 0)                                  ; --! Filter FIR address counter
-signal   cnt_fir_add_msb_r    : std_logic_vector(c_FIR_A_MSB_RDY_POS-1 downto 0)                            ; --! Filter FIR address counter MSB register
-signal   cnt_fir_add_msb_fe   : std_logic                                                                   ; --! Filter FIR address counter MSB falling edge
-signal   fir_data_add_init    : std_logic_vector(c_FIR_ADD_S -1 downto 0)                                   ; --! Filter FIR data address initialization
+signal   fir_cnt_st           : std_logic_vector(c_FIR_ST_CNT_S-1 downto 0)                                 ; --! Filter FIR calculation start counter
+signal   fir_cnt_st_msb_r     : std_logic_vector(c_SQA_FIR_SUM_NPER-1 downto 0)                             ; --! Filter FIR calculation start counter MSB register
+signal   fir_cnt_dta          : std_logic_vector(c_FIR_ADD_S    downto 0)                                   ; --! Filter FIR data counter
+signal   fir_cnt_dta_msb_r    : std_logic                                                                   ; --! Filter FIR data counter MSB register
+signal   fir_cnt_dta_msb_re_r : std_logic_vector(c_SQA_FIR_SUM_NPER   downto 0)                             ; --! Filter FIR data counter MSB rising edge register
 signal   fir_add              : std_logic_vector(c_FIR_ADD_S -1 downto 0)                                   ; --! Filter FIR address
+signal   fir_data_add_init    : std_logic_vector(c_FIR_ADD_S -1 downto 0)                                   ; --! Filter FIR data address initialization
 signal   fir_add_r            : t_slv_arr(0 to c_FIR_SYNC_COEF_DATA-1)(c_FIR_ADD_S-1 downto 0)              ; --! Filter FIR address register
 signal   fir_data_add         : std_logic_vector(c_FIR_ADD_S -1 downto 0)                                   ; --! Filter FIR data address
 signal   fir_data             : std_logic_vector(g_FIR_DATA_S-1 downto 0)                                   ; --! Filter FIR data
@@ -109,6 +97,7 @@ signal   fir_data_mux         : std_logic_vector(g_FIR_DATA_S-1 downto 0)       
 signal   fir_coef             : std_logic_vector(g_FIR_COEF_S-1 downto 0)                                   ; --! Filter FIR coefficient
 signal   fir_prod             : std_logic_vector(c_FIR_PROD_S-1 downto 0)                                   ; --! Filter FIR product result
 signal   fir_sum              : std_logic_vector(c_FIR_SUM_S -1 downto 0)                                   ; --! Filter FIR sum result
+signal   fir_sum_last         : std_logic_vector(c_FIR_SUM_S -1 downto 0)                                   ; --! Filter FIR sum last result
 signal   fir_sum_stall_msb    : std_logic_vector(g_FIR_RES_S    downto 0)                                   ; --! Filter FIR sum result stall on msb
 
 begin
@@ -120,32 +109,14 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         data_rdy_r  <= (others => c_LOW_LEV);
+         data_rdy_r  <= c_LOW_LEV;
 
       elsif rising_edge(i_clk) then
-         data_rdy_r  <= data_rdy_r(data_rdy_r'high-1 downto 0) & i_data_rdy;
+         data_rdy_r  <= i_data_rdy;
 
       end if;
 
    end process P_sig_r;
-
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR initialization enable synchonized on data ready
-   -- ------------------------------------------------------------------------------------------------------
-   P_fir_init_ena_sync : process (i_rst, i_clk)
-   begin
-
-      if i_rst = c_RST_LEV_ACT then
-         fir_init_ena_r    <= c_HGH_LEV;
-         fir_init_ena_fe   <= c_LOW_LEV;
-
-      elsif rising_edge(i_clk) then
-         fir_init_ena_r    <= i_fir_init_ena;
-         fir_init_ena_fe   <= not(i_fir_init_ena) and fir_init_ena_r;
-
-      end if;
-
-   end process P_fir_init_ena_sync;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Data counter
@@ -160,10 +131,10 @@ begin
          if i_fir_init_ena = c_HGH_LEV then
             cnt_data <= std_logic_vector(unsigned(cnt_data) + 1);
 
-         elsif fir_init_ena_fe = c_HGH_LEV then
-            cnt_data <= std_logic_vector(to_unsigned(c_FIR_ADD_INIT - 1, cnt_data'length));
+         elsif i_fir_init_ena_fe = c_HGH_LEV then
+            cnt_data <= std_logic_vector(to_unsigned(c_FIR_ADD_INIT, cnt_data'length));
 
-         elsif data_rdy_r(c_DATA_IN_RDY_POS) = c_HGH_LEV then
+         elsif data_rdy_r = c_HGH_LEV then
             cnt_data <= std_logic_vector(unsigned(cnt_data) + 1);
 
          end if;
@@ -185,7 +156,7 @@ begin
          if i_fir_init_ena = c_HGH_LEV then
             data_mux_init <= i_fir_init_val;
 
-         elsif data_rdy_r(c_DATA_IN_RDY_POS) = c_HGH_LEV then
+         elsif i_data_rdy = c_HGH_LEV then
             data_mux_init <= i_data;
 
          end if;
@@ -228,7 +199,7 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    mem_fir_data_wr.add      <= cnt_data;
    mem_fir_data_wr.we       <= c_HGH_LEV;
-   mem_fir_data_wr.cs       <= i_fir_init_ena or data_rdy_r(c_DATA_CNT_RDY_POS);
+   mem_fir_data_wr.cs       <= i_fir_init_ena or data_rdy_r;
    mem_fir_data_wr.data_w   <= data_mux_init;
    mem_fir_data_wr.pp       <= c_LOW_LEV;
 
@@ -261,90 +232,56 @@ begin
    end process P_fir_data_mux;
 
    -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR data decimation word counter
+   --!   Filter FIR calculation start counter
    -- ------------------------------------------------------------------------------------------------------
-   P_cnt_fir_data_wd : process (i_rst, i_clk)
+   P_fir_cnt_st : process (i_rst, i_clk)
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         cnt_fir_data_wd     <= std_logic_vector(to_signed(c_FIR_W_CNT_MAX_VAL, cnt_fir_data_wd'length));
-         cnt_fir_data_wd_lst <= c_LOW_LEV;
+         fir_cnt_st        <= c_MINUSONE(fir_cnt_st'range);
+         fir_cnt_st_msb_r  <= (others => c_HGH_LEV);
 
       elsif rising_edge(i_clk) then
-         if i_fir_init_ena = c_HGH_LEV then
-            cnt_fir_data_wd <= std_logic_vector(to_signed(c_FIR_W_CNT_MAX_VAL, cnt_fir_data_wd'length));
+         if i_fir_start_cond = c_HGH_LEV then
+            fir_cnt_st <= std_logic_vector(to_unsigned(c_FIR_ST_CNT_MAX_VAL, fir_cnt_st'length));
 
-         elsif data_rdy_r(c_DATA_IN_RDY_POS) = c_HGH_LEV then
-            if cnt_fir_data_wd(cnt_fir_data_wd'high) = c_HGH_LEV then
-               cnt_fir_data_wd <= std_logic_vector(to_signed(c_FIR_W_CNT_MAX_VAL, cnt_fir_data_wd'length));
-
-            else
-               cnt_fir_data_wd <= std_logic_vector(signed(cnt_fir_data_wd) - 1);
-
-            end if;
+         elsif fir_cnt_st(fir_cnt_st'high) = c_LOW_LEV then
+            fir_cnt_st <= std_logic_vector(signed(fir_cnt_st) - 1);
 
          end if;
 
-         if data_rdy_r(c_DATA_IN_RDY_POS) = c_HGH_LEV then
-            cnt_fir_data_wd_lst <= cnt_fir_data_wd(cnt_fir_data_wd'high);
-
-         end if;
+         fir_cnt_st_msb_r <= fir_cnt_st_msb_r(fir_cnt_st_msb_r'high-1 downto 0) & fir_cnt_st(fir_cnt_st'high);
 
       end if;
 
-   end process P_cnt_fir_data_wd;
+   end process P_fir_cnt_st;
 
    -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR data address initialization
+   --!   Filter FIR data counter
    -- ------------------------------------------------------------------------------------------------------
-   P_fir_data_add_init : process (i_rst, i_clk)
+   P_fir_cnt_dta : process (i_rst, i_clk)
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         fir_data_add_init <= std_logic_vector(to_unsigned(c_FIR_ADD_INIT, fir_data_add_init'length));
+         fir_cnt_dta          <= c_ZERO(fir_cnt_dta'range);
+         fir_cnt_dta_msb_r    <= c_LOW_LEV;
+         fir_cnt_dta_msb_re_r <= (others => c_LOW_LEV);
 
       elsif rising_edge(i_clk) then
-         if i_fir_init_ena = c_HGH_LEV then
-            fir_data_add_init <= std_logic_vector(to_unsigned(c_FIR_ADD_INIT, fir_data_add_init'length));
+         if fir_cnt_st(fir_cnt_st'high) = c_LOW_LEV then
+            fir_cnt_dta <= c_ZERO(fir_cnt_dta'range);
 
-         elsif (cnt_fir_data_wd(cnt_fir_data_wd'high) and data_rdy_r(c_FIR_DT_CNT_RDY_POS)) = c_HGH_LEV then
-            fir_data_add_init <= std_logic_vector(unsigned(fir_data_add_init) + to_unsigned(g_FIR_DCI_VAL, fir_data_add_init'length));
+         elsif fir_cnt_dta(fir_cnt_dta'high) = c_LOW_LEV then
+            fir_cnt_dta <= std_logic_vector(unsigned(fir_cnt_dta) + 1);
 
          end if;
 
-      end if;
-
-   end process P_fir_data_add_init;
-
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR address counter
-   -- ------------------------------------------------------------------------------------------------------
-   P_cnt_fir_add : process (i_rst, i_clk)
-   begin
-
-      if i_rst = c_RST_LEV_ACT then
-         cnt_fir_add         <= c_MINUSONE(cnt_fir_add'range);
-         cnt_fir_add_msb_r   <= (others => c_HGH_LEV);
-         cnt_fir_add_msb_fe  <= c_LOW_LEV;
-
-      elsif rising_edge(i_clk) then
-         if i_fir_init_ena = c_HGH_LEV then
-            cnt_fir_add <= c_MINUSONE(cnt_fir_add'range);
-
-         elsif (cnt_fir_data_wd(cnt_fir_data_wd'high) and data_rdy_r(c_FIR_DT_CNT_RDY_POS)) = c_HGH_LEV then
-            cnt_fir_add <= std_logic_vector(to_unsigned(c_FIR_A_CNT_MAX_VAL, cnt_fir_add'length));
-
-         elsif cnt_fir_add(cnt_fir_add'high) = c_LOW_LEV then
-            cnt_fir_add <= std_logic_vector(signed(cnt_fir_add) - 1);
-
-         end if;
-
-         cnt_fir_add_msb_r   <= cnt_fir_add_msb_r(cnt_fir_add_msb_r'high-1 downto 0) & cnt_fir_add(cnt_fir_add'high);
-         cnt_fir_add_msb_fe  <= cnt_fir_add_msb_r(cnt_fir_add_msb_r'low) and not(cnt_fir_add(cnt_fir_add'high));
+         fir_cnt_dta_msb_r    <= fir_cnt_dta(fir_cnt_dta'high);
+         fir_cnt_dta_msb_re_r <= fir_cnt_dta_msb_re_r(fir_cnt_dta_msb_re_r'high-1 downto 0) & (not(fir_cnt_dta_msb_r) and (fir_cnt_dta(fir_cnt_dta'high)));
 
       end if;
 
-   end process P_cnt_fir_add;
+   end process P_fir_cnt_dta;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Filter FIR address
@@ -353,18 +290,40 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         fir_add       <= c_ZERO(fir_add'range);
-         fir_data_add  <= c_ZERO(fir_data_add'range);
-         fir_add_r     <= (others => c_ZERO(fir_add_r(fir_add_r'low)'range));
+         fir_data_add      <= c_ZERO(fir_data_add'range);
+         fir_add_r         <= (others => c_ZERO(fir_add_r(fir_add_r'low)'range));
 
       elsif rising_edge(i_clk) then
-         fir_add       <= std_logic_vector(signed(to_unsigned(c_FIR_A_CNT_MAX_VAL, fir_add'length)) - signed(cnt_fir_add(fir_add'range)));
-         fir_data_add  <= std_logic_vector(unsigned(fir_add) + unsigned(fir_data_add_init));
-         fir_add_r     <= fir_add & fir_add_r(0 to fir_add_r'high-1);
+         fir_data_add      <= std_logic_vector(unsigned(fir_add) + unsigned(fir_data_add_init));
+         fir_add_r         <= fir_add & fir_add_r(0 to fir_add_r'high-1);
 
       end if;
 
    end process P_fir_add;
+
+   fir_add <= fir_cnt_dta(fir_add'range);
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Filter FIR data address initialization
+   -- ------------------------------------------------------------------------------------------------------
+   P_fir_data_add_init : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         fir_data_add_init <= c_ZERO(fir_data_add_init'range);
+
+      elsif rising_edge(i_clk) then
+         if i_fir_init_ena = c_HGH_LEV then
+            fir_data_add_init <= c_ZERO(fir_data_add_init'range);
+
+         elsif fir_cnt_dta_msb_re_r(fir_cnt_dta_msb_re_r'low) = c_HGH_LEV then
+            fir_data_add_init <= std_logic_vector(unsigned(fir_data_add_init) + to_unsigned(g_FIR_DCI_VAL, fir_data_add_init'length));
+
+         end if;
+
+      end if;
+
+   end process P_fir_data_add_init;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Dual port memory for Filter FIR coefficients (Read only)
@@ -417,19 +376,23 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         fir_sum <= c_ZERO(fir_sum'range);
+         fir_sum        <= c_ZERO(fir_sum'range);
+         fir_sum_last   <= c_ZERO(fir_sum_last'range);
 
       elsif rising_edge(i_clk) then
-         if cnt_fir_add_msb_fe = c_HGH_LEV then
+         if fir_cnt_st_msb_r(fir_cnt_st_msb_r'high) = c_LOW_LEV then
             fir_sum <= c_ZERO(fir_sum'range);
 
-         elsif cnt_fir_add_msb_r(cnt_fir_add_msb_r'high) = c_LOW_LEV then
-            fir_sum <= std_logic_vector(resize(signed(fir_prod), fir_sum'length) + signed(fir_sum));
-
-         elsif (cnt_fir_data_wd_lst and data_rdy_r(c_FIR_PRD_RDY_POS)) = c_HGH_LEV then
+         else
             fir_sum <= std_logic_vector(resize(signed(fir_prod), fir_sum'length) + signed(fir_sum));
 
          end if;
+
+         if fir_cnt_dta_msb_re_r(fir_cnt_dta_msb_re_r'high-1) = c_HGH_LEV then
+            fir_sum_last <= fir_sum;
+
+         end if;
+
 
       end if;
 
@@ -439,7 +402,7 @@ begin
          g_DATA_S             => c_FIR_SUM_S          , -- integer                                          ; --! Data input bus size
          g_DATA_STALL_MSB_S   => g_FIR_RES_S + 1        -- integer                                            --! Data stalled on Mean Significant Bit bus size
    ) port map (
-         i_data               => fir_sum              , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
+         i_data               => fir_sum_last         , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
          o_data_stall_msb     => fir_sum_stall_msb    , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
          o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
    );
@@ -467,7 +430,7 @@ begin
          o_fir_res_rdy <= c_LOW_LEV;
 
       elsif rising_edge(i_clk) then
-         o_fir_res_rdy <= cnt_fir_data_wd_lst and data_rdy_r(data_rdy_r'high);
+         o_fir_res_rdy <= fir_cnt_dta_msb_re_r(fir_cnt_dta_msb_re_r'high);
 
       end if;
 

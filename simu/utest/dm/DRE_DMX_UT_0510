@@ -1,0 +1,212 @@
+COMM **********************************************************************************************
+COMM   Test: EP command, CY_AMP_SQ_LOCKPOINT_V register
+COMM **********************************************************************************************
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset activated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 0
+WAIT 80 ns
+COMM
+COMM ==============================================================================================
+COMM   Asynchronous reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WDIS arst_n 1
+COMM
+COMM ==============================================================================================
+COMM   Wait internal reset deactivated
+COMM ----------------------------------------------------------------------------------------------
+WUDI rst 0
+COMM
+COMM ==============================================================================================
+COMM   Start C0_AMP_SQ_LOCKPOINT_V register test
+COMM ----------------------------------------------------------------------------------------------
+WCMD R-C0_AMP_SQ_LOCKPOINT_V-XXXX W         # Command C0-0
+WCMD W-C0_AMP_SQ_LOCKPOINT_V-5555 W         # Command C0-1
+WCMD R-C0_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C0-2
+COMM
+COMM ==============================================================================================
+COMM   Check C0_AMP_SQ_LOCKPOINT_V content at start
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C0_AMP_SQ_LOCKPOINT_V-0000 W         # Return Command C0-0
+WCMD W-C0_AMP_SQ_LOCKPOINT_V-AAAA R         # Command C0-3
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C0-1
+WCMD R-C0_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C0-4
+COMM
+COMM ==============================================================================================
+COMM   Check C0_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C0_AMP_SQ_LOCKPOINT_V-5555 W         # Return Command C0-2
+WCMD W-C0_AMP_SQ_LOCKPOINT_V-0000 R         # Command C0-5
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C0-3
+WCMD R-C0_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C0-6
+COMM
+COMM ==============================================================================================
+COMM   Check C0_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C0_AMP_SQ_LOCKPOINT_V-AAAA W         # Return Command C0-4
+WCMD R-Status-XXXX R
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C0-5
+WCMD R-Status-XXXX R
+COMM
+COMM ==============================================================================================
+COMM   Check C0_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C0_AMP_SQ_LOCKPOINT_V-0000 W         # Return Command C0-6
+COMM
+COMM ==============================================================================================
+COMM   Start C1_AMP_SQ_LOCKPOINT_V register test
+COMM ----------------------------------------------------------------------------------------------
+WCMD R-C1_AMP_SQ_LOCKPOINT_V-XXXX W         # Command C1-0
+WCMD W-C1_AMP_SQ_LOCKPOINT_V-5555 W         # Command C1-1
+WCMD R-C1_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C1-2
+COMM
+COMM ==============================================================================================
+COMM   Check C1_AMP_SQ_LOCKPOINT_V content at start
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C1_AMP_SQ_LOCKPOINT_V-0000 W         # Return Command C1-0
+WCMD W-C1_AMP_SQ_LOCKPOINT_V-AAAA R         # Command C1-3
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C1-1
+WCMD R-C1_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C1-4
+COMM
+COMM ==============================================================================================
+COMM   Check C1_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C1_AMP_SQ_LOCKPOINT_V-5555 W         # Return Command C1-2
+WCMD W-C1_AMP_SQ_LOCKPOINT_V-0000 R         # Command C1-5
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C1-3
+WCMD R-C1_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C1-6
+COMM
+COMM ==============================================================================================
+COMM   Check C1_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C1_AMP_SQ_LOCKPOINT_V-AAAA W         # Return Command C1-4
+WCMD R-Status-XXXX R
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C1-5
+WCMD R-Status-XXXX R
+COMM
+COMM ==============================================================================================
+COMM   Check C1_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C1_AMP_SQ_LOCKPOINT_V-0000 W         # Return Command C1-6
+COMM
+COMM
+COMM ==============================================================================================
+COMM   Start C2_AMP_SQ_LOCKPOINT_V register test
+COMM ----------------------------------------------------------------------------------------------
+WCMD R-C2_AMP_SQ_LOCKPOINT_V-XXXX W         # Command C2-0
+WCMD W-C2_AMP_SQ_LOCKPOINT_V-5555 W         # Command C2-1
+WCMD R-C2_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C2-2
+COMM
+COMM ==============================================================================================
+COMM   Check C2_AMP_SQ_LOCKPOINT_V content at start
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C2_AMP_SQ_LOCKPOINT_V-0000 W         # Return Command C2-0
+WCMD W-C2_AMP_SQ_LOCKPOINT_V-AAAA R         # Command C2-3
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C2-1
+WCMD R-C2_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C2-4
+COMM
+COMM ==============================================================================================
+COMM   Check C2_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C2_AMP_SQ_LOCKPOINT_V-5555 W         # Return Command C2-2
+WCMD W-C2_AMP_SQ_LOCKPOINT_V-0000 R         # Command C2-5
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C2-3
+WCMD R-C2_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C2-6
+COMM
+COMM ==============================================================================================
+COMM   Check C2_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C2_AMP_SQ_LOCKPOINT_V-AAAA W         # Return Command C2-4
+WCMD R-Status-XXXX R
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C2-5
+WCMD R-Status-XXXX R
+COMM
+COMM ==============================================================================================
+COMM   Check C2_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C2_AMP_SQ_LOCKPOINT_V-0000 W         # Return Command C2-6
+COMM
+COMM ==============================================================================================
+COMM   Start C3_AMP_SQ_LOCKPOINT_V register test
+COMM ----------------------------------------------------------------------------------------------
+WCMD R-C3_AMP_SQ_LOCKPOINT_V-XXXX W         # Command C3-0
+WCMD W-C3_AMP_SQ_LOCKPOINT_V-5555 W         # Command C3-1
+WCMD R-C3_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C3-2
+COMM
+COMM ==============================================================================================
+COMM   Check C3_AMP_SQ_LOCKPOINT_V content at start
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C3_AMP_SQ_LOCKPOINT_V-0000 W         # Return Command C3-0
+WCMD W-C3_AMP_SQ_LOCKPOINT_V-AAAA R         # Command C3-3
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C3-1
+WCMD R-C3_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C3-4
+COMM
+COMM ==============================================================================================
+COMM   Check C3_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C3_AMP_SQ_LOCKPOINT_V-5555 W         # Return Command C3-2
+WCMD W-C3_AMP_SQ_LOCKPOINT_V-0000 R         # Command C3-5
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C3-3
+WCMD R-C3_AMP_SQ_LOCKPOINT_V-XXXX R         # Command C3-6
+COMM
+COMM ==============================================================================================
+COMM   Check C3_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C3_AMP_SQ_LOCKPOINT_V-AAAA W         # Return Command C3-4
+WCMD R-Status-XXXX R
+COMM
+COMM ==============================================================================================
+COMM   Check no error
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-Status-FFFF W                        # Return Command C3-5
+WCMD R-Status-XXXX R
+COMM
+COMM ==============================================================================================
+COMM   Check C3_AMP_SQ_LOCKPOINT_V content
+COMM ----------------------------------------------------------------------------------------------
+CCMD R-C3_AMP_SQ_LOCKPOINT_V-0000 W         # Return Command C3-6

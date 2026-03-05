@@ -17,34 +17,28 @@
 --                            along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --    email                   slaurent@nanoxplore.com
---!   @file                   pkg_mod.vhd
+--!   @file                   DRE_DMX_UT_0510_cfg.vhd
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --    Automatic Generation    No
 --    Code Rules Reference    SOC of design and VHDL handbook for VLSI development, CNES Edition (v2.1)
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---!   @details                Parameters specific to the model
+--!   @details                DRE DEMUX Unitary Test configuration file
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-library ieee;
-use     ieee.std_logic_1164.all;
-use     ieee.numeric_std.all;
+configuration DRE_DMX_UT_0510_cfg of top_dmx_tb is
 
-library work;
-use     work.pkg_type.all;
+   for Simulation
 
-package pkg_mod is
+      -- ------------------------------------------------------------------------------------------------------
+      --!   Parser configuration
+      -- ------------------------------------------------------------------------------------------------------
+      for I_parser : parser
+         use entity work.parser generic map (
+            g_SIM_TIME           => 280000 ns            , -- time    := c_SIM_TIME_DEF                     ; --! Simulation time
+            g_BRD_MDL            => "dm"                 , -- string  := c_BRD_MDL_DEF                      ; --! Board model
+            g_TST_NUM            => "0510"                 -- string  := c_TST_NUM_DEF                        --! Test number
+         );
+      end for;
 
-constant c_COL                : integer   := 4                                                              ; --! DEMUX: column number
+   end for;
 
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Parameters specific to the model
-   -- ------------------------------------------------------------------------------------------------------
-constant c_FPGA_POS_ADC       : integer_vector(0 to c_COL-1) := ( 2, 3, 0, 1)                               ; --! FPGA position ADC (0:Left Up, 1:Left Down, 2:Right Down, 3:Right up)
-constant c_FPGA_POS_SQM_DAC   : integer_vector(0 to c_COL-1) := ( 3, 2, 1, 0)                               ; --! FPGA position MUX DAC (0:Left Up, 1:Left Down, 2:Right Down, 3:Right up)
-constant c_FPGA_POS_SQA_DAC   : integer_vector(0 to c_COL-1) := ( 3, 3, 0, 0)                               ; --! FPGA position AMP DAC (0:Left Up, 1:Left Down, 2:Right Down, 3:Right up)
-
-constant c_MUX_FACT_MOD       : integer   := 34                                                             ; --! DEMUX: multiplexing factor
-constant c_SQM_DATA_COMP      : std_logic_vector(c_COL-1 downto 0):= "1001"                                 ; --! SQUID MUX data by column complemented ('0' = No, '1' = Yes)
-
-constant c_CLK_ADC_DEL_STEP   : integer   := 36                                                             ; --! ADC Clock propagation delay step number
-
-end pkg_mod;
+end configuration DRE_DMX_UT_0510_cfg;

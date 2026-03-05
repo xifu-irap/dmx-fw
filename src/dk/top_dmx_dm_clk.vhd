@@ -492,6 +492,7 @@ begin
          i_saofc              => rg_col(k).saofc      , -- in     slv(  c_SQA_DAC_DATA_S-1 downto 0)        ; --! SQUID AMP lockpoint coarse offset
          i_sakkm              => rg_col(k).sakkm      , -- in     slv(c_DFLD_SAKKM_COL_S-1 downto 0)        ; --! SQUID AMP ki*knorm
          i_sakrm              => rg_col(k).sakrm      , -- in     slv(c_DFLD_SAKRM_COL_S-1 downto 0)        ; --! SQUID AMP knorm
+         i_salkv              => rg_col(k).salkv      , -- in     slv(c_DFLD_SALKV_COL_S-1 downto 0)        ; --! SQUID AMP elp
          i_rldel              => rg_col(k).rldel      , -- in     slv(c_DFLD_RLDEL_COL_S-1 downto 0)        ; --! Relock delay
          i_rlthr              => rg_col(k).rlthr      , -- in     slv(c_DFLD_RLTHR_COL_S-1 downto 0)        ; --! Relock threshold
          i_squid_gain         => squid_gain(k)        , -- in     slv(c_DFLD_SMIGN_COL_S-1 downto 0)        ; --! SQUID gain

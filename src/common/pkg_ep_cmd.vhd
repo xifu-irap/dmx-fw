@@ -87,7 +87,8 @@ constant c_EP_CMD_POS_KNORM   : integer   := c_EP_CMD_POS_SAKKM   + 1           
 constant c_EP_CMD_POS_SAKRM   : integer   := c_EP_CMD_POS_KNORM   + 1                                       ; --! EP command: Position, CY_AMP_SQ_KNORM
 constant c_EP_CMD_POS_SMFB0   : integer   := c_EP_CMD_POS_SAKRM   + 1                                       ; --! EP command: Position, CY_MUX_SQ_FB0
 constant c_EP_CMD_POS_SMLKV   : integer   := c_EP_CMD_POS_SMFB0   + 1                                       ; --! EP command: Position, CY_MUX_SQ_LOCKPOINT_V
-constant c_EP_CMD_POS_SMFBM   : integer   := c_EP_CMD_POS_SMLKV   + 1                                       ; --! EP command: Position, CY_MUX_SQ_FB_MODE
+constant c_EP_CMD_POS_SALKV   : integer   := c_EP_CMD_POS_SMLKV   + 1                                       ; --! EP command: Position, CY_AMP_SQ_LOCKPOINT_V
+constant c_EP_CMD_POS_SMFBM   : integer   := c_EP_CMD_POS_SALKV   + 1                                       ; --! EP command: Position, CY_MUX_SQ_FB_MODE
 constant c_EP_CMD_POS_SAOFF   : integer   := c_EP_CMD_POS_SMFBM   + 1                                       ; --! EP command: Position, CY_AMP_SQ_OFFSET_FINE
 constant c_EP_CMD_POS_SAOLP   : integer   := c_EP_CMD_POS_SAOFF   + 1                                       ; --! EP command: Position, CY_AMP_SQ_OFFSET_LSB_PTR
 constant c_EP_CMD_POS_SAOFC   : integer   := c_EP_CMD_POS_SAOLP   + 1                                       ; --! EP command: Position, CY_AMP_SQ_OFFSET_COARSE
@@ -144,6 +145,8 @@ constant c_EP_CMD_ADD_SMFB0   : t_slv_arr(0 to c_NB_COL-1)(c_EP_SPI_WD_S-1 downt
                                  (x"0200", x"1200", x"2200", x"3200")                                       ; --! EP command: Address basis, CY_MUX_SQ_FB0
 constant c_EP_CMD_ADD_SMLKV   : t_slv_arr(0 to c_NB_COL-1)(c_EP_SPI_WD_S-1 downto 0) :=
                                  (x"0240", x"1240", x"2240", x"3240")                                       ; --! EP command: Address basis, CY_MUX_SQ_LOCKPOINT_V
+constant c_EP_CMD_ADD_SALKV   : t_slv_arr(0 to c_NB_COL-1)(c_EP_SPI_WD_S-1 downto 0) :=
+                                 (x"0290", x"1290", x"2290", x"3290")                                       ; --! EP command: Address basis, CY_AMP_SQ_LOCKPOINT_V
 constant c_EP_CMD_ADD_SMFBM   : t_slv_arr(0 to c_NB_COL-1)(c_EP_SPI_WD_S-1 downto 0) :=
                                  (x"0300", x"1300", x"2300", x"3300")                                       ; --! EP command: Address basis, CY_MUX_SQ_FB_MODE
 constant c_EP_CMD_ADD_SAOFF   : t_slv_arr(0 to c_NB_COL-1)(c_EP_SPI_WD_S-1 downto 0) :=
@@ -276,6 +279,7 @@ constant c_EP_CMD_AUTH_KNORM  : std_logic := c_EP_CMD_ERR_CLR                   
 constant c_EP_CMD_AUTH_SAKRM  : std_logic := c_EP_CMD_ERR_CLR                                               ; --! EP command: Authorization, CY_AMP_SQ_KNORM
 constant c_EP_CMD_AUTH_SMFB0  : std_logic := c_EP_CMD_ERR_CLR                                               ; --! EP command: Authorization, CY_MUX_SQ_FB0
 constant c_EP_CMD_AUTH_SMLKV  : std_logic := c_EP_CMD_ERR_CLR                                               ; --! EP command: Authorization, CY_MUX_SQ_LOCKPOINT_V
+constant c_EP_CMD_AUTH_SALKV  : std_logic := c_EP_CMD_ERR_CLR                                               ; --! EP command: Authorization, CY_AMP_SQ_LOCKPOINT_V
 constant c_EP_CMD_AUTH_SMFBM  : std_logic := c_EP_CMD_ERR_CLR                                               ; --! EP command: Authorization, CY_MUX_SQ_FB_MODE
 constant c_EP_CMD_AUTH_SAOFF  : std_logic := c_EP_CMD_ERR_CLR                                               ; --! EP command: Authorization, CY_AMP_SQ_OFFSET_FINE
 constant c_EP_CMD_AUTH_SAOLP  : std_logic := c_EP_CMD_ERR_CLR                                               ; --! EP command: Authorization, CY_AMP_SQ_OFFSET_LSB_PTR
@@ -314,6 +318,7 @@ constant c_DFLD_KNORM_PIX_S   : integer   :=  c_KNORM_P_S                       
 constant c_DFLD_SAKRM_COL_S   : integer   :=  c_KNORM_P_S                                                   ; --! EP command: Data field, CY_AMP_SQ_KNORM bus size
 constant c_DFLD_SMFB0_PIX_S   : integer   :=  c_EP_SPI_WD_S                                                 ; --! EP command: Data field, CY_MUX_SQ_FB0 bus size
 constant c_DFLD_SMLKV_PIX_S   : integer   :=  c_ELP_P_S                                                     ; --! EP command: Data field, CY_MUX_SQ_LOCKPOINT_V bus size
+constant c_DFLD_SALKV_COL_S   : integer   :=  c_ELP_P_S                                                     ; --! EP command: Data field, CY_AMP_SQ_LOCKPOINT_V bus size
 constant c_DFLD_SMFBM_PIX_S   : integer   :=  2                                                             ; --! EP command: Data field, CY_MUX_SQ_FB_MODE bus size
 constant c_DFLD_SAOFF_PIX_S   : integer   :=  2*c_SQA_DAC_MUX_S                                             ; --! EP command: Data field, CY_AMP_SQ_OFFSET_FINE bus size
 constant c_DFLD_SAOLP_COL_S   : integer   :=  c_SQA_DAC_DATA_S                                              ; --! EP command: Data field, CY_AMP_SQ_OFFSET_LSB_PTR bus size
@@ -384,6 +389,7 @@ constant c_EP_CMD_DEF_SMIGN_I : integer := integer(round(1.0 * real(2**c_GN_FRC_
 constant c_EP_CMD_DEF_SAIGN_I : integer := integer(round(1.0 * real(2**c_GN_FRC_S)))                        ; --! EP command: Default value (integer), CY_AMP_SQ_INPUT_GAIN
 constant c_EP_CMD_DEF_SAKKM_I : integer := integer(round(0.2372991 * real(2**c_KI_KNORM_P_FRC_S)))          ; --! EP command: Default value (integer), CY_AMP_SQ_KI_KNORM
 constant c_EP_CMD_DEF_SAKRM_I : integer := integer(round(0.1078632 * real(2**c_KNORM_P_FRC_S)))             ; --! EP command: Default value (integer), CY_AMP_SQ_KNORM
+constant c_EP_CMD_DEF_SALKV_I : integer := to_integer(unsigned(c_I_SQM_ADC_DATA_DEF) * 2**c_ELP_P_FRC_S)    ; --! EP command: Default value (integer), CY_AMP_SQ_LOCKPOINT_V
 constant c_EP_CMD_DEF_SAOLP_I : integer := 10                                                               ; --! EP command: Default value (integer), CY_AMP_SQ_OFFSET_LSB_PTR
 constant c_EP_CMD_DEF_SAOFC_I : integer := 10                                                               ; --! EP command: Default value (integer), CY_AMP_SQ_OFFSET_COARSE
 constant c_EP_CMD_DEF_SAOFL_I : integer := 10                                                               ; --! EP command: Default value (integer), CY_AMP_SQ_OFFSET_LSB
@@ -415,6 +421,8 @@ constant c_EP_CMD_DEF_SAKKM   : std_logic_vector(c_DFLD_SAKKM_COL_S-1 downto 0):
                                 std_logic_vector(to_unsigned(c_EP_CMD_DEF_SAKKM_I, c_DFLD_SAKKM_COL_S))     ; --! EP command: Default value, CY_AMP_SQ_KI_KNORM
 constant c_EP_CMD_DEF_SAKRM   : std_logic_vector(c_DFLD_SAKRM_COL_S-1 downto 0):=
                                 std_logic_vector(to_unsigned(c_EP_CMD_DEF_SAKRM_I, c_DFLD_SAKRM_COL_S))     ; --! EP command: Default value, CY_AMP_SQ_KNORM
+constant c_EP_CMD_DEF_SALKV   : std_logic_vector(c_DFLD_SALKV_COL_S-1 downto 0):=
+                                std_logic_vector(to_unsigned(c_EP_CMD_DEF_SALKV_I, c_DFLD_SALKV_COL_S))     ; --! EP command: Default value, CY_AMP_SQ_LOCKPOINT_V
 constant c_EP_CMD_DEF_SAOLP   : std_logic_vector(c_DFLD_SAOLP_COL_S-1 downto 0):=
                                 std_logic_vector(to_unsigned(c_EP_CMD_DEF_SAOLP_I ,c_DFLD_SAOLP_COL_S))     ; --! EP command: Default value, CY_AMP_SQ_OFFSET_LSB_PTR
 constant c_EP_CMD_DEF_SAOFC   : std_logic_vector(c_DFLD_SAOFC_COL_S-1 downto 0):=

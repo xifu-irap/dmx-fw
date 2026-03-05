@@ -39,11 +39,12 @@ quietly set TB_DIR $4
       vcom +cover=bcs -work work -2008           \
          ${SRC_DIR}/common/pkg_type.vhd          \
          ${SRC_DIR}/common/pkg_func_math.vhd     \
-         ${SRC_DIR}/dm/pkg_mod.vhd
+         ${SRC_DIR}/dm/pkg_mod.vhd               \
+         ${IP_DIR}/pkg_fpga_tech.vhd             \
+         ${SRC_DIR}/dm/pkg_fir.vhd
    }
 
    vcom +cover=bcs -work work -2008              \
-      ${IP_DIR}/pkg_fpga_tech.vhd                \
       ${SRC_DIR}/common/pkg_project.vhd          \
       ${SRC_DIR}/common/pkg_calc_chain.vhd       \
       ${SRC_DIR}/common/pkg_ep_cmd.vhd           \
@@ -78,7 +79,6 @@ quietly set TB_DIR $4
       ${SRC_DIR}/common/spi_master.vhd           \
       ${SRC_DIR}/common/science_data_tx.vhd      \
       ${SRC_DIR}/common/science_data_mgt.vhd     \
-      ${SRC_DIR}/common/hk_mgt.vhd               \
       ${SRC_DIR}/common/adder_acc.vhd            \
       ${SRC_DIR}/common/squid_adc_sys.vhd        \
       ${SRC_DIR}/common/squid_adc_mgt.vhd        \
@@ -91,17 +91,18 @@ quietly set TB_DIR $4
       ${SRC_DIR}/common/sqm_dac_mgt.vhd          \
       ${SRC_DIR}/common/sqm_spi_mgt.vhd          \
       ${SRC_DIR}/common/test_pattern_gen.vhd     \
-      ${SRC_DIR}/common/relock.vhd
+      ${SRC_DIR}/common/relock.vhd               \
+      ${SRC_DIR}/common/fir_deci.vhd             \
+      ${SRC_DIR}/common/sqa_fbk_mgt.vhd          \
+      ${SRC_DIR}/common/sqa_dac_sys.vhd
+
 
    if {${MODEL_BOARD} == "dm" || ${MODEL_BOARD} == "dk"} {
       vcom +cover=bcs -work work -2008           \
-         ${SRC_DIR}/dm/pkg_fir.vhd               \
-         ${SRC_DIR}/dm/fir_deci.vhd              \
          ${SRC_DIR}/dm/sqa_under_samp.vhd        \
-         ${SRC_DIR}/dm/sqa_fbk_mgt.vhd           \
-         ${SRC_DIR}/dm/sqa_dac_sys.vhd           \
+         ${SRC_DIR}/common/squid_data_proc.vhd   \
+         ${SRC_DIR}/dm/hk_mgt.vhd                \
          ${SRC_DIR}/dm/sqa_dac_mgt.vhd           \
-         ${SRC_DIR}/dm/squid_data_proc.vhd       \
          ${SRC_DIR}/dm/top_dmx_dm.vhd
    }
 

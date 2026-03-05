@@ -91,6 +91,7 @@ begin
       rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAIGN+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAIGN)) <= i_rg_col(k).saign;
       rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAKKM+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAKKM)) <= i_rg_col(k).sakkm;
       rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAKRM+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAKRM)) <= i_rg_col(k).sakrm;
+      rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SALKV+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SALKV)) <= i_rg_col(k).salkv;
       rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAOLP+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAOLP)) <= i_rg_col(k).saolp;
       rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAOFC+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAOFC)) <= i_rg_col(k).saofc;
       rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAOFL+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAOFL)) <= i_rg_col(k).saofl;
@@ -246,6 +247,10 @@ begin
    -- @Req : REG_CY_MUX_SQ_LOCKPOINT_V
    -- @Req : DRE-DMX-FW-REQ-0190
    data_rg_rd(c_EP_CMD_POS_SMLKV) <= std_logic_vector(resize(unsigned(ep_mem_data_mux(c_EP_MEM_ACC(c_EP_MEM_NUM_SMLKV+1)-1 downto c_EP_MEM_ACC(c_EP_MEM_NUM_SMLKV))), c_EP_SPI_WD_S));
+
+   -- @Req : REG_CY_AMP_SQ_LOCKPOINT_V
+   -- @Req : DRE-DMX-FW-REQ-0328
+   data_rg_rd(c_EP_CMD_POS_SALKV) <= std_logic_vector(resize(unsigned(rg_col_data_mux(c_EP_RGC_ACC(c_EP_RGC_NUM_SALKV+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SALKV))), c_EP_SPI_WD_S));
 
    -- @Req : REG_CY_MUX_SQ_FB_MODE
    -- @Req : DRE-DMX-FW-REQ-0210
