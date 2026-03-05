@@ -3,8 +3,8 @@ verific -work nx -vhdl ./nxLibrary-Large.vhdp
 verific -vhdl ./src/common/pkg_type.vhd
 verific -vhdl ./src/common/pkg_func_math.vhd
 verific -vhdl ./src/dm/pkg_mod.vhd
-verific -vhdl ./src/dm/pkg_fir.vhd
 verific -vhdl ./ip/nx/NG-LARGE/pkg_fpga_tech.vhd
+verific -vhdl ./src/dm/pkg_fir.vhd
 verific -vhdl ./src/common/pkg_project.vhd
 verific -vhdl ./src/common/pkg_calc_chain.vhd
 verific -vhdl ./src/common/pkg_ep_cmd.vhd
