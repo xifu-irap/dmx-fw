@@ -33,6 +33,7 @@ library work;
 use     work.pkg_type.all;
 use     work.pkg_func_math.all;
 use     work.pkg_fpga_tech.all;
+use     work.pkg_mod.all;
 
 package pkg_project is
 
@@ -42,7 +43,7 @@ package pkg_project is
    --    @Req : DRE-DMX-FW-REQ-0120
    --    @Req : DRE-DMX-FW-REQ-0270
    -- ------------------------------------------------------------------------------------------------------
-constant c_FW_VERSION         : integer   := 16#0013#                                                       ; --! Firmware version
+constant c_FW_VERSION         : integer   := 16#0014#                                                       ; --! Firmware version
 
 constant c_FF_RSYNC_NB        : integer   := 2                                                              ; --! Flip-Flop number used for FPGA input resynchronization
 constant c_FF_RST_NB          : integer   := 6                                                              ; --! Flip-Flop number used for internal reset: System Clock
@@ -222,7 +223,7 @@ constant c_MEM_STR_ADD_PP_DEF : std_logic := c_LOW_LEV                          
    --    @Req : DRE-DMX-FW-REQ-0070
    --    @Req : DRE-DMX-FW-REQ-0080
    -- ------------------------------------------------------------------------------------------------------
-constant c_MUX_FACT           : integer   := 34                                                             ; --! DEMUX: multiplexing factor
+constant c_MUX_FACT           : integer   := c_MUX_FACT_MOD                                                 ; --! DEMUX: multiplexing factor
 constant c_NB_COL             : integer   := 4                                                              ; --! DEMUX: column number
 constant c_DMP_SEQ_ACQ_NB     : integer   := 2                                                              ; --! DEMUX: sequence acquisition number for the ADC data dump mode
 
@@ -348,6 +349,14 @@ constant c_SQA_PLS_CNT_S      : integer := log2_ceil(c_SQA_PLS_CNT_MX_VAL + 1) +
 constant c_SQA_PXL_POS_MX_VAL : integer := c_MUX_FACT - 2                                                   ; --! SQUID AMP, Pixel position: maximal value
 constant c_SQA_PXL_POS_INIT   : integer := -1                                                               ; --! SQUID AMP, Pixel position: initialization value
 constant c_SQA_PXL_POS_S      : integer := log2_ceil(c_SQA_PXL_POS_MX_VAL+1)+1                              ; --! SQUID AMP, Pixel position: size bus (signed)
+
+constant c_SQA_FIR_ADD_DIFF   : integer := 1                                                                ; --! SQUID AMP, FIR under sampling mem. address diff. between last data write and read 
+constant c_SQA_FIR_DTA_W_NPER : integer := 1                                                                ; --! SQUID AMP, FIR under sampling period number to write data in memory
+constant c_SQA_FIR_SUM_NPER   : integer := c_MEM_RD_DATA_NPER + c_DSP_NPER + c_SQA_FIR_ADD_DIFF + 1         ; --! SQUID AMP, FIR under sampling period number for calc. FIR data from last data in mem.
+constant c_SQA_FIR_DTA_R_NPER : integer := c_SQA_FIR_SUM_NPER + 2                                           ; --! SQUID AMP, FIR under sampling period number for memory data read
+constant c_SQA_FIR1_DTA_NPER  : integer :=     (c_SQA_FIR_DTA_W_NPER + c_SQA_FIR_DTA_R_NPER)    + 1         ; --! SQUID AMP, FIR under sampling period number for calc. FIR1 data
+constant c_SQA_FIR_DTA_NPER   : integer := 2 * (c_SQA_FIR_DTA_W_NPER + c_SQA_FIR_DTA_R_NPER)    + 3 
+                                             - (c_PIXEL_ADC_NB_CYC/2)                                       ; --! SQUID AMP, FIR under sampling total period number for calc. FIR data
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Science Data Transmit parameters

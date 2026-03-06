@@ -44,6 +44,7 @@ entity squid_data_proc_mem is port (
 
          i_sakkm              : in     std_logic_vector(c_DFLD_SAKKM_COL_S-1 downto 0)                      ; --! SQUID AMP ki*knorm
          i_sakrm              : in     std_logic_vector(c_DFLD_SAKRM_COL_S-1 downto 0)                      ; --! SQUID AMP knorm
+         i_salkv              : in     std_logic_vector(c_DFLD_SALKV_COL_S-1 downto 0)                      ; --! SQUID AMP elp
          i_saofc              : in     std_logic_vector(c_DFLD_SAOFC_COL_S-1 downto 0)                      ; --! SQUID AMP lockpoint coarse offset
          i_squid_gain         : in     std_logic_vector(c_DFLD_SMIGN_COL_S-1 downto 0)                      ; --! SQUID gain
          i_squid_amp_close    : in     std_logic                                                            ; --! SQUID AMP Close mode     ('0' = Yes, '1' = No)
@@ -101,6 +102,7 @@ signal   mem_smlkv_prm        : t_mem(
 signal   mem_kiknm_pp_rdy_r   : std_logic_vector(c_MEM_RD_DATA_NPER-1 downto 0)                             ; --! Parameter ki(p)*knorm(p): ping-pong buffer bit ready register
 signal   mem_knorm_pp_rdy_r   : std_logic_vector(c_MEM_RD_DATA_NPER-1 downto 0)                             ; --! Parameter knorm(p): ping-pong buffer bit ready register
 signal   mem_smfb0_pp_rdy_r   : std_logic_vector(c_MEM_RD_DATA_NPER-1 downto 0)                             ; --! Parameter smfb0(p): ping-pong buffer bit ready register
+signal   mem_smlkv_pp_rdy_r   : std_logic_vector(c_MEM_RD_DATA_NPER-1 downto 0)                             ; --! Parameter smlkv(p): ping-pong buffer bit ready register
 
 signal   mux_ki_knorm_p       : std_logic_vector(c_DFLD_KIKNM_PIX_S-1 downto 0)                             ; --! Parameters MUX ki(p)*knorm(p)
 signal   amp_ki_knorm         : std_logic_vector(c_DFLD_SAKKM_COL_S-1 downto 0)                             ; --! Parameters AMP ki*knorm
@@ -120,6 +122,8 @@ signal   safb0                : std_logic_vector(c_DFLD_SAOFC_COL_S-1 downto 0) 
 signal   safb0_aln            : std_logic_vector(c_DFLD_SMFB0_PIX_S-2 downto 0)                             ; --! Parameters AMP fb0 (unsigned)
 signal   fb0_p_aln            : std_logic_vector(c_DFLD_SMFB0_PIX_S-1 downto 0)                             ; --! Parameters fb0(p) (signed)
 
+signal   smlkv                : std_logic_vector(c_DFLD_SMLKV_PIX_S-1 downto 0)                             ; --! Parameters MUX Elp(p)
+signal   salkv                : std_logic_vector(c_DFLD_SALKV_COL_S-1 downto 0)                             ; --! Parameters AMP Elp
 signal   elp_p                : std_logic_vector(c_DFLD_SMLKV_PIX_S-1 downto 0)                             ; --! Parameters Elp(p)
 signal   elp_p_aln            : std_logic_vector(c_ADC_SMP_AVE_S-1    downto 0)                             ; --! Parameters Elp(p) aligned on E(p,n) bus size
 
@@ -135,11 +139,13 @@ begin
          mem_kiknm_pp_rdy_r   <= (others => c_LOW_LEV);
          mem_knorm_pp_rdy_r   <= (others => c_LOW_LEV);
          mem_smfb0_pp_rdy_r   <= (others => c_LOW_LEV);
+         mem_smlkv_pp_rdy_r   <= (others => c_LOW_LEV);
 
       elsif rising_edge(i_clk) then
          mem_kiknm_pp_rdy_r   <= mem_kiknm_pp_rdy_r(mem_kiknm_pp_rdy_r'high-1 downto 0) & i_mem_kiknm_pp_rdy;
          mem_knorm_pp_rdy_r   <= mem_knorm_pp_rdy_r(mem_knorm_pp_rdy_r'high-1 downto 0) & i_mem_knorm_pp_rdy;
          mem_smfb0_pp_rdy_r   <= mem_smfb0_pp_rdy_r(mem_smfb0_pp_rdy_r'high-1 downto 0) & i_mem_smfb0_pp_rdy;
+         mem_smlkv_pp_rdy_r   <= mem_smlkv_pp_rdy_r(mem_smlkv_pp_rdy_r'high-1 downto 0) & i_mem_smlkv_pp_rdy;
 
       end if;
 
@@ -638,41 +644,10 @@ begin
          i_b_clk_shift        => i_clk_90             , -- in     std_logic                                 ; --! Memory port B: 90 degrees shifted clock (used for memory content correction)
 
          i_b_mem              => mem_smlkv_prm        , -- in     t_mem( add(g_RAM_ADD_S-1 downto 0), ...)  ; --! Memory port B inputs
-         o_b_data_out         => elp_p                , -- out    slv(g_RAM_DATA_S-1 downto 0)              ; --! Memory port B: data out
+         o_b_data_out         => smlkv                , -- out    slv(g_RAM_DATA_S-1 downto 0)              ; --! Memory port B: data out
 
          o_b_flg_err          => open                   -- out    std_logic                                   --! Memory port B: flag error uncorrectable detected ('0' = No, '1' = Yes)
    );
-
-   -- Parameter Elp(p) aligned on E(p,n)
-   I_elp_p_aln : entity work.resize_stall_msb generic map (
-         g_DATA_S             => c_DFLD_SMLKV_PIX_S   , -- integer                                          ; --! Data input bus size
-         g_DATA_STALL_MSB_S   => c_ADC_SMP_AVE_S        -- integer                                            --! Data stalled on Mean Significant Bit bus size
-   ) port map (
-         i_data               => elp_p                , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
-         o_data_stall_msb     => elp_p_aln            , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
-         o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
-   );
-
-   -- Parameter -Elp(p) aligned on E(p,n) with saturation on the most low value
-   P_minus_elp_p_aln : process (i_rst, i_clk)
-   begin
-
-      if i_rst = c_RST_LEV_ACT then
-         o_minus_elp_p_aln <= c_ZERO(o_minus_elp_p_aln'range);
-
-      elsif rising_edge(i_clk) then
-         if (elp_p(elp_p'high) = c_HGH_LEV and elp_p(elp_p'high-1 downto 0) = c_ZERO(elp_p'high-1 downto 0)) then
-            o_minus_elp_p_aln(o_minus_elp_p_aln'high)             <= c_LOW_LEV;
-            o_minus_elp_p_aln(o_minus_elp_p_aln'high-1 downto 0)  <= (others => c_HGH_LEV);
-
-         else
-            o_minus_elp_p_aln <= std_logic_vector(signed(c_ZERO(o_minus_elp_p_aln'range)) - signed(elp_p_aln));
-
-         end if;
-
-      end if;
-
-   end process P_minus_elp_p_aln;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Dual port memory Elp(p): memory signals management
@@ -699,5 +674,79 @@ begin
       end if;
 
    end process P_mem_smlkv_prm_pp;
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Parameters AMP Elp
+   -- ------------------------------------------------------------------------------------------------------
+   P_salkv : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         salkv    <= c_EP_CMD_DEF_SALKV;
+
+      elsif rising_edge(i_clk) then
+         if mem_smlkv_pp_rdy_r(mem_smlkv_pp_rdy_r'high) = c_HGH_LEV then
+            salkv <= i_salkv;
+
+         end if;
+
+      end if;
+
+   end process P_salkv;
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Parameter Elp select
+   -- ------------------------------------------------------------------------------------------------------
+   P_elp_p : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         elp_p <= std_logic_vector(to_unsigned(c_EP_CMD_DEF_SMLKV(0), elp_p'length));
+
+      elsif rising_edge(i_clk) then
+         if i_squid_amp_close = c_HGH_LEV then
+            elp_p <= salkv;
+
+         else
+            elp_p <= smlkv;
+
+         end if;
+
+      end if;
+
+   end process P_elp_p;
+
+   -- Parameter Elp(p) aligned on E(p,n)
+   I_elp_p_aln : entity work.resize_stall_msb generic map (
+         g_DATA_S             => c_DFLD_SMLKV_PIX_S   , -- integer                                          ; --! Data input bus size
+         g_DATA_STALL_MSB_S   => c_ADC_SMP_AVE_S        -- integer                                            --! Data stalled on Mean Significant Bit bus size
+   ) port map (
+         i_data               => elp_p                , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
+         o_data_stall_msb     => elp_p_aln            , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
+         o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
+   );
+
+   -- ------------------------------------------------------------------------------------------------------
+   -- Parameter -Elp(p) aligned on E(p,n) with saturation on the most low value
+   -- ------------------------------------------------------------------------------------------------------
+   P_minus_elp_p_aln : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         o_minus_elp_p_aln <= c_ZERO(o_minus_elp_p_aln'range);
+
+      elsif rising_edge(i_clk) then
+         if (elp_p(elp_p'high) = c_HGH_LEV and elp_p(elp_p'high-1 downto 0) = c_ZERO(elp_p'high-1 downto 0)) then
+            o_minus_elp_p_aln(o_minus_elp_p_aln'high)             <= c_LOW_LEV;
+            o_minus_elp_p_aln(o_minus_elp_p_aln'high-1 downto 0)  <= (others => c_HGH_LEV);
+
+         else
+            o_minus_elp_p_aln <= std_logic_vector(signed(c_ZERO(o_minus_elp_p_aln'range)) - signed(elp_p_aln));
+
+         end if;
+
+      end if;
+
+   end process P_minus_elp_p_aln;
 
 end architecture RTL;

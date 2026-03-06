@@ -49,6 +49,7 @@ entity squid_data_proc is port (
          i_saofc              : in     std_logic_vector(c_DFLD_SAOFC_COL_S-1 downto 0)                      ; --! SQUID AMP lockpoint coarse offset
          i_sakkm              : in     std_logic_vector(c_DFLD_SAKKM_COL_S-1 downto 0)                      ; --! SQUID AMP ki*knorm
          i_sakrm              : in     std_logic_vector(c_DFLD_SAKRM_COL_S-1 downto 0)                      ; --! SQUID AMP knorm
+         i_salkv              : in     std_logic_vector(c_DFLD_SALKV_COL_S-1 downto 0)                      ; --! SQUID AMP elp
          i_rldel              : in     std_logic_vector(c_DFLD_RLDEL_COL_S-1 downto 0)                      ; --! Relock delay
          i_rlthr              : in     std_logic_vector(c_DFLD_RLTHR_COL_S-1 downto 0)                      ; --! Relock threshold
          i_squid_gain         : in     std_logic_vector(c_DFLD_SMIGN_COL_S-1 downto 0)                      ; --! SQUID gain
@@ -90,6 +91,8 @@ entity squid_data_proc is port (
 end entity squid_data_proc;
 
 architecture RTL of squid_data_proc is
+constant c_MEM_ADC_SMP_ADD_S  : integer := log2_ceil(c_SQA_FIR_DTA_NPER)                                    ; --! Memory ADC sample average delayed: address size bus
+
 signal   mem_parma_prm_add    : std_logic_vector(c_MEM_PARMA_ADD_S-1  downto 0)                             ; --! Parameter a(p): memory parameter side address
 signal   mem_kiknm_prm_add    : std_logic_vector(c_MEM_KIKNM_ADD_S-1  downto 0)                             ; --! Parameter ki(p)*knorm(p): memory parameter side address
 signal   mem_knorm_prm_add    : std_logic_vector(c_MEM_KNORM_ADD_S-1  downto 0)                             ; --! Parameter knorm(p): memory parameter side address
@@ -102,8 +105,11 @@ signal   mem_knorm_pp_rdy     : std_logic                                       
 signal   mem_smfb0_pp_rdy     : std_logic                                                                   ; --! Parameter smfb0(p): ping-pong buffer bit ready ('0' = Inactive, '1' = Active)
 signal   mem_smlkv_pp_rdy     : std_logic                                                                   ; --! Parameter Elp(p): ping-pong buffer bit ready ('0' = Inactive, '1' = Active)
 
+signal   mem_adc_smp_ave      : t_slv_arr(0 to 2**c_MEM_ADC_SMP_ADD_S-1)(c_ADC_SMP_AVE_S-1 downto 0)        ; --! Memory ADC sample average delayed (sync. with SQUID AMP under-sampling data)
+
 signal   sqm_dta_err_cor_cs_r : std_logic_vector(c_TST_PAT_SC_NPER-1 downto 0)                              ; --! SQUID MUX Data error corrected chip select register
 signal   squid_amp_close_sync : std_logic                                                                   ; --! SQUID AMP Close mode synchronized on first pixel
+signal   sqa_close_sync_ena   : std_logic                                                                   ; --! SQUID AMP Close mode synchronized on first pixel enable ('0' = No, '1' = Yes)
 signal   mem_rl_rd_add        : std_logic_vector(c_MUX_FACT_S-1 downto 0)                                   ; --! Relock memories read address
 signal   rl_ena               : std_logic                                                                   ; --! Relock enable ('0' = No, '1' = Yes)
 
@@ -118,9 +124,16 @@ signal   adc_smp_ave          : std_logic_vector(c_ADC_SMP_AVE_S-1  downto 0)   
 signal   adc_smp_ave_frst     : std_logic                                                                   ; --! ADC sample average first pixel
 signal   adc_smp_ave_cs       : std_logic                                                                   ; --! ADC sample average chip select ('0' = Inactive, '1' = Active)
 
+signal   adc_smp_ave_add_wr   : std_logic_vector(c_MEM_ADC_SMP_ADD_S-1  downto 0)                           ; --! ADC sample average memory address data write
+signal   adc_smp_ave_add_rd   : std_logic_vector(c_MEM_ADC_SMP_ADD_S-1  downto 0)                           ; --! ADC sample average memory address data read
+signal   adc_smp_ave_del      : std_logic_vector(c_ADC_SMP_AVE_S-1  downto 0)                               ; --! ADC sample average delayed
+
 signal   sqa_under_samp       : std_logic_vector(c_ADC_SMP_AVE_S-1  downto 0)                               ; --! SQUID AMP under-sampling
 signal   adc_smp_ave_mux      : std_logic_vector(c_ADC_SMP_AVE_S-1  downto 0)                               ; --! ADC sample average multiplexer
-
+signal   adc_smp_ave_sc       : std_logic_vector(c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S   downto 0)             ; --! ADC sample average for data science (signed)
+signal   err_sig              : std_logic_vector(c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)             ; --! Error signal (signed)
+signal   err_sig_r            : t_slv_arr(0 to c_ERR_SIG_R_NB-1)
+                                         (c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)                    ; --! Error signal register (signed)
 begin
 
    -- ------------------------------------------------------------------------------------------------------
@@ -131,12 +144,14 @@ begin
 
       if i_rst = c_RST_LEV_ACT then
          sqm_dta_err_cor_cs_r <= (others => c_LOW_LEV);
+         err_sig_r            <= (others => c_ZERO(err_sig_r(err_sig_r'low)'range));
          squid_amp_close_sync <= c_LOW_LEV;
 
       elsif rising_edge(i_clk) then
          sqm_dta_err_cor_cs_r <= sqm_dta_err_cor_cs_r(sqm_dta_err_cor_cs_r'high-1 downto 0) & o_sqm_dta_err_cor_cs;
+         err_sig_r            <= err_sig & err_sig_r(0 to err_sig_r'high-1);
 
-         if (i_sqm_data_err_frst and i_sqm_data_err_rdy) = c_HGH_LEV then
+         if sqa_close_sync_ena = c_HGH_LEV then
             squid_amp_close_sync <= i_squid_amp_close;
 
          end if;
@@ -155,6 +170,7 @@ begin
 
          i_sakkm              => i_sakkm              , -- in     slv(c_DFLD_SAKKM_COL_S-1 downto 0)        ; --! SQUID AMP ki*knorm
          i_sakrm              => i_sakrm              , -- in     slv(c_DFLD_SAKRM_COL_S-1 downto 0)        ; --! SQUID AMP knorm
+         i_salkv              => i_salkv              , -- in     slv(c_DFLD_SALKV_COL_S-1 downto 0)        ; --! SQUID AMP elp
          i_saofc              => i_saofc              , -- in     slv(c_DFLD_SAOFC_COL_S-1 downto 0)        ; --! SQUID AMP lockpoint coarse offset
          i_squid_gain         => i_squid_gain         , -- in     slv(c_DFLD_SMIGN_COL_S-1 downto 0)        ; --! SQUID gain
          i_squid_amp_close    => squid_amp_close_sync , -- in     std_logic                                 ; --! SQUID AMP Close mode     ('0' = Yes, '1' = No)
@@ -199,8 +215,7 @@ begin
          i_sqm_data_err_rdy   => i_sqm_data_err_rdy   , -- in     std_logic                                 ; --! SQUID MUX Data error ready ('0' = Not ready, '1' = Ready)
 
          o_aqmde_sync         => o_aqmde_sync         , -- out    slv(c_DFLD_AQMDE_S-1  downto 0)           ; --! Telemetry mode, sync. on first pixel
-         o_adc_smp_ave        => adc_smp_ave          , -- out    slv(c_ADC_SMP_AVE_S-1 downto 0)           ; --! ADC sample average (signed) (bus size result +1 bit for rounding)
-         o_err_sig            => o_err_sig              -- out    slv c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S      --! Error signal (signed)
+         o_adc_smp_ave        => adc_smp_ave            -- out    slv(c_ADC_SMP_AVE_S-1 downto 0)             --! ADC sample average (signed) (bus size result +1 bit for rounding)
    );
 
    -- ------------------------------------------------------------------------------------------------------
@@ -211,7 +226,7 @@ begin
          i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk                => i_clk                , -- in     std_logic                                 ; --! System Clock
 
-         i_squid_amp_close    => squid_amp_close_sync , -- in     std_logic                                 ; --! SQUID AMP Close mode     ('0' = Yes, '1' = No)
+         i_squid_amp_close    => i_squid_amp_close    , -- in     std_logic                                 ; --! SQUID AMP Close mode     ('0' = Yes, '1' = No)
          i_saofc              => i_saofc              , -- in     slv(c_DFLD_SAOFC_COL_S-1 downto 0)        ; --! SQUID AMP lockpoint coarse offset
 
          i_adc_smp_ave        => adc_smp_ave          , -- in     slv(c_ADC_SMP_AVE_S-1 downto 0)           ; --! ADC sample average (signed) (bus size result +1 bit for rounding)
@@ -220,6 +235,51 @@ begin
 
          o_sqa_under_samp     => sqa_under_samp         -- out    slv(c_ADC_SMP_AVE_S-1 downto 0)             --! SQUID AMP under-sampling
    );
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Dual port memory ADC sample average address
+   -- ------------------------------------------------------------------------------------------------------
+   P_adc_smp_ave_add : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         adc_smp_ave_add_wr   <= std_logic_vector(to_unsigned(c_SQA_FIR_DTA_NPER-1, adc_smp_ave_add_wr'length));
+         adc_smp_ave_add_rd   <= c_ZERO(adc_smp_ave_add_rd'range);
+
+      elsif rising_edge(i_clk) then
+         adc_smp_ave_add_wr   <= std_logic_vector(unsigned(adc_smp_ave_add_wr) + 1);
+         adc_smp_ave_add_rd   <= std_logic_vector(unsigned(adc_smp_ave_add_rd) + 1);
+
+      end if;
+
+   end process P_adc_smp_ave_add;
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Dual port memory ADC sample average delayed
+   -- ------------------------------------------------------------------------------------------------------
+   P_mem_adc_smp_ave_wr : process (i_clk)
+   begin
+
+      if rising_edge(i_clk) then
+         mem_adc_smp_ave(to_integer(unsigned(adc_smp_ave_add_wr))) <= adc_smp_ave;
+
+      end if;
+
+   end process P_mem_adc_smp_ave_wr;
+
+   --! ADC sample average delayed: memory read
+   P_mem_adc_smp_ave_rd : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         adc_smp_ave_del <= c_ZERO(adc_smp_ave_del'range);
+
+      elsif rising_edge(i_clk) then
+         adc_smp_ave_del <= mem_adc_smp_ave(to_integer(unsigned(adc_smp_ave_add_rd)));
+
+      end if;
+
+   end process P_mem_adc_smp_ave_rd;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   ADC sample average multiplexer
@@ -233,19 +293,33 @@ begin
 
       elsif rising_edge(i_clk) then
          if squid_amp_close_sync = c_HGH_LEV then
-            if adc_smp_ave_cs = c_HGH_LEV then
-               adc_smp_ave_mux <= sqa_under_samp;
-
-            end if;
+            adc_smp_ave_mux <= sqa_under_samp;
 
          else
-            adc_smp_ave_mux <= adc_smp_ave;
+            adc_smp_ave_mux <= adc_smp_ave_del;
 
          end if;
 
       end if;
 
    end process P_adc_smp_ave_mux;
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   ADC sample average for science (rounded with saturation operation)
+   -- ------------------------------------------------------------------------------------------------------
+   adc_smp_ave_sc <= adc_smp_ave_mux(adc_smp_ave_mux'high downto adc_smp_ave_mux'length-c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1);
+
+   I_adc_smp_ave_sc: entity work.round_sat generic map (
+         g_RST_LEV_ACT        => c_RST_LEV_ACT        , -- std_logic                                        ; --! Reset level activation value
+         g_DATA_CARRY_S       => c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S+1 -- integer                              --! Data with carry bus size
+   )  port map (
+         i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
+         i_clk                => i_clk                , -- in     std_logic                                 ; --! Clock
+         i_data_carry         => adc_smp_ave_sc       , -- in     slv(g_DATA_CARRY_S-1 downto 0)            ; --! Data with carry on lsb (signed)
+         o_data_rnd_sat       => err_sig                -- out    slv(g_DATA_CARRY_S-2 downto 0)              --! Data rounded with saturation (signed)
+   );
+
+   o_err_sig <= err_sig_r(err_sig_r'high);
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Error process
@@ -278,6 +352,7 @@ begin
 
          o_adc_smp_ave_frst   => adc_smp_ave_frst     , -- out    std_logic                                 ; --! ADC sample average first pixel
          o_adc_smp_ave_cs     => adc_smp_ave_cs       , -- out    std_logic                                 ; --! ADC sample average chip select ('0' = Inactive, '1' = Active)
+         o_sqa_close_sync_ena => sqa_close_sync_ena   , -- out    std_logic                                 ; --! SQUID AMP Close mode synchronized on first pixel enable ('0' = No, '1' = Yes)
          o_smfbm_add          => o_smfbm_add          , -- out    slv(c_MEM_SMFBM_ADD_S-1 downto 0)         ; --! SQUID MUX feedback mode: address, memory output
          o_smfbm_cs           => o_smfbm_cs           , -- out    std_logic                                 ; --! SQUID MUX feedback mode: chip select, memory output ('0' = Inactive, '1' = Active)
          o_mem_rl_rd_add      => mem_rl_rd_add        , -- out    slv(c_MUX_FACT_S-1 downto 0)              ; --! Relock memories read address

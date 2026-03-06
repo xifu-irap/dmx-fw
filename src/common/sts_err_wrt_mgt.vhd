@@ -133,6 +133,9 @@ begin
                                                                                                                  + to_unsigned(c_TAB_SMLKV_NW, c_EP_CMD_ADD_COLPOSL))                    then
                   o_ep_cmd_sts_err_wrt <= c_EP_CMD_AUTH_SMLKV;
 
+               elsif i_ep_cmd_rx_add_norw(c_EP_CMD_ADD_COLPOSL-1    downto 0)                      = c_EP_CMD_ADD_SALKV(c_COL0)(c_EP_CMD_ADD_COLPOSL-1    downto 0)                      then
+                  o_ep_cmd_sts_err_wrt <= c_EP_CMD_AUTH_SALKV;
+
                elsif i_ep_cmd_rx_add_norw(c_EP_CMD_ADD_COLPOSL-1    downto c_MEM_SMFBM_ADD_S)      = c_EP_CMD_ADD_SMFBM(c_COL0)(c_EP_CMD_ADD_COLPOSL-1    downto c_MEM_SMFBM_ADD_S)      and
                      i_ep_cmd_rx_add_norw(   c_MEM_SMFBM_ADD_S-1    downto 0)                      < std_logic_vector(to_unsigned(c_TAB_SMFBM_NW, c_MEM_SMFBM_ADD_S))                    then
                   o_ep_cmd_sts_err_wrt <= c_EP_CMD_AUTH_SMFBM;

@@ -44,6 +44,7 @@ type     t_rgc                 is record
          saign                : std_logic_vector(c_DFLD_SAIGN_COL_S-1 downto 0)                             ; --! EP command: Register linked to CY_AMP_SQ_INPUT_GAIN
          sakkm                : std_logic_vector(c_DFLD_SAKKM_COL_S-1 downto 0)                             ; --! EP command: Register linked to CY_AMP_SQ_KI_KNORM
          sakrm                : std_logic_vector(c_DFLD_SAKRM_COL_S-1 downto 0)                             ; --! EP command: Register linked to CY_AMP_SQ_KNORM
+         salkv                : std_logic_vector(c_DFLD_SALKV_COL_S-1 downto 0)                             ; --! EP command: Register linked to CY_AMP_SQ_LOCKPOINT_V
          saolp                : std_logic_vector(c_DFLD_SAOLP_COL_S-1 downto 0)                             ; --! EP command: Register linked to CY_AMP_SQ_OFFSET_LSB_PTR
          saofc                : std_logic_vector(c_DFLD_SAOFC_COL_S-1 downto 0)                             ; --! EP command: Register linked to CY_AMP_SQ_OFFSET_COARSE
          saofl                : std_logic_vector(c_DFLD_SAOFL_COL_S-1 downto 0)                             ; --! EP command: Register linked to CY_AMP_SQ_OFFSET_LSB
@@ -63,7 +64,8 @@ constant c_EP_RGC_NUM_SMIGN   : integer   := 0                                  
 constant c_EP_RGC_NUM_SAIGN   : integer   := c_EP_RGC_NUM_SMIGN + 1                                         ; --! EP command: Register by column number, CY_AMP_SQ_INPUT_GAIN
 constant c_EP_RGC_NUM_SAKKM   : integer   := c_EP_RGC_NUM_SAIGN + 1                                         ; --! EP command: Register by column number, CY_AMP_SQ_KI_KNORM
 constant c_EP_RGC_NUM_SAKRM   : integer   := c_EP_RGC_NUM_SAKKM + 1                                         ; --! EP command: Register by column number, CY_AMP_SQ_KNORM
-constant c_EP_RGC_NUM_SAOLP   : integer   := c_EP_RGC_NUM_SAKRM + 1                                         ; --! EP command: Register by column number, CY_AMP_SQ_OFFSET_LSB_PTR
+constant c_EP_RGC_NUM_SALKV   : integer   := c_EP_RGC_NUM_SAKRM + 1                                         ; --! EP command: Register by column number, CY_AMP_SQ_LOCKPOINT_V
+constant c_EP_RGC_NUM_SAOLP   : integer   := c_EP_RGC_NUM_SALKV + 1                                         ; --! EP command: Register by column number, CY_AMP_SQ_OFFSET_LSB_PTR
 constant c_EP_RGC_NUM_SAOFC   : integer   := c_EP_RGC_NUM_SAOLP + 1                                         ; --! EP command: Register by column number, CY_AMP_SQ_OFFSET_COARSE
 constant c_EP_RGC_NUM_SAOFL   : integer   := c_EP_RGC_NUM_SAOFC + 1                                         ; --! EP command: Register by column number, CY_AMP_SQ_OFFSET_LSB
 constant c_EP_RGC_NUM_SMFBD   : integer   := c_EP_RGC_NUM_SAOFL + 1                                         ; --! EP command: Register by column number, CY_MUX_SQ_FB_DELAY
@@ -81,7 +83,8 @@ constant c_EP_RGC_ACC_SMIGN   : integer   := c_DFLD_SMIGN_COL_S                 
 constant c_EP_RGC_ACC_SAIGN   : integer   := c_DFLD_SAIGN_COL_S + c_EP_RGC_ACC_SMIGN                        ; --! EP command: Register by column accumulated bus size, CY_AMP_SQ_INPUT_GAIN
 constant c_EP_RGC_ACC_SAKKM   : integer   := c_DFLD_SAKKM_COL_S + c_EP_RGC_ACC_SAIGN                        ; --! EP command: Register by column accumulated bus size, CY_AMP_SQ_KI_KNORM
 constant c_EP_RGC_ACC_SAKRM   : integer   := c_DFLD_SAKRM_COL_S + c_EP_RGC_ACC_SAKKM                        ; --! EP command: Register by column accumulated bus size, CY_AMP_SQ_KNORM
-constant c_EP_RGC_ACC_SAOLP   : integer   := c_DFLD_SAOLP_COL_S + c_EP_RGC_ACC_SAKRM                        ; --! EP command: Register by column accumulated bus size, CY_AMP_SQ_OFFSET_LSB_PTR
+constant c_EP_RGC_ACC_SALKV   : integer   := c_DFLD_SALKV_COL_S + c_EP_RGC_ACC_SAKRM                        ; --! EP command: Register by column accumulated bus size, CY_AMP_SQ_LOCKPOINT_V
+constant c_EP_RGC_ACC_SAOLP   : integer   := c_DFLD_SAOLP_COL_S + c_EP_RGC_ACC_SALKV                        ; --! EP command: Register by column accumulated bus size, CY_AMP_SQ_OFFSET_LSB_PTR
 constant c_EP_RGC_ACC_SAOFC   : integer   := c_DFLD_SAOFC_COL_S + c_EP_RGC_ACC_SAOLP                        ; --! EP command: Register by column accumulated bus size, CY_AMP_SQ_OFFSET_COARSE
 constant c_EP_RGC_ACC_SAOFL   : integer   := c_DFLD_SAOFL_COL_S + c_EP_RGC_ACC_SAOFC                        ; --! EP command: Register by column accumulated bus size, CY_AMP_SQ_OFFSET_LSB
 constant c_EP_RGC_ACC_SMFBD   : integer   := c_DFLD_SMFBD_COL_S + c_EP_RGC_ACC_SAOFL                        ; --! EP command: Register by column accumulated bus size, CY_MUX_SQ_FB_DELAY
@@ -94,16 +97,17 @@ constant c_EP_RGC_ACC_RLTHR   : integer   := c_DFLD_RLTHR_COL_S + c_EP_RGC_ACC_R
 
 constant c_EP_RGC_ACC         : integer_vector(0 to c_EP_RGC_NUM_LAST) := (0,
                                  c_EP_RGC_ACC_SMIGN, c_EP_RGC_ACC_SAIGN, c_EP_RGC_ACC_SAKKM,
-                                 c_EP_RGC_ACC_SAKRM, c_EP_RGC_ACC_SAOLP, c_EP_RGC_ACC_SAOFC,
-                                 c_EP_RGC_ACC_SAOFL, c_EP_RGC_ACC_SMFBD, c_EP_RGC_ACC_SAODD,
-                                 c_EP_RGC_ACC_SAOMD, c_EP_RGC_ACC_SMPDL, c_EP_RGC_ACC_PLSSS,
-                                 c_EP_RGC_ACC_RLDEL, c_EP_RGC_ACC_RLTHR)                                    ; --! EP command: Register by column accumulated bus size
+                                 c_EP_RGC_ACC_SAKRM, c_EP_RGC_ACC_SALKV, c_EP_RGC_ACC_SAOLP,
+                                 c_EP_RGC_ACC_SAOFC, c_EP_RGC_ACC_SAOFL, c_EP_RGC_ACC_SMFBD,
+                                 c_EP_RGC_ACC_SAODD, c_EP_RGC_ACC_SAOMD, c_EP_RGC_ACC_SMPDL,
+                                 c_EP_RGC_ACC_PLSSS, c_EP_RGC_ACC_RLDEL, c_EP_RGC_ACC_RLTHR)                ; --! EP command: Register by column accumulated bus size
 
 constant c_EP_RGC_REC_DEF     : t_rgc := (
          smign                => c_EP_CMD_DEF_SMIGN   , --        slv(c_DFLD_SMIGN_COL_S-1 downto 0)        ; --! EP command: Register linked to CY_MUX_SQ_INPUT_GAIN
          saign                => c_EP_CMD_DEF_SAIGN   , --        slv(c_DFLD_SAIGN_COL_S-1 downto 0)        ; --! EP command: Register linked to CY_AMP_SQ_INPUT_GAIN
          sakkm                => c_EP_CMD_DEF_SAKKM   , --        slv(c_DFLD_SAKKM_COL_S-1 downto 0)        ; --! EP command: Register linked to CY_AMP_SQ_KI_KNORM
          sakrm                => c_EP_CMD_DEF_SAKRM   , --        slv(c_DFLD_SAKRM_COL_S-1 downto 0)        ; --! EP command: Register linked to CY_AMP_SQ_KNORM
+         salkv                => c_EP_CMD_DEF_SALKV   , --        slv(c_DFLD_SALKV_COL_S-1 downto 0)        ; --! EP command: Register linked to CY_AMP_SQ_LOCKPOINT_V
          saolp                => c_EP_CMD_DEF_SAOLP   , --        slv(c_DFLD_SAOLP_COL_S-1 downto 0)        ; --! EP command: Register linked to CY_AMP_SQ_OFFSET_LSB_PTR
          saofc                => c_EP_CMD_DEF_SAOFC   , --        slv(c_DFLD_SAOFC_COL_S-1 downto 0)        ; --! EP command: Register linked to CY_AMP_SQ_OFFSET_COARSE
          saofl                => c_EP_CMD_DEF_SAOFL   , --        slv(c_DFLD_SAOFL_COL_S-1 downto 0)        ; --! EP command: Register linked to CY_AMP_SQ_OFFSET_LSB
@@ -118,25 +122,25 @@ constant c_EP_RGC_REC_DEF     : t_rgc := (
 
 constant c_EP_RGC_DEF         : integer_vector(0 to c_EP_RGC_NUM_LAST-1) :=
                                 (c_EP_CMD_DEF_SMIGN_I, c_EP_CMD_DEF_SAIGN_I, c_EP_CMD_DEF_SAKKM_I,
-                                 c_EP_CMD_DEF_SAKRM_I, c_EP_CMD_DEF_SAOLP_I, c_EP_CMD_DEF_SAOFC_I,
-                                 c_EP_CMD_DEF_SAOFL_I, c_EP_CMD_DEF_SMFBD_I, c_EP_CMD_DEF_SAODD_I,
-                                 c_EP_CMD_DEF_SAOMD_I, c_EP_CMD_DEF_SMPDL_I, c_EP_CMD_DEF_PLSSS_I,
-                                 c_EP_CMD_DEF_RLDEL_I, c_EP_CMD_DEF_RLTHR_I)                                ; --! EP command: Register by column default value
+                                 c_EP_CMD_DEF_SAKRM_I, c_EP_CMD_DEF_SALKV_I, c_EP_CMD_DEF_SAOLP_I,
+                                 c_EP_CMD_DEF_SAOFC_I, c_EP_CMD_DEF_SAOFL_I, c_EP_CMD_DEF_SMFBD_I,
+                                 c_EP_CMD_DEF_SAODD_I, c_EP_CMD_DEF_SAOMD_I, c_EP_CMD_DEF_SMPDL_I,
+                                 c_EP_CMD_DEF_PLSSS_I, c_EP_CMD_DEF_RLDEL_I, c_EP_CMD_DEF_RLTHR_I)          ; --! EP command: Register by column default value
 
 constant c_EP_RGC_POS         : integer_vector(0 to c_EP_RGC_NUM_LAST-1) :=
                                 (c_EP_CMD_POS_SMIGN, c_EP_CMD_POS_SAIGN, c_EP_CMD_POS_SAKKM,
-                                 c_EP_CMD_POS_SAKRM, c_EP_CMD_POS_SAOLP, c_EP_CMD_POS_SAOFC,
-                                 c_EP_CMD_POS_SAOFL, c_EP_CMD_POS_SMFBD, c_EP_CMD_POS_SAODD,
-                                 c_EP_CMD_POS_SAOMD, c_EP_CMD_POS_SMPDL, c_EP_CMD_POS_PLSSS,
-                                 c_EP_CMD_POS_RLDEL, c_EP_CMD_POS_RLTHR)                                    ; --! EP command: Register by column position
+                                 c_EP_CMD_POS_SAKRM, c_EP_CMD_POS_SALKV, c_EP_CMD_POS_SAOLP,
+                                 c_EP_CMD_POS_SAOFC, c_EP_CMD_POS_SAOFL, c_EP_CMD_POS_SMFBD,
+                                 c_EP_CMD_POS_SAODD, c_EP_CMD_POS_SAOMD, c_EP_CMD_POS_SMPDL,
+                                 c_EP_CMD_POS_PLSSS, c_EP_CMD_POS_RLDEL, c_EP_CMD_POS_RLTHR)                ; --! EP command: Register by column position
 
 constant c_EP_RGC_ADD         : t_slv_arr_tab(0 to c_EP_RGC_NUM_LAST-1)(0 to c_NB_COL-1)
                                 (c_EP_SPI_WD_S-1 downto 0) :=
                                 (c_EP_CMD_ADD_SMIGN, c_EP_CMD_ADD_SAIGN, c_EP_CMD_ADD_SAKKM,
-                                 c_EP_CMD_ADD_SAKRM, c_EP_CMD_ADD_SAOLP, c_EP_CMD_ADD_SAOFC,
-                                 c_EP_CMD_ADD_SAOFL, c_EP_CMD_ADD_SMFBD, c_EP_CMD_ADD_SAODD,
-                                 c_EP_CMD_ADD_SAOMD, c_EP_CMD_ADD_SMPDL, c_EP_CMD_ADD_PLSSS,
-                                 c_EP_CMD_ADD_RLDEL, c_EP_CMD_ADD_RLTHR)                                    ; --! EP command: Register by column address
+                                 c_EP_CMD_ADD_SAKRM, c_EP_CMD_ADD_SALKV, c_EP_CMD_ADD_SAOLP,
+                                 c_EP_CMD_ADD_SAOFC, c_EP_CMD_ADD_SAOFL, c_EP_CMD_ADD_SMFBD,
+                                 c_EP_CMD_ADD_SAODD, c_EP_CMD_ADD_SAOMD, c_EP_CMD_ADD_SMPDL,
+                                 c_EP_CMD_ADD_PLSSS, c_EP_CMD_ADD_RLDEL, c_EP_CMD_ADD_RLTHR)                ; --! EP command: Register by column address
 
    -- ------------------------------------------------------------------------------------------------------
    --    EP command: Memory management
