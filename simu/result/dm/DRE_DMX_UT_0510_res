@@ -1,0 +1,320 @@
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# Simulation DRE_DMX_UT_0510
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+#             (0 ps) **********************************************************************************************
+#             (0 ps)   Test: EP command, CY_AMP_SQ_LOCKPOINT_V register
+#             (0 ps) **********************************************************************************************
+#             (0 ps) 
+#             (0 ps) ==============================================================================================
+#             (0 ps)   Asynchronous reset activated
+#             (0 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (0 ps) Write discrete: arst_n = '0'
+# ** Note   : (80000 ps) Waiting time for 80000 ps
+#             (80000 ps) 
+#             (80000 ps) ==============================================================================================
+#             (80000 ps)   Asynchronous reset deactivated
+#             (80000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (80000 ps) Write discrete: arst_n = '1'
+#             (80000 ps) 
+#             (80000 ps) ==============================================================================================
+#             (80000 ps)   Wait internal reset deactivated
+#             (80000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (6915456 ps) Waiting event rst = '0' for 6835456 ps
+#             (6915456 ps) 
+#             (6915456 ps) ==============================================================================================
+#             (6915456 ps)   Start C0_AMP_SQ_LOCKPOINT_V register test
+#             (6915456 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (6915456 ps) Send SPI command value 0520_XXXX (C0_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (14406000 ps) Waiting SPI command end for 7454544 ps
+# ** Note   : (14406000 ps) Send SPI command value 0521_5555 (C0_AMP_SQ_LOCKPOINT_V, mode Write, data 5555)
+# ** Note   : (21912000 ps) Waiting SPI command end for 7470000 ps
+# ** Note   : (21912000 ps) Send SPI command value 0520_XXXX (C0_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (21984000 ps) Waiting SPI command return end for 36000 ps
+#             (21984000 ps) 
+#             (21984000 ps) ==============================================================================================
+#             (21984000 ps)   Check C0_AMP_SQ_LOCKPOINT_V content at start
+#             (21984000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (22002000 ps) Check command return: PASS
+# ** Note   : (22002000 ps)  * Read 0520_0000, expected value 0520_0000 (C0_AMP_SQ_LOCKPOINT_V, mode Read, data 0000)
+# ** Note   : (29418000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (29418000 ps) Send SPI command value 0521_AAAA (C0_AMP_SQ_LOCKPOINT_V, mode Write, data AAAA)
+# ** Note   : (29490000 ps) Waiting SPI command return end for 36000 ps
+#             (29490000 ps) 
+#             (29490000 ps) ==============================================================================================
+#             (29490000 ps)   Check no error
+#             (29490000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (29508000 ps) Check command return: PASS
+# ** Note   : (29508000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (36924000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (36924000 ps) Send SPI command value 0520_XXXX (C0_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (36996000 ps) Waiting SPI command return end for 36000 ps
+#             (36996000 ps) 
+#             (36996000 ps) ==============================================================================================
+#             (36996000 ps)   Check C0_AMP_SQ_LOCKPOINT_V content
+#             (36996000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (37014000 ps) Check command return: PASS
+# ** Note   : (37014000 ps)  * Read 0520_5555, expected value 0520_5555 (C0_AMP_SQ_LOCKPOINT_V, mode Read, data 5555)
+# ** Note   : (44430000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (44430000 ps) Send SPI command value 0521_0000 (C0_AMP_SQ_LOCKPOINT_V, mode Write, data 0000)
+# ** Note   : (44502000 ps) Waiting SPI command return end for 36000 ps
+#             (44502000 ps) 
+#             (44502000 ps) ==============================================================================================
+#             (44502000 ps)   Check no error
+#             (44502000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (44520000 ps) Check command return: PASS
+# ** Note   : (44520000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (51936000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (51936000 ps) Send SPI command value 0520_XXXX (C0_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (52008000 ps) Waiting SPI command return end for 36000 ps
+#             (52008000 ps) 
+#             (52008000 ps) ==============================================================================================
+#             (52008000 ps)   Check C0_AMP_SQ_LOCKPOINT_V content
+#             (52008000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (52026000 ps) Check command return: PASS
+# ** Note   : (52026000 ps)  * Read 0520_AAAA, expected value 0520_AAAA (C0_AMP_SQ_LOCKPOINT_V, mode Read, data AAAA)
+# ** Note   : (59442000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (59442000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
+# ** Note   : (59514000 ps) Waiting SPI command return end for 36000 ps
+#             (59514000 ps) 
+#             (59514000 ps) ==============================================================================================
+#             (59514000 ps)   Check no error
+#             (59514000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (59532000 ps) Check command return: PASS
+# ** Note   : (59532000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (66948000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (66948000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
+# ** Note   : (67020000 ps) Waiting SPI command return end for 36000 ps
+#             (67020000 ps) 
+#             (67020000 ps) ==============================================================================================
+#             (67020000 ps)   Check C0_AMP_SQ_LOCKPOINT_V content
+#             (67020000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (67038000 ps) Check command return: PASS
+# ** Note   : (67038000 ps)  * Read 0520_0000, expected value 0520_0000 (C0_AMP_SQ_LOCKPOINT_V, mode Read, data 0000)
+# ** Note   : (74454000 ps) Waiting SPI command end for 7416000 ps
+#             (74454000 ps) 
+#             (74454000 ps) ==============================================================================================
+#             (74454000 ps)   Start C1_AMP_SQ_LOCKPOINT_V register test
+#             (74454000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (74454000 ps) Send SPI command value 2520_XXXX (C1_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (81960000 ps) Waiting SPI command end for 7470000 ps
+# ** Note   : (81960000 ps) Send SPI command value 2521_5555 (C1_AMP_SQ_LOCKPOINT_V, mode Write, data 5555)
+# ** Note   : (89466000 ps) Waiting SPI command end for 7470000 ps
+# ** Note   : (89466000 ps) Send SPI command value 2520_XXXX (C1_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (89538000 ps) Waiting SPI command return end for 36000 ps
+#             (89538000 ps) 
+#             (89538000 ps) ==============================================================================================
+#             (89538000 ps)   Check C1_AMP_SQ_LOCKPOINT_V content at start
+#             (89538000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (89556000 ps) Check command return: PASS
+# ** Note   : (89556000 ps)  * Read 2520_0000, expected value 2520_0000 (C1_AMP_SQ_LOCKPOINT_V, mode Read, data 0000)
+# ** Note   : (96972000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (96972000 ps) Send SPI command value 2521_AAAA (C1_AMP_SQ_LOCKPOINT_V, mode Write, data AAAA)
+# ** Note   : (97044000 ps) Waiting SPI command return end for 36000 ps
+#             (97044000 ps) 
+#             (97044000 ps) ==============================================================================================
+#             (97044000 ps)   Check no error
+#             (97044000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (97062000 ps) Check command return: PASS
+# ** Note   : (97062000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (104478000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (104478000 ps) Send SPI command value 2520_XXXX (C1_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (104550000 ps) Waiting SPI command return end for 36000 ps
+#             (104550000 ps) 
+#             (104550000 ps) ==============================================================================================
+#             (104550000 ps)   Check C1_AMP_SQ_LOCKPOINT_V content
+#             (104550000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (104568000 ps) Check command return: PASS
+# ** Note   : (104568000 ps)  * Read 2520_5555, expected value 2520_5555 (C1_AMP_SQ_LOCKPOINT_V, mode Read, data 5555)
+# ** Note   : (111984000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (111984000 ps) Send SPI command value 2521_0000 (C1_AMP_SQ_LOCKPOINT_V, mode Write, data 0000)
+# ** Note   : (112056000 ps) Waiting SPI command return end for 36000 ps
+#             (112056000 ps) 
+#             (112056000 ps) ==============================================================================================
+#             (112056000 ps)   Check no error
+#             (112056000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (112074000 ps) Check command return: PASS
+# ** Note   : (112074000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (119490000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (119490000 ps) Send SPI command value 2520_XXXX (C1_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (119562000 ps) Waiting SPI command return end for 36000 ps
+#             (119562000 ps) 
+#             (119562000 ps) ==============================================================================================
+#             (119562000 ps)   Check C1_AMP_SQ_LOCKPOINT_V content
+#             (119562000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (119580000 ps) Check command return: PASS
+# ** Note   : (119580000 ps)  * Read 2520_AAAA, expected value 2520_AAAA (C1_AMP_SQ_LOCKPOINT_V, mode Read, data AAAA)
+# ** Note   : (126996000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (126996000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
+# ** Note   : (127068000 ps) Waiting SPI command return end for 36000 ps
+#             (127068000 ps) 
+#             (127068000 ps) ==============================================================================================
+#             (127068000 ps)   Check no error
+#             (127068000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (127086000 ps) Check command return: PASS
+# ** Note   : (127086000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (134502000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (134502000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
+# ** Note   : (134574000 ps) Waiting SPI command return end for 36000 ps
+#             (134574000 ps) 
+#             (134574000 ps) ==============================================================================================
+#             (134574000 ps)   Check C1_AMP_SQ_LOCKPOINT_V content
+#             (134574000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (134592000 ps) Check command return: PASS
+# ** Note   : (134592000 ps)  * Read 2520_0000, expected value 2520_0000 (C1_AMP_SQ_LOCKPOINT_V, mode Read, data 0000)
+# ** Note   : (142008000 ps) Waiting SPI command end for 7416000 ps
+#             (142008000 ps) 
+#             (142008000 ps) 
+#             (142008000 ps) ==============================================================================================
+#             (142008000 ps)   Start C2_AMP_SQ_LOCKPOINT_V register test
+#             (142008000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (142008000 ps) Send SPI command value 4520_XXXX (C2_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (149514000 ps) Waiting SPI command end for 7470000 ps
+# ** Note   : (149514000 ps) Send SPI command value 4521_5555 (C2_AMP_SQ_LOCKPOINT_V, mode Write, data 5555)
+# ** Note   : (157020000 ps) Waiting SPI command end for 7470000 ps
+# ** Note   : (157020000 ps) Send SPI command value 4520_XXXX (C2_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (157092000 ps) Waiting SPI command return end for 36000 ps
+#             (157092000 ps) 
+#             (157092000 ps) ==============================================================================================
+#             (157092000 ps)   Check C2_AMP_SQ_LOCKPOINT_V content at start
+#             (157092000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (157110000 ps) Check command return: PASS
+# ** Note   : (157110000 ps)  * Read 4520_0000, expected value 4520_0000 (C2_AMP_SQ_LOCKPOINT_V, mode Read, data 0000)
+# ** Note   : (164526000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (164526000 ps) Send SPI command value 4521_AAAA (C2_AMP_SQ_LOCKPOINT_V, mode Write, data AAAA)
+# ** Note   : (164598000 ps) Waiting SPI command return end for 36000 ps
+#             (164598000 ps) 
+#             (164598000 ps) ==============================================================================================
+#             (164598000 ps)   Check no error
+#             (164598000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (164616000 ps) Check command return: PASS
+# ** Note   : (164616000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (172032000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (172032000 ps) Send SPI command value 4520_XXXX (C2_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (172104000 ps) Waiting SPI command return end for 36000 ps
+#             (172104000 ps) 
+#             (172104000 ps) ==============================================================================================
+#             (172104000 ps)   Check C2_AMP_SQ_LOCKPOINT_V content
+#             (172104000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (172122000 ps) Check command return: PASS
+# ** Note   : (172122000 ps)  * Read 4520_5555, expected value 4520_5555 (C2_AMP_SQ_LOCKPOINT_V, mode Read, data 5555)
+# ** Note   : (179538000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (179538000 ps) Send SPI command value 4521_0000 (C2_AMP_SQ_LOCKPOINT_V, mode Write, data 0000)
+# ** Note   : (179610000 ps) Waiting SPI command return end for 36000 ps
+#             (179610000 ps) 
+#             (179610000 ps) ==============================================================================================
+#             (179610000 ps)   Check no error
+#             (179610000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (179628000 ps) Check command return: PASS
+# ** Note   : (179628000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (187044000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (187044000 ps) Send SPI command value 4520_XXXX (C2_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (187116000 ps) Waiting SPI command return end for 36000 ps
+#             (187116000 ps) 
+#             (187116000 ps) ==============================================================================================
+#             (187116000 ps)   Check C2_AMP_SQ_LOCKPOINT_V content
+#             (187116000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (187134000 ps) Check command return: PASS
+# ** Note   : (187134000 ps)  * Read 4520_AAAA, expected value 4520_AAAA (C2_AMP_SQ_LOCKPOINT_V, mode Read, data AAAA)
+# ** Note   : (194550000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (194550000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
+# ** Note   : (194622000 ps) Waiting SPI command return end for 36000 ps
+#             (194622000 ps) 
+#             (194622000 ps) ==============================================================================================
+#             (194622000 ps)   Check no error
+#             (194622000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (194640000 ps) Check command return: PASS
+# ** Note   : (194640000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (202056000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (202056000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
+# ** Note   : (202128000 ps) Waiting SPI command return end for 36000 ps
+#             (202128000 ps) 
+#             (202128000 ps) ==============================================================================================
+#             (202128000 ps)   Check C2_AMP_SQ_LOCKPOINT_V content
+#             (202128000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (202146000 ps) Check command return: PASS
+# ** Note   : (202146000 ps)  * Read 4520_0000, expected value 4520_0000 (C2_AMP_SQ_LOCKPOINT_V, mode Read, data 0000)
+# ** Note   : (209562000 ps) Waiting SPI command end for 7416000 ps
+#             (209562000 ps) 
+#             (209562000 ps) ==============================================================================================
+#             (209562000 ps)   Start C3_AMP_SQ_LOCKPOINT_V register test
+#             (209562000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (209562000 ps) Send SPI command value 6520_XXXX (C3_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (217068000 ps) Waiting SPI command end for 7470000 ps
+# ** Note   : (217068000 ps) Send SPI command value 6521_5555 (C3_AMP_SQ_LOCKPOINT_V, mode Write, data 5555)
+# ** Note   : (224574000 ps) Waiting SPI command end for 7470000 ps
+# ** Note   : (224574000 ps) Send SPI command value 6520_XXXX (C3_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (224646000 ps) Waiting SPI command return end for 36000 ps
+#             (224646000 ps) 
+#             (224646000 ps) ==============================================================================================
+#             (224646000 ps)   Check C3_AMP_SQ_LOCKPOINT_V content at start
+#             (224646000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (224664000 ps) Check command return: PASS
+# ** Note   : (224664000 ps)  * Read 6520_0000, expected value 6520_0000 (C3_AMP_SQ_LOCKPOINT_V, mode Read, data 0000)
+# ** Note   : (232080000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (232080000 ps) Send SPI command value 6521_AAAA (C3_AMP_SQ_LOCKPOINT_V, mode Write, data AAAA)
+# ** Note   : (232152000 ps) Waiting SPI command return end for 36000 ps
+#             (232152000 ps) 
+#             (232152000 ps) ==============================================================================================
+#             (232152000 ps)   Check no error
+#             (232152000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (232170000 ps) Check command return: PASS
+# ** Note   : (232170000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (239586000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (239586000 ps) Send SPI command value 6520_XXXX (C3_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (239658000 ps) Waiting SPI command return end for 36000 ps
+#             (239658000 ps) 
+#             (239658000 ps) ==============================================================================================
+#             (239658000 ps)   Check C3_AMP_SQ_LOCKPOINT_V content
+#             (239658000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (239676000 ps) Check command return: PASS
+# ** Note   : (239676000 ps)  * Read 6520_5555, expected value 6520_5555 (C3_AMP_SQ_LOCKPOINT_V, mode Read, data 5555)
+# ** Note   : (247092000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (247092000 ps) Send SPI command value 6521_0000 (C3_AMP_SQ_LOCKPOINT_V, mode Write, data 0000)
+# ** Note   : (247164000 ps) Waiting SPI command return end for 36000 ps
+#             (247164000 ps) 
+#             (247164000 ps) ==============================================================================================
+#             (247164000 ps)   Check no error
+#             (247164000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (247182000 ps) Check command return: PASS
+# ** Note   : (247182000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (254598000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (254598000 ps) Send SPI command value 6520_XXXX (C3_AMP_SQ_LOCKPOINT_V, mode Read, data XXXX)
+# ** Note   : (254670000 ps) Waiting SPI command return end for 36000 ps
+#             (254670000 ps) 
+#             (254670000 ps) ==============================================================================================
+#             (254670000 ps)   Check C3_AMP_SQ_LOCKPOINT_V content
+#             (254670000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (254688000 ps) Check command return: PASS
+# ** Note   : (254688000 ps)  * Read 6520_AAAA, expected value 6520_AAAA (C3_AMP_SQ_LOCKPOINT_V, mode Read, data AAAA)
+# ** Note   : (262104000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (262104000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
+# ** Note   : (262176000 ps) Waiting SPI command return end for 36000 ps
+#             (262176000 ps) 
+#             (262176000 ps) ==============================================================================================
+#             (262176000 ps)   Check no error
+#             (262176000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (262194000 ps) Check command return: PASS
+# ** Note   : (262194000 ps)  * Read C000_FFFF, expected value C000_FFFF (Status, mode Read, data FFFF)
+# ** Note   : (269610000 ps) Waiting SPI command end for 7416000 ps
+# ** Note   : (269610000 ps) Send SPI command value C000_XXXX (Status, mode Read, data XXXX)
+# ** Note   : (269682000 ps) Waiting SPI command return end for 36000 ps
+#             (269682000 ps) 
+#             (269682000 ps) ==============================================================================================
+#             (269682000 ps)   Check C3_AMP_SQ_LOCKPOINT_V content
+#             (269682000 ps) ----------------------------------------------------------------------------------------------
+# ** Note   : (269700000 ps) Check command return: PASS
+# ** Note   : (269700000 ps)  * Read 6520_0000, expected value 6520_0000 (C3_AMP_SQ_LOCKPOINT_V, mode Read, data 0000)
+# ** Note   : (277116000 ps) Waiting SPI command end for 7416000 ps
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# Error simulation time         : '0'
+# Error check discrete level    : '0'
+# Error check command return    : '0'
+# Error check time              : '0'
+# Error check clocks parameters : '0'
+# Error check spi parameters    : '0'
+# Error check science packets   : '0'
+# Error check pulse shaping     : '0'
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+# Simulation time               : 280000000 ps
+# Simulation status             : PASS
+# ------------------------------------------------------------------------------------------------------------------------------------------------------

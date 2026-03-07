@@ -51,8 +51,7 @@ entity err_average is port (
          i_sqm_data_err_rdy   : in     std_logic                                                            ; --! SQUID MUX Data error ready ('0' = Not ready, '1' = Ready)
 
          o_aqmde_sync         : out    std_logic_vector(c_DFLD_AQMDE_S-1  downto 0)                         ; --! Telemetry mode, sync. on first pixel
-         o_adc_smp_ave        : out    std_logic_vector(c_ADC_SMP_AVE_S-1 downto 0)                         ; --! ADC sample average (signed) (bus size result +1 bit for rounding)
-         o_err_sig            : out    std_logic_vector(c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)        --! Error signal (signed)
+         o_adc_smp_ave        : out    std_logic_vector(c_ADC_SMP_AVE_S-1 downto 0)                           --! ADC sample average (signed) (bus size result +1 bit for rounding)
    );
 end entity err_average;
 
@@ -67,10 +66,6 @@ signal   sqm_data_err         : std_logic_vector(c_SQM_DATA_ERR_S-1 downto 0)   
 
 signal   adc_smp_ave_coef     : std_logic_vector(c_ASP_CF_S       downto 0)                                 ; --! ADC sample number for averaging coefficient (signed)
 signal   adc_smp_ave          : std_logic_vector(c_ADC_SMP_AVE_S  downto 0)                                 ; --! ADC sample average (signed) (bus size result +1 bit for rounding)
-signal   adc_smp_ave_sc       : std_logic_vector(c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S   downto 0)             ; --! ADC sample average for data science (signed)
-signal   err_sig              : std_logic_vector(c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)             ; --! Error signal (signed)
-signal   err_sig_r            : t_slv_arr(0 to c_ERR_SIG_R_NB-1)
-                                         (c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1 downto 0)                    ; --! Error signal register (signed)
 begin
 
    -- ------------------------------------------------------------------------------------------------------
@@ -82,12 +77,10 @@ begin
       if i_rst = c_RST_LEV_ACT then
          sqm_data_err_frst_r  <= (others => c_LOW_LEV);
          sqm_data_err_rdy_r   <= (others => c_LOW_LEV);
-         err_sig_r            <= (others => c_ZERO(err_sig_r(err_sig_r'low)'range));
 
       elsif rising_edge(i_clk) then
          sqm_data_err_frst_r  <= sqm_data_err_frst_r(sqm_data_err_frst_r'high-1 downto 0) & i_sqm_data_err_frst;
          sqm_data_err_rdy_r   <= sqm_data_err_rdy_r( sqm_data_err_rdy_r'high-1  downto 0) & i_sqm_data_err_rdy;
-         err_sig_r            <= err_sig & err_sig_r(0 to err_sig_r'high-1);
 
       end if;
 
@@ -204,22 +197,5 @@ begin
          i_data_carry         => adc_smp_ave          , -- in     slv(g_DATA_CARRY_S-1 downto 0)            ; --! Data with carry on lsb (signed)
          o_data_rnd_sat       => o_adc_smp_ave          -- out    slv(g_DATA_CARRY_S-2 downto 0)              --! Data rounded with saturation (signed)
    );
-
-   -- ------------------------------------------------------------------------------------------------------
-   --!   ADC sample average for science (rounded with saturation operation)
-   -- ------------------------------------------------------------------------------------------------------
-   adc_smp_ave_sc <= adc_smp_ave(adc_smp_ave'high downto adc_smp_ave'length-c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S-1);
-
-   I_adc_smp_ave_sc: entity work.round_sat generic map (
-         g_RST_LEV_ACT        => c_RST_LEV_ACT        , -- std_logic                                        ; --! Reset level activation value
-         g_DATA_CARRY_S       => c_SC_DATA_SER_NB*c_SC_DATA_SER_W_S+1 -- integer                              --! Data with carry bus size
-   )  port map (
-         i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
-         i_clk                => i_clk                , -- in     std_logic                                 ; --! Clock
-         i_data_carry         => adc_smp_ave_sc       , -- in     slv(g_DATA_CARRY_S-1 downto 0)            ; --! Data with carry on lsb (signed)
-         o_data_rnd_sat       => err_sig                -- out    slv(g_DATA_CARRY_S-2 downto 0)              --! Data rounded with saturation (signed)
-   );
-
-   o_err_sig <= err_sig_r(err_sig_r'high);
 
 end architecture RTL;

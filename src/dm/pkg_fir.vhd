@@ -39,7 +39,7 @@ package pkg_fir is
    -- ------------------------------------------------------------------------------------------------------
    --    SQUID AMP parameters
    -- ------------------------------------------------------------------------------------------------------
-constant c_SQA_FIR1_DCI_VAL   : integer := 32                                                               ; --! SQUID AMP: Filter FIR1 decimation value
+constant c_SQA_FIR1_DCI_VAL   : integer := 34                                                               ; --! SQUID AMP: Filter FIR1 decimation value
 constant c_SQA_FIR1_TAB_NW    : integer := 256                                                              ; --! SQUID AMP: Filter FIR1 table number word
 constant c_SQA_FIR1_S         : integer := c_RAM_ECC_DATA_S                                                 ; --! SQUID AMP: Filter FIR1 coefficient bus size
 constant c_SQA_FIR1_FRC_S     : integer := integer(ceil(real(c_RAM_ECC_DATA_S-2) - log2(0.033186060773188))); --! SQUID AMP: Filter FIR1 coefficient fractional part

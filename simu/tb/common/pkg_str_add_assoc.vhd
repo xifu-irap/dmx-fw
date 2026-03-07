@@ -173,6 +173,9 @@ constant c_PAD                : character := ' '                                
          when "C0_MUX_SQ_LOCKPOINT_V         "  =>
             o_fld_add_val:= c_EP_CMD_ADD_SMLKV(c_COL0);
 
+         when "C0_AMP_SQ_LOCKPOINT_V         "  =>
+            o_fld_add_val:= c_EP_CMD_ADD_SALKV(c_COL0);
+
          when "C0_MUX_SQ_FB_MODE             "  =>
             o_fld_add_val:= c_EP_CMD_ADD_SMFBM(c_COL0);
 
@@ -241,6 +244,9 @@ constant c_PAD                : character := ' '                                
 
          when "C1_MUX_SQ_LOCKPOINT_V         "  =>
             o_fld_add_val:= c_EP_CMD_ADD_SMLKV(c_COL1);
+
+         when "C1_AMP_SQ_LOCKPOINT_V         "  =>
+            o_fld_add_val:= c_EP_CMD_ADD_SALKV(c_COL1);
 
          when "C1_MUX_SQ_FB_MODE             "  =>
             o_fld_add_val:= c_EP_CMD_ADD_SMFBM(c_COL1);
@@ -311,6 +317,9 @@ constant c_PAD                : character := ' '                                
          when "C2_MUX_SQ_LOCKPOINT_V         "  =>
             o_fld_add_val:= c_EP_CMD_ADD_SMLKV(c_COL2);
 
+         when "C2_AMP_SQ_LOCKPOINT_V         "  =>
+            o_fld_add_val:= c_EP_CMD_ADD_SALKV(c_COL2);
+
          when "C2_MUX_SQ_FB_MODE             "  =>
             o_fld_add_val:= c_EP_CMD_ADD_SMFBM(c_COL2);
 
@@ -379,6 +388,9 @@ constant c_PAD                : character := ' '                                
 
          when "C3_MUX_SQ_LOCKPOINT_V         "  =>
             o_fld_add_val:= c_EP_CMD_ADD_SMLKV(c_COL3);
+
+         when "C3_AMP_SQ_LOCKPOINT_V         "  =>
+            o_fld_add_val:= c_EP_CMD_ADD_SALKV(c_COL3);
 
          when "C3_MUX_SQ_FB_MODE             "  =>
             o_fld_add_val:= c_EP_CMD_ADD_SMFBM(c_COL3);

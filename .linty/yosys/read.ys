@@ -4,6 +4,7 @@ verific -vhdl ./src/common/pkg_type.vhd
 verific -vhdl ./src/common/pkg_func_math.vhd
 verific -vhdl ./src/dm/pkg_mod.vhd
 verific -vhdl ./ip/nx/NG-LARGE/pkg_fpga_tech.vhd
+verific -vhdl ./src/dm/pkg_fir.vhd
 verific -vhdl ./src/common/pkg_project.vhd
 verific -vhdl ./src/common/pkg_calc_chain.vhd
 verific -vhdl ./src/common/pkg_ep_cmd.vhd
@@ -38,7 +39,6 @@ verific -vhdl ./src/common/dmx_cmd.vhd
 verific -vhdl ./src/common/spi_master.vhd
 verific -vhdl ./src/common/science_data_tx.vhd
 verific -vhdl ./src/common/science_data_mgt.vhd
-verific -vhdl ./src/common/hk_mgt.vhd
 verific -vhdl ./src/common/adder_acc.vhd
 verific -vhdl ./src/common/squid_adc_sys.vhd
 verific -vhdl ./src/common/squid_adc_mgt.vhd
@@ -52,13 +52,13 @@ verific -vhdl ./src/common/sqm_dac_mgt.vhd
 verific -vhdl ./src/common/sqm_spi_mgt.vhd
 verific -vhdl ./src/common/test_pattern_gen.vhd
 verific -vhdl ./src/common/relock.vhd
-verific -vhdl ./src/dm/pkg_fir.vhd
-verific -vhdl ./src/dm/fir_deci.vhd
+verific -vhdl ./src/common/fir_deci.vhd
+verific -vhdl ./src/common/sqa_fbk_mgt.vhd
+verific -vhdl ./src/common/sqa_dac_sys.vhd
 verific -vhdl ./src/dm/sqa_under_samp.vhd
-verific -vhdl ./src/dm/sqa_fbk_mgt.vhd
-verific -vhdl ./src/dm/sqa_dac_sys.vhd
+verific -vhdl ./src/common/squid_data_proc.vhd
+verific -vhdl ./src/dm/hk_mgt.vhd
 verific -vhdl ./src/dm/sqa_dac_mgt.vhd
-verific -vhdl ./src/dm/squid_data_proc.vhd
 verific -vhdl ./src/dm/top_dmx_dm.vhd
 verific -vhdl ./src/dk/top_dmx_dm_clk.vhd
 verific -vhdl ./src/dk/top_dmx_dk.vhd

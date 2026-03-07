@@ -79,30 +79,33 @@ constant c_NRM_PN_S           : integer := c_FB_PN_S                            
 constant c_MEM_ELN_RD_NPER    : integer := c_MEM_RD_DATA_NPER + 1                                           ; --! Clock period number for reading data in add/acc memory from data element n ready
 constant c_MEM_PAR_NPER       : integer := c_MEM_RD_DATA_NPER + 1                                           ; --! Clock period number for getting parameter in memory from memory address update
 
-constant c_ADC_SMP_AVE_NPER   : integer := c_DSP_NPER + 1                                                   ; --! Clock period number for ADC sample average from SQUID MUX Data error ready
-constant c_ADC_SMP_MUX_NPER   : integer := c_ADC_SMP_AVE_NPER + 1                                           ; --! Clock period number for ADC sample multiplexer from SQUID MUX Data error ready
-constant c_ERR_SIG_NPER       : integer := c_ADC_SMP_AVE_NPER                                               ; --! Clock period number for Error signal       from SQUID MUX Data error ready
+constant c_ADC_SMP_AVE_NPER   : integer := c_DSP_NPER + 1                                                   ; --! Clock period number for ADC sample average       from SQUID MUX Data error ready
+constant c_ADC_SMP_DEL_NPER   : integer := c_ADC_SMP_AVE_NPER + c_SQA_FIR_DTA_NPER                          ; --! Clock period number for ADC sample average delay from SQUID MUX Data error ready
+constant c_ADC_SMP_MUX_NPER   : integer := c_ADC_SMP_DEL_NPER + 1                                           ; --! Clock period number for ADC sample multiplexer   from SQUID MUX Data error ready
+constant c_ERR_SIG_NPER       : integer := c_ADC_SMP_MUX_NPER + 1                                           ; --! Clock period number for Error signal             from SQUID MUX Data error ready
 
-constant c_KNORM_P_SRT        : integer := 0                                                                ; --! Start memory reading: parameters knorm(p)
-constant c_KNORM_P_NPER       : integer := c_KNORM_P_SRT   + c_MEM_PAR_NPER + 1                             ; --! Clock period number for knorm(p)           from knorm(p) start memory reading
-constant c_SGN_P_NPER         : integer := c_KNORM_P_NPER  + c_DSP_NPER + 1                                 ; --! Clock period number for SGN(p)             from knorm(p) start memory reading
-constant c_NRM_PN_NPER        : integer := c_SGN_P_NPER    + c_DSP_NPER + 1                                 ; --! Clock period number for NRM(p,n)           from knorm(p) start memory reading
-constant c_DIF_E_PN_NPER      : integer := c_SGN_P_NPER                                                     ; --! Clock period number for E(p,n) - Elp(p)    from knorm(p) start memory reading
-constant c_SC_PN_NPER         : integer := c_NRM_PN_NPER   + 2                                              ; --! Clock period number for SC(p,n)            from knorm(p) start memory reading
-constant c_SC_O_PN_NPER       : integer := c_SC_PN_NPER    + 1                                              ; --! Clock period number for SC(p,n) out        from knorm(p) start memory reading
-constant c_AQMDE_SYNC_NPER    : integer := c_SC_PN_NPER    - 1                                              ; --! Clock period number for aqdme sync         from knorm(p) start memory reading
+constant c_DIF_E_PN_NPER      : integer := c_ADC_SMP_MUX_NPER + 1                                           ; --! Clock period number for E(p,n) - Elp(p)          from SQUID MUX Data error ready
+constant c_NRM_PN_NPER        : integer := c_DIF_E_PN_NPER    + c_DSP_NPER + 1                              ; --! Clock period number for NRM(p,n)                 from SQUID MUX Data error ready
+constant c_SC_PN_NPER         : integer := c_NRM_PN_NPER      + 2                                           ; --! Clock period number for SC(p,n)                  from SQUID MUX Data error ready
+constant c_SC_O_PN_NPER       : integer := c_SC_PN_NPER       + 1                                           ; --! Clock period number for SC(p,n) out              from SQUID MUX Data error ready
+constant c_AQMDE_SYNC_NPER    : integer := c_SC_PN_NPER       - 1                                           ; --! Clock period number for aqdme sync               from SQUID MUX Data error ready
 
-constant c_KIKNM_P_SRT        : integer := 0                                                                ; --! Start memory reading: parameters ki(p)*knorm(p)
-constant c_KIKNM_P_NPER       : integer := c_KIKNM_P_SRT   + c_MEM_PAR_NPER + 1                             ; --! Clock period number for ki(p)*knorm(p)     from ki(p)*knorm(p) start memory reading
-constant c_FGN_P_NPER         : integer := c_KIKNM_P_NPER  + c_DSP_NPER + 1                                 ; --! Clock period number for FGN(p)             from ki(p)*knorm(p) start memory reading
-constant c_M_PN_NPER          : integer := c_FGN_P_NPER    + c_DSP_NPER + 1                                 ; --! Clock period number for M(p,n)             from ki(p)*knorm(p) start memory reading
-constant c_PC1_PN_NPER        : integer := c_M_PN_NPER     + c_DSP_NPER + 1                                 ; --! Clock period number for PC1(p,n)           from ki(p)*knorm(p) start memory reading
-constant c_RL_ENA_NPER        : integer := c_PC1_PN_NPER   + 2                                              ; --! Clock period number for Relock enable      from ki(p)*knorm(p) start memory reading
-constant c_FB_PNP1_NPER       : integer := c_RL_ENA_NPER   + 2                                              ; --! Clock period number for FB(p,n+1)          from ki(p)*knorm(p) start memory reading
+constant c_M_PN_NPER          : integer := c_DIF_E_PN_NPER + c_DSP_NPER + 1                                 ; --! Clock period number for M(p,n)                   from SQUID MUX Data error ready
+constant c_PC1_PN_NPER        : integer := c_M_PN_NPER     + c_DSP_NPER + 1                                 ; --! Clock period number for PC1(p,n)                 from SQUID MUX Data error ready
+constant c_RL_ENA_NPER        : integer := c_PC1_PN_NPER   + 2                                              ; --! Clock period number for Relock enable            from SQUID MUX Data error ready
+constant c_FB_PNP1_NPER       : integer := c_RL_ENA_NPER   + 2                                              ; --! Clock period number for FB(p,n+1)                from SQUID MUX Data error ready
 constant c_TST_PAT_SC_NPER    : integer := 4                                                                ; --! Clock period number for test pattern on science before FB(p,n+1) elaboration
 
+constant c_SGN_P_NPER         : integer := c_DIF_E_PN_NPER                                                  ; --! Clock period number for SGN(p)                   from SQUID MUX Data error ready
+constant c_KNORM_P_NPER       : integer := c_SGN_P_NPER    - (c_DSP_NPER + 1)                               ; --! Clock period number for knorm(p)                 from SQUID MUX Data error ready
+constant c_KNORM_P_SRT        : integer := c_KNORM_P_NPER  - (c_MEM_PAR_NPER + 1)                           ; --! Start memory reading: parameters knorm(p)
+
+constant c_FGN_P_NPER         : integer := c_DIF_E_PN_NPER                                                  ; --! Clock period number for FGN(p)                   from SQUID MUX Data error ready
+constant c_KIKNM_P_NPER       : integer := c_FGN_P_NPER    - (c_DSP_NPER + 1)                               ; --! Clock period number for ki(p)*knorm(p)           from SQUID MUX Data error ready
+constant c_KIKNM_P_SRT        : integer := c_KIKNM_P_NPER  - (c_MEM_PAR_NPER + 1)                           ; --! Start memory reading: parameters ki(p)*knorm(p)
+
 constant c_A_P_SRT            : integer := c_M_PN_NPER     - c_MEM_PAR_NPER                                 ; --! Start memory reading: parameters a(p)
-constant c_ELP_P_SRT          : integer := c_DIF_E_PN_NPER - c_MEM_PAR_NPER - 2                             ; --! Start memory reading: parameters Elp(p)
+constant c_ELP_P_SRT          : integer := c_DIF_E_PN_NPER - c_MEM_PAR_NPER - 3                             ; --! Start memory reading: parameters Elp(p)
 constant c_DFB_PN_SRT         : integer := c_M_PN_NPER     - c_MEM_ELN_RD_NPER                              ; --! Start memory reading: parameters dFB(p,n)
 constant c_FB_PN_SRT          : integer := c_NRM_PN_NPER   - c_MEM_ELN_RD_NPER                              ; --! Start memory reading: parameters FB(p,n)
 constant c_SMFB0_P_SRT        : integer := c_RL_ENA_NPER   - c_MEM_PAR_NPER - 1                             ; --! Start memory reading: parameters smfb0
@@ -110,7 +113,6 @@ constant c_MEM_RL_RD_ADD_SRT  : integer := c_RL_ENA_NPER   - c_MEM_PAR_NPER - 3 
 constant c_INI_DFB_PN_SRT     : integer := c_DFB_PN_SRT    - c_MEM_PAR_NPER + 1                             ; --! Start memory reading: Initialization dFB(p,n)
 
 constant c_DATA_ERR_RDY_R_NB  : integer := c_FB_PNP1_NPER + 1                                               ; --! Data science ready register number
-constant c_ADC_SMP_AVE_R_NB   : integer := c_DIF_E_PN_NPER - c_ADC_SMP_MUX_NPER - 1                         ; --! ADC sample average register number
 constant c_ERR_SIG_R_NB       : integer := c_SC_PN_NPER    - c_ERR_SIG_NPER                                 ; --! Error signal register number
 
 end pkg_calc_chain;

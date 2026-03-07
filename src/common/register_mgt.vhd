@@ -288,6 +288,7 @@ begin
       --    @Req : REG_CY_AMP_SQ_INPUT_GAIN
       --    @Req : REG_CY_AMP_SQ_KI_KNORM
       --    @Req : REG_CY_AMP_SQ_KNORM
+      --    @Req : REG_CY_AMP_SQ_LOCKPOINT_V
       --    @Req : REG_CY_AMP_SQ_OFFSET_LSB_PTR
       --    @Req : REG_CY_AMP_SQ_OFFSET_COARSE
       --    @Req : REG_CY_AMP_SQ_OFFSET_LSB
@@ -311,6 +312,7 @@ begin
       --    @Req : DRE-DMX-FW-REQ-0298
       --    @Req : DRE-DMX-FW-REQ-0305
       --    @Req : DRE-DMX-FW-REQ-0326
+      --    @Req : DRE-DMX-FW-REQ-0328
       --    @Req : DRE-DMX-FW-REQ-0380
       --    @Req : DRE-DMX-FW-REQ-0387
       --    @Req : DRE-DMX-FW-REQ-0392
@@ -352,6 +354,7 @@ begin
       rg_col(k).saign <= rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAIGN+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAIGN));
       rg_col(k).sakkm <= rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAKKM+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAKKM));
       rg_col(k).sakrm <= rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAKRM+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAKRM));
+      rg_col(k).salkv <= rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SALKV+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SALKV));
       rg_col(k).saolp <= rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAOLP+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAOLP));
       rg_col(k).saofc <= rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAOFC+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAOFC));
       rg_col(k).saofl <= rg_col_data(k)(c_EP_RGC_ACC(c_EP_RGC_NUM_SAOFL+1)-1 downto c_EP_RGC_ACC(c_EP_RGC_NUM_SAOFL));
