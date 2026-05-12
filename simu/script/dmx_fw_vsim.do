@@ -56,6 +56,7 @@ quietly set TB_DIR $4
       ${IP_DIR}/dsp.vhd                          \
       ${IP_DIR}/pll.vhd                          \
       ${IP_DIR}/dmem_ecc.vhd                     \
+      ${IP_DIR}/mult_add_ext.vhd                 \
       ${SRC_DIR}/common/im_ck.vhd                \
       ${SRC_DIR}/common/rst_gen.vhd              \
       ${SRC_DIR}/common/rst_clk_mgt.vhd          \
@@ -93,6 +94,7 @@ quietly set TB_DIR $4
       ${SRC_DIR}/common/test_pattern_gen.vhd     \
       ${SRC_DIR}/common/relock.vhd               \
       ${SRC_DIR}/common/fir_deci.vhd             \
+      ${SRC_DIR}/common/iir_deci.vhd             \
       ${SRC_DIR}/common/sqa_fbk_mgt.vhd          \
       ${SRC_DIR}/common/sqa_dac_sys.vhd
 

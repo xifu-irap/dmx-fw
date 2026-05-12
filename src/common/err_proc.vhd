@@ -203,8 +203,8 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    --!   External element synchronization
    -- ------------------------------------------------------------------------------------------------------
-   o_adc_smp_ave_frst   <= sqm_data_err_frst_r(c_ADC_SMP_AVE_NPER);
-   o_adc_smp_ave_cs     <= sqm_data_err_rdy_r( c_ADC_SMP_AVE_NPER);
+   o_adc_smp_ave_frst   <= sqm_data_err_frst_r(c_ADC_SMP_AVE_NPER-1);
+   o_adc_smp_ave_cs     <= sqm_data_err_rdy_r( c_ADC_SMP_AVE_NPER-1);
    o_sqa_close_sync_ena <= sqm_data_err_frst_r(c_KNORM_P_SRT) and sqm_data_err_rdy_r(c_KNORM_P_SRT);
    o_smfbm_add          <= pixel_pos_r(        c_INI_DFB_PN_SRT);
    o_smfbm_cs           <= sqm_data_err_rdy_r( c_INI_DFB_PN_SRT);

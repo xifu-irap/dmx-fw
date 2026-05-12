@@ -16,6 +16,7 @@ verific -vhdl ./src/common/mem_scrubbing.vhd
 verific -vhdl ./ip/nx/NG-LARGE/dsp.vhd
 verific -vhdl ./ip/nx/NG-LARGE/pll.vhd
 verific -vhdl ./ip/nx/NG-LARGE/dmem_ecc.vhd
+verific -vhdl ./ip/nx/NG-LARGE/mult_add_ext.vhd
 verific -vhdl ./src/common/im_ck.vhd
 verific -vhdl ./src/common/rst_gen.vhd
 verific -vhdl ./src/common/rst_clk_mgt.vhd
@@ -53,6 +54,7 @@ verific -vhdl ./src/common/sqm_spi_mgt.vhd
 verific -vhdl ./src/common/test_pattern_gen.vhd
 verific -vhdl ./src/common/relock.vhd
 verific -vhdl ./src/common/fir_deci.vhd
+verific -vhdl ./src/common/iir_deci.vhd
 verific -vhdl ./src/common/sqa_fbk_mgt.vhd
 verific -vhdl ./src/common/sqa_dac_sys.vhd
 verific -vhdl ./src/dm/sqa_under_samp.vhd

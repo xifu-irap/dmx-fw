@@ -33,8 +33,8 @@ constant c_LOW_LEV            : std_logic := '0'                                
 constant c_HGH_LEV            : std_logic := not(c_LOW_LEV)                                                 ; --! High level value
 constant c_RST_LEV_ACT        : std_logic := c_HGH_LEV                                                      ; --! Reset level activation value
 
-constant c_ZERO               : std_logic_vector(63 downto 0) := (others => '0')                            ; --! Zero value
-constant c_MINUSONE           : std_logic_vector(63 downto 0) := (others => '1')                            ; --! Minus one value
+constant c_ZERO               : std_logic_vector(99 downto 0) := (others => '0')                            ; --! Zero value
+constant c_MINUSONE           : std_logic_vector(99 downto 0) := (others => '1')                            ; --! Minus one value
 
 constant c_ZERO_INT           : integer := 0                                                                ; --! Zero integer value
 constant c_ONE_INT            : integer := 1                                                                ; --! One integer value

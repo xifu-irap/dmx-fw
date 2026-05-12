@@ -91,7 +91,7 @@ entity squid_data_proc is port (
 end entity squid_data_proc;
 
 architecture RTL of squid_data_proc is
-constant c_MEM_ADC_SMP_ADD_S  : integer := log2_ceil(c_SQA_FIR_DTA_NPER)                                    ; --! Memory ADC sample average delayed: address size bus
+constant c_MEM_ADC_SMP_ADD_S  : integer := log2_ceil(c_SQA_FILT_DTA_NPER)                                   ; --! Memory ADC sample average delayed: address size bus
 
 signal   mem_parma_prm_add    : std_logic_vector(c_MEM_PARMA_ADD_S-1  downto 0)                             ; --! Parameter a(p): memory parameter side address
 signal   mem_kiknm_prm_add    : std_logic_vector(c_MEM_KIKNM_ADD_S-1  downto 0)                             ; --! Parameter ki(p)*knorm(p): memory parameter side address
@@ -227,7 +227,7 @@ begin
          i_clk                => i_clk                , -- in     std_logic                                 ; --! System Clock
 
          i_squid_amp_close    => i_squid_amp_close    , -- in     std_logic                                 ; --! SQUID AMP Close mode     ('0' = Yes, '1' = No)
-         i_saofc              => i_saofc              , -- in     slv(c_DFLD_SAOFC_COL_S-1 downto 0)        ; --! SQUID AMP lockpoint coarse offset
+         i_salkv              => i_salkv              , -- in     slv(c_DFLD_SALKV_COL_S-1 downto 0)        ; --! SQUID AMP elp
 
          i_adc_smp_ave        => adc_smp_ave          , -- in     slv(c_ADC_SMP_AVE_S-1 downto 0)           ; --! ADC sample average (signed) (bus size result +1 bit for rounding)
          i_adc_smp_ave_frst   => adc_smp_ave_frst     , -- in     std_logic                                 ; --! ADC sample average first pixel
@@ -243,7 +243,7 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         adc_smp_ave_add_wr   <= std_logic_vector(to_unsigned(c_SQA_FIR_DTA_NPER-1, adc_smp_ave_add_wr'length));
+         adc_smp_ave_add_wr   <= std_logic_vector(to_unsigned(c_SQA_FILT_DTA_NPER, adc_smp_ave_add_wr'length));
          adc_smp_ave_add_rd   <= c_ZERO(adc_smp_ave_add_rd'range);
 
       elsif rising_edge(i_clk) then
