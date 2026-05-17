@@ -42,7 +42,7 @@ entity sqa_under_samp is port (
          i_clk                : in     std_logic                                                            ; --! System Clock
 
          i_squid_amp_close    : in     std_logic                                                            ; --! SQUID AMP Close mode     ('0' = Yes, '1' = No)
-         i_saofc              : in     std_logic_vector(c_DFLD_SAOFC_COL_S-1 downto 0)                      ; --! SQUID AMP lockpoint coarse offset
+         i_salkv              : in     std_logic_vector(c_DFLD_SALKV_COL_S-1 downto 0)                      ; --! SQUID AMP elp
 
          i_adc_smp_ave        : in     std_logic_vector(c_ADC_SMP_AVE_S-1    downto 0)                      ; --! ADC sample average (signed) (bus size result +1 bit for rounding)
          i_adc_smp_ave_frst   : in     std_logic                                                            ; --! ADC sample average first pixel
@@ -53,39 +53,47 @@ entity sqa_under_samp is port (
 end entity sqa_under_samp;
 
 architecture RTL of sqa_under_samp is
-constant c_FIR1_DATA_S        : integer:= c_RAM_ECC_DATA_S                                                  ; --! Filter FIR1: Data input bus size
-constant c_FIR2_DATA_S        : integer:= c_RAM_ECC_DATA_S                                                  ; --! Filter FIR2: Data input bus size
-constant c_FIR2_RES_S         : integer:= c_ADC_SMP_AVE_S                                                   ; --! Filter FIR2: Result bus size
+constant c_FIR1_NB            : integer:= 2                                                                 ; --! Filter FIR1: Filter FIR1 chain number
+constant c_FIR1_0             : integer:= 0                                                                 ; --! Filter FIR1: First  value
+constant c_FIR1_1             : integer:= 1                                                                 ; --! Filter FIR1: Second value
+constant c_SQA_FIR1_TAB_INIT  : integer_vector(0 to c_FIR1_NB-1) := (0, c_SQA_FIR1_DCI_VAL)                 ; --! Filter FIR1: Table position initialization
+constant c_FIR1_DCI_CHN_VAL   : integer:= c_FIR1_NB * c_SQA_FIR1_DCI_VAL                                    ; --! Filter FIR1: Decimation value applied to each chain
+constant c_IIR2_RES_S         : integer:= c_ADC_SMP_AVE_S                                                   ; --! Filter IIR2: Result bus size
+constant c_INIT_ENA_R_SEL     : integer:= 1                                                                 ; --! Initialization enable register selected for dropped first pulse IIR start condition
 
-constant c_FIR1_START_NB_CYC  : integer:=  (c_MUX_FACT-1) * (c_PIXEL_ADC_NB_CYC/2) + c_MEM_RD_DATA_NPER - 1
-                                          - c_SQA_FIR1_TAB_NW + c_SQA_FIR_ADD_DIFF                          ; --! Filter FIR1 number of system clock before calculation
-constant c_FIR2_START_NB_CYC  : integer:=   c_MUX_FACT    * (c_PIXEL_ADC_NB_CYC/2)
-                                          - c_SQA_FIR2_TAB_NW + c_SQA_FIR_ADD_DIFF                          ; --! Filter FIR2 number of system clock before calculation
+constant c_FIR1_START_NB_CYC  : integer:= (c_FIR1_DCI_CHN_VAL - 1) * (c_PIXEL_ADC_NB_CYC/2)
+                                         - c_SQA_FIR1_TAB_NW       +  c_SQA_FIR_ADD_DIFF - 1                ; --! Filter FIR1 number of system clock before calculation
+constant c_IIR2_START_NB_CYC  : integer:= (c_PIXEL_ADC_NB_CYC/2)
+                                         - c_IIR2_TAB_NW           +  c_SQA_IIR_ADD_DIFF + 1                ; --! Filter IIR2 number of system clock before calculation
 
-constant c_FIR2_CNT_SP_MX_VAL : integer:= c_SQA_FIR2_DCI_VAL - 2                                            ; --! Filter FIR2 sample counter: maximal value
-constant c_FIR2_CNT_SP_S      : integer:= log2_ceil(c_FIR2_CNT_SP_MX_VAL + 1) + 1                           ; --! Filter FIR2 sample counter: size bus (signed)
+constant c_FIR1_CNT_SP_MX_VAL : integer:= c_FIR1_DCI_CHN_VAL - 2                                            ; --! Filter FIR1 sample counter: maximal value
+constant c_FIR1_CNT_SP_S      : integer:= log2_ceil(c_FIR1_CNT_SP_MX_VAL + 1) + 1                           ; --! Filter FIR1 sample counter: size bus (signed)
+
+constant c_IIR2_CNT_SP_MX_VAL : integer:= c_IIR2_DCI_VAL - 2                                                ; --! Filter IIR2 sample counter: maximal value
+constant c_IIR2_CNT_SP_S      : integer:= log2_ceil(c_IIR2_CNT_SP_MX_VAL + 1) + 1                           ; --! Filter IIR2 sample counter: size bus (signed)
 
 signal   adc_smp_ave_rdy      : std_logic                                                                   ; --! ADC sample average ready
+signal   adc_smp_ave_rdy_r    : std_logic                                                                   ; --! ADC sample average ready register
 
 signal   fir_init_ena         : std_logic                                                                   ; --! Filter FIR: initialization enable
 signal   fir_init_ena_fe      : std_logic                                                                   ; --! Filter FIR: initialization enable falling edge
 signal   fir_init_ena_r       : std_logic_vector(c_SQA_FIR1_DTA_NPER-1 downto 0)                            ; --! Filter FIR: initialization enable register
 signal   fir_init_ena_fe_r    : std_logic_vector(c_SQA_FIR1_DTA_NPER-1 downto 0)                            ; --! Filter FIR: initialization enable falling edge register
 
-signal   fir1_saofc_stall_msb : std_logic_vector(c_FIR1_DATA_S-2 downto 0)                                  ; --! Filter FIR1: SQUID AMP lockpoint coarse offset stall on msb
-signal   fir1_init_val        : std_logic_vector(c_FIR1_DATA_S-1 downto 0)                                  ; --! Filter FIR1: initialization value
-signal   fir1_start_cond      : std_logic                                                                   ; --! Filter FIR1: start calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
-signal   fir1_res             : std_logic_vector(c_FIR2_DATA_S   downto 0)                                  ; --! Filter FIR1: result
-signal   fir1_res_sat         : std_logic_vector(c_FIR2_DATA_S-1 downto 0)                                  ; --! Filter FIR1: result with saturation
-signal   fir1_res_rdy         : std_logic                                                                   ; --! Filter FIR1: result ready ('0' = Inactive, '1' = Active)
-signal   fir1_res_rdy_r       : std_logic                                                                   ; --! Filter FIR1: result ready register
+signal   fir1_cnt_sp          : std_logic_vector(  c_FIR1_CNT_SP_S-1 downto 0)                              ; --! Filter FIR1: sample counter
+signal   fir1_init_val        : std_logic_vector(c_SQA_FIR1_DATA_S-1 downto 0)                              ; --! Filter FIR1: initialization value
+signal   fir1_start_cond      : std_logic_vector(        c_FIR1_NB-1 downto 0)                              ; --! Filter FIR1: starts calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
+signal   fir1_res             : t_slv_arr(       0 to    c_FIR1_NB-1)(c_IIR2_IN_DATA_S-1 downto 0)          ; --! Filter FIR1: results
+signal   fir1_res_rdy         : std_logic_vector(        c_FIR1_NB-1 downto 0)                              ; --! Filter FIR1: results ready ('0' = Inactive, '1' = Active)
+signal   fir1_res_mux         : std_logic_vector( c_IIR2_IN_DATA_S-1 downto 0)                              ; --! Filter FIR1: results multiplexer
+signal   fir1_res_rdy_or      : std_logic                                                                   ; --! Filter FIR1: results ready 'Or-ed'
 
-signal   fir2_cnt_sp          : std_logic_vector(c_FIR2_CNT_SP_S-1 downto 0)                                ; --! Filter FIR2: sample counter
-signal   fir2_saofc_stall_msb : std_logic_vector(c_FIR2_DATA_S-2 downto 0)                                  ; --! Filter FIR2: SQUID AMP lockpoint coarse offset stall on msb
-signal   fir2_init_val        : std_logic_vector(c_FIR2_DATA_S-1 downto 0)                                  ; --! Filter FIR2: initialization value
-signal   fir2_start_cond      : std_logic                                                                   ; --! Filter FIR2: start calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
-signal   fir2_res             : std_logic_vector( c_FIR2_RES_S-1 downto 0)                                  ; --! Filter FIR2: result
-signal   fir2_res_rdy         : std_logic                                                                   ; --! Filter FIR2: result ready ('0' = Inactive, '1' = Active)
+signal   iir2_cnt_sp          : std_logic_vector(  c_IIR2_CNT_SP_S-1 downto 0)                              ; --! Filter IIR2: sample counter
+signal   iir2_init_val        : std_logic_vector( c_IIR2_IN_DATA_S-1 downto 0)                              ; --! Filter IIR2: initialization value
+signal   iir2_start_cond      : std_logic_vector(c_SQA_FIR1_DTA_NPER-2 downto 0)                            ; --! Filter IIR2: start calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
+signal   iir2_res             : std_logic_vector(     c_IIR2_RES_S-1 downto 0)                              ; --! Filter IIR2: result
+signal   iir2_res_rdy         : std_logic                                                                   ; --! Filter IIR2: results ready ('0' = Inactive, '1' = Active)
+signal   iir2_res_rdy_r       : std_logic                                                                   ; --! Filter IIR2: results ready register
 
 begin
 
@@ -97,15 +105,19 @@ begin
 
       if i_rst = c_RST_LEV_ACT then
          adc_smp_ave_rdy   <= c_LOW_LEV;
-         fir1_res_rdy_r    <= c_LOW_LEV;
+         adc_smp_ave_rdy_r <= c_LOW_LEV;
          fir_init_ena_r    <= (others => c_HGH_LEV);
          fir_init_ena_fe_r <= (others => c_LOW_LEV);
+         iir2_res_rdy_r    <= c_LOW_LEV;
+         iir2_start_cond   <= (others => c_LOW_LEV);
 
       elsif rising_edge(i_clk) then
          adc_smp_ave_rdy   <= i_adc_smp_ave_cs;
-         fir1_res_rdy_r    <= fir1_res_rdy;
+         adc_smp_ave_rdy_r <= adc_smp_ave_rdy;
          fir_init_ena_r    <= fir_init_ena_r(      fir_init_ena_r'high-1 downto 0) & fir_init_ena;
          fir_init_ena_fe_r <= fir_init_ena_fe_r(fir_init_ena_fe_r'high-1 downto 0) & fir_init_ena_fe;
+         iir2_res_rdy_r    <= iir2_res_rdy;
+         iir2_start_cond   <= iir2_start_cond(    iir2_start_cond'high-1 downto 0) & (adc_smp_ave_rdy_r and fir1_cnt_sp(fir1_cnt_sp'low) and not(fir_init_ena_r(c_INIT_ENA_R_SEL)));
 
       end if;
 
@@ -142,124 +154,34 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    --!   Filter FIR1: initialization value
    -- ------------------------------------------------------------------------------------------------------
-   I_fir1_saofc_stall : entity work.resize_stall_msb generic map (
-         g_DATA_S             => c_DFLD_SAOFC_COL_S   , -- integer                                          ; --! Data input bus size
-         g_DATA_STALL_MSB_S   => c_FIR1_DATA_S - 1      -- integer                                            --! Data stalled on Mean Significant Bit bus size
+   I_fir1_salkv_stall : entity work.resize_stall_msb generic map (
+         g_DATA_S             => c_DFLD_SALKV_COL_S   , -- integer                                          ; --! Data input bus size
+         g_DATA_STALL_MSB_S   => c_SQA_FIR1_DATA_S      -- integer                                            --! Data stalled on Mean Significant Bit bus size
    ) port map (
-         i_data               => i_saofc              , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
-         o_data_stall_msb     => fir1_saofc_stall_msb , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
+         i_data               => i_salkv              , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
+         o_data_stall_msb     => fir1_init_val        , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
          o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
    );
 
-   fir1_init_val <= std_logic_vector(resize(unsigned(fir1_saofc_stall_msb), fir1_init_val'length));
-
    -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR1: start calculation condition
+   --!   Filter FIR1: sample counter
    -- ------------------------------------------------------------------------------------------------------
-   P_fir1_start_cond : process (i_rst, i_clk)
+   P_fir1_cnt_sp : process (i_rst, i_clk)
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         fir1_start_cond <= c_LOW_LEV;
+         fir1_cnt_sp <= std_logic_vector(to_unsigned(c_FIR1_CNT_SP_MX_VAL, fir1_cnt_sp'length));
 
       elsif rising_edge(i_clk) then
-         fir1_start_cond <= i_adc_smp_ave_cs and i_adc_smp_ave_frst;
+         if fir_init_ena = c_HGH_LEV then
+            fir1_cnt_sp <= std_logic_vector(to_unsigned(c_FIR1_CNT_SP_MX_VAL, fir1_cnt_sp'length));
 
-      end if;
-
-   end process P_fir1_start_cond;
-
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR1
-   -- ------------------------------------------------------------------------------------------------------
-   I_fir_deci1: entity work.fir_deci generic map (
-         g_FIR_DCI_VAL        => c_SQA_FIR1_DCI_VAL   , -- integer                                          ; --! Filter FIR decimation value
-         g_FIR_TAB_NW         => c_SQA_FIR1_TAB_NW    , -- integer                                          ; --! Filter FIR table number word
-         g_FIR_START_NB_CYC   => c_FIR1_START_NB_CYC  , -- integer                                          ; --! Filter FIR number of system clock before calculation
-         g_FIR_COEF_S         => c_SQA_FIR1_S         , -- integer                                          ; --! Filter FIR coefficient bus size
-         g_FIR_COEF           => c_SQA_FIR1_TAB       , -- t_slv_arr g_FIR_TAB_NW g_FIR_COEF_S              ; --! Filter FIR coefficients
-         g_FIR_COEF_SUM_S     => c_SQA_FIR1_COEF_SM_S , -- integer                                          ; --! Filter FIR coefficient sum bus size
-         g_FIR_DATA_S         => c_FIR1_DATA_S        , -- integer                                          ; --! Filter FIR data bus size
-         g_FIR_RES_S          => c_FIR2_DATA_S + 1      -- integer                                            --! Filter FIR result bus size
-   )  port map (
-         i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
-         i_clk                => i_clk                , -- in     std_logic                                 ; --! System Clock
-
-         i_fir_init_val       => fir1_init_val        , -- in     std_logic_vector(g_FIR_DATA_S-1 downto 0) ; --! Filter FIR data initialization value
-         i_fir_init_ena       => fir_init_ena         , -- in     std_logic                                 ; --! Filter FIR data initialization enable ('0' = No, '1' = Yes)
-         i_fir_init_ena_fe    => fir_init_ena_fe      , -- in     std_logic                                 ; --! Filter FIR data initialization enable falling edge
-         i_fir_start_cond     => fir1_start_cond      , -- in     std_logic                                 ; --! Filter FIR start calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
-
-         i_data               => i_adc_smp_ave        , -- in     std_logic_vector(g_FIR_DATA_S-1 downto 0) ; --! Data (signed)
-         i_data_rdy           => adc_smp_ave_rdy      , -- in     std_logic                                 ; --! Data ready ('0' = Inactive, '1' = Active)
-
-         o_fir_res            => fir1_res             , -- out    std_logic_vector( g_FIR_RES_S-1 downto 0) ; --! Filter FIR result (signed)
-         o_fir_res_rdy        => fir1_res_rdy           -- out    std_logic                                   --! Filter FIR result ready ('0' = Inactive, '1' = Active)
-   );
-
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR1 result with saturation
-   -- ------------------------------------------------------------------------------------------------------
-   P_fir1_res_sat : process (i_rst, i_clk)
-   begin
-
-      if i_rst = c_RST_LEV_ACT then
-         fir1_res_sat <= c_ZERO(fir1_res_sat'range);
-
-      elsif rising_edge(i_clk) then
-
-         -- Saturation on minimum value
-         if    (fir1_res(fir1_res'high) and not(fir1_res(fir1_res'high-1))) = c_HGH_LEV then
-            fir1_res_sat(fir1_res_sat'high)           <= c_HGH_LEV;
-            fir1_res_sat(fir1_res_sat'high-1 downto 0)<= (others => c_LOW_LEV);
-
-         -- Saturation on maximum value
-         elsif (not(fir1_res(fir1_res'high)) and fir1_res(fir1_res'high-1)) = c_HGH_LEV then
-            fir1_res_sat(fir1_res_sat'high)           <= c_LOW_LEV;
-            fir1_res_sat(fir1_res_sat'high-1 downto 0)<= (others => c_HGH_LEV);
-
-         else
-            fir1_res_sat <= fir1_res(fir1_res_sat'range);
-
-         end if;
-
-      end if;
-
-   end process P_fir1_res_sat;
-
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR2: initialization value
-   -- ------------------------------------------------------------------------------------------------------
-   I_fir2_saofc_stall : entity work.resize_stall_msb generic map (
-         g_DATA_S             => c_DFLD_SAOFC_COL_S   , -- integer                                          ; --! Data input bus size
-         g_DATA_STALL_MSB_S   => c_FIR2_DATA_S - 1      -- integer                                            --! Data stalled on Mean Significant Bit bus size
-   ) port map (
-         i_data               => i_saofc              , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
-         o_data_stall_msb     => fir2_saofc_stall_msb , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
-         o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
-   );
-
-   fir2_init_val <= std_logic_vector(resize(unsigned(fir2_saofc_stall_msb), fir2_init_val'length));
-
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR2: sample counter
-   -- ------------------------------------------------------------------------------------------------------
-   P_fir2_cnt_sp : process (i_rst, i_clk)
-   begin
-
-      if i_rst = c_RST_LEV_ACT then
-         fir2_cnt_sp <= std_logic_vector(to_unsigned(c_FIR2_CNT_SP_MX_VAL, fir2_cnt_sp'length));
-
-      elsif rising_edge(i_clk) then
-         if fir_init_ena_r(fir_init_ena_r'high) = c_HGH_LEV then
-            fir2_cnt_sp <= std_logic_vector(to_unsigned(c_FIR2_CNT_SP_MX_VAL, fir2_cnt_sp'length));
-
-         elsif fir1_res_rdy = c_HGH_LEV then
-            if fir2_cnt_sp(fir2_cnt_sp'high) = c_HGH_LEV then
-               fir2_cnt_sp <= std_logic_vector(to_unsigned(c_FIR2_CNT_SP_MX_VAL, fir2_cnt_sp'length));
+         elsif adc_smp_ave_rdy = c_HGH_LEV then
+            if fir1_cnt_sp(fir1_cnt_sp'high) = c_HGH_LEV then
+               fir1_cnt_sp <= std_logic_vector(to_unsigned(c_FIR1_CNT_SP_MX_VAL, fir1_cnt_sp'length));
 
             else
-               fir2_cnt_sp <= std_logic_vector(signed(fir2_cnt_sp) - 1);
+               fir1_cnt_sp <= std_logic_vector(signed(fir1_cnt_sp) - 1);
 
             end if;
 
@@ -267,51 +189,163 @@ begin
 
       end if;
 
-   end process P_fir2_cnt_sp;
+   end process P_fir1_cnt_sp;
 
    -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR2: start calculation condition
+   --!   Filter FIR1 management
    -- ------------------------------------------------------------------------------------------------------
-   P_fir2_start_cond : process (i_rst, i_clk)
+   G_fir1_mgt: for k in 0 to c_FIR1_NB-1 generate
+   constant c_K_V             : std_logic_vector(log2_ceil(c_FIR1_NB)-1 downto 0) :=
+                                std_logic_vector(to_unsigned(k, log2_ceil(c_FIR1_NB)))                      ; --! Vectorized k value
    begin
 
-      if i_rst = c_RST_LEV_ACT then
-         fir2_start_cond <= c_LOW_LEV;
+      --!   Filter FIR1: start calculation condition
+      P_fir1_start_cond : process (i_rst, i_clk)
+      begin
 
-      elsif rising_edge(i_clk) then
-            fir2_start_cond <= fir1_res_rdy_r and fir2_cnt_sp(fir2_cnt_sp'high);
+         if i_rst = c_RST_LEV_ACT then
+            fir1_start_cond(k) <= c_LOW_LEV;
 
-      end if;
+         elsif rising_edge(i_clk) then
+            if fir1_cnt_sp(fir1_cnt_sp'high-1) = c_K_V(c_K_V'low) then
+               fir1_start_cond(k) <= adc_smp_ave_rdy_r and fir1_cnt_sp(fir1_cnt_sp'low);
 
-   end process P_fir2_start_cond;
+            else
+               fir1_start_cond(k) <= c_LOW_LEV;
 
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Filter FIR2
-   -- ------------------------------------------------------------------------------------------------------
-   I_fir_deci2: entity work.fir_deci generic map (
-         g_FIR_DCI_VAL        => c_SQA_FIR2_DCI_VAL   , -- integer                                          ; --! Filter FIR decimation value
-         g_FIR_TAB_NW         => c_SQA_FIR2_TAB_NW    , -- integer                                          ; --! Filter FIR table number word
-         g_FIR_START_NB_CYC   => c_FIR2_START_NB_CYC  , -- integer                                          ; --! Filter FIR number of system clock before calculation
-         g_FIR_COEF_S         => c_SQA_FIR2_S         , -- integer                                          ; --! Filter FIR coefficient bus size
-         g_FIR_COEF           => c_SQA_FIR2_TAB       , -- t_slv_arr g_FIR_TAB_NW g_FIR_COEF_S              ; --! Filter FIR coefficients
-         g_FIR_COEF_SUM_S     => c_SQA_FIR2_COEF_SM_S , -- integer                                          ; --! Filter FIR coefficient sum bus size
-         g_FIR_DATA_S         => c_FIR2_DATA_S        , -- integer                                          ; --! Filter FIR data bus size
-         g_FIR_RES_S          => c_FIR2_RES_S           -- integer                                            --! Filter FIR result bus size
-   )  port map (
+            end if;
+
+         end if;
+
+      end process P_fir1_start_cond;
+
+      --!   Filter FIR1
+      I_fir_deci1: entity work.fir_deci generic map (
+         g_FIR_DCI_VAL        => c_FIR1_DCI_CHN_VAL   , -- integer                                          ; --! Filter FIR decimation value
+         g_FIR_TAB_NW         => c_SQA_FIR1_TAB_NW    , -- integer                                          ; --! Filter FIR table number word
+         g_FIR_TAB_POS_INIT   => c_SQA_FIR1_TAB_INIT(k),-- integer                                          ; --! Filter FIR table position initialization
+         g_FIR_START_NB_CYC   => c_FIR1_START_NB_CYC  , -- integer                                          ; --! Filter FIR number of system clock before calculation
+         g_FIR_COEF_S         => c_SQA_FIR1_S         , -- integer                                          ; --! Filter FIR coefficient bus size
+         g_FIR_COEF           => c_SQA_FIR1_TAB       , -- t_slv_arr 2**log2_ceil(g_FIR_TAB_NW) g_FIR_COEF_S; --! Filter FIR coefficients
+         g_FIR_COEF_SUM_S     => c_SQA_FIR1_COEF_SM_S , -- integer                                          ; --! Filter FIR coefficient sum bus size
+         g_FIR_DATA_S         => c_SQA_FIR1_DATA_S    , -- integer                                          ; --! Filter FIR data bus size
+         g_FIR_DATA_SHF       => c_SQA_FIR1_DATA_SHF  , -- integer                                          ; --! Filter FIR data shift used by the product
+         g_FIR_RES_S          => c_IIR2_IN_DATA_S       -- integer                                            --! Filter FIR result bus size
+      )  port map (
          i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk                => i_clk                , -- in     std_logic                                 ; --! System Clock
 
-         i_fir_init_val       => fir2_init_val        , -- in     std_logic_vector(g_FIR_DATA_S-1 downto 0) ; --! Filter FIR data initialization value
-         i_fir_init_ena       => fir_init_ena_r(   fir_init_ena_r'high)   , -- in std_logic                 ; --! Filter FIR data initialization enable ('0' = No, '1' = Yes)
-         i_fir_init_ena_fe    => fir_init_ena_fe_r(fir_init_ena_fe_r'high), -- in std_logic                 ; --! Filter FIR data initialization enable falling edge
-         i_fir_start_cond     => fir2_start_cond      , -- in     std_logic                                 ; --! Filter FIR start calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
+         i_fir_init_val       => fir1_init_val        , -- in     std_logic_vector(g_FIR_DATA_S-1 downto 0) ; --! Filter FIR data initialization value
+         i_fir_init_ena       => fir_init_ena         , -- in     std_logic                                 ; --! Filter FIR data initialization enable ('0' = No, '1' = Yes)
+         i_fir_init_ena_fe    => fir_init_ena_fe      , -- in     std_logic                                 ; --! Filter FIR data initialization enable falling edge
+         i_fir_start_cond     => fir1_start_cond(k)   , -- in     std_logic                                 ; --! Filter FIR start calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
 
-         i_data               => fir1_res_sat         , -- in     std_logic_vector(g_FIR_DATA_S-1 downto 0) ; --! Data (signed)
-         i_data_rdy           => fir1_res_rdy_r       , -- in     std_logic                                 ; --! Data ready ('0' = Inactive, '1' = Active)
+         i_data               => i_adc_smp_ave        , -- in     std_logic_vector(g_FIR_DATA_S-1 downto 0) ; --! Data (signed)
+         i_data_rdy           => adc_smp_ave_rdy      , -- in     std_logic                                 ; --! Data ready ('0' = Inactive, '1' = Active)
 
-         o_fir_res            => fir2_res             , -- out    std_logic_vector( g_FIR_RES_S-1 downto 0) ; --! Filter FIR result (signed)
-         o_fir_res_rdy        => fir2_res_rdy           -- out    std_logic                                   --! Filter FIR result ready ('0' = Inactive, '1' = Active)
+         o_fir_res            => fir1_res(k)          , -- out    std_logic_vector( g_FIR_RES_S-1 downto 0) ; --! Filter FIR result (signed)
+         o_fir_res_rdy        => fir1_res_rdy(k)        -- out    std_logic                                   --! Filter FIR result ready ('0' = Inactive, '1' = Active)
+      );
+
+   end generate G_fir1_mgt;
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Filter FIR1: results multiplexer
+   -- ------------------------------------------------------------------------------------------------------
+   P_fir1_res_mux : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         fir1_res_rdy_or <= c_LOW_LEV;
+         fir1_res_mux    <= c_ZERO(fir1_res_mux'range);
+
+      elsif rising_edge(i_clk) then
+         fir1_res_rdy_or <= fir1_res_rdy(c_FIR1_1) or fir1_res_rdy(c_FIR1_0);
+
+         if fir1_res_rdy(c_FIR1_0) = c_HGH_LEV then
+            fir1_res_mux <= fir1_res(c_FIR1_0);
+
+         elsif fir1_res_rdy(c_FIR1_1) = c_HGH_LEV then
+            fir1_res_mux <= fir1_res(c_FIR1_1);
+
+         end if;
+
+      end if;
+
+   end process P_fir1_res_mux;
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Filter IIR2: initialization value
+   -- ------------------------------------------------------------------------------------------------------
+   I_iir2_salkv_stall : entity work.resize_stall_msb generic map (
+         g_DATA_S             => c_DFLD_SALKV_COL_S   , -- integer                                          ; --! Data input bus size
+         g_DATA_STALL_MSB_S   => c_IIR2_IN_DATA_S       -- integer                                            --! Data stalled on Mean Significant Bit bus size
+   ) port map (
+         i_data               => i_salkv              , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
+         o_data_stall_msb     => iir2_init_val        , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
+         o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
    );
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Filter IIR2
+   -- ------------------------------------------------------------------------------------------------------
+   I_iir_deci2: entity work.iir_deci generic map (
+         g_IIR_TAB_NW         => c_IIR2_TAB_NW        , -- integer                                          ; --! Filter IIR table number word
+         g_IIR_START_NB_CYC   => c_IIR2_START_NB_CYC  , -- integer                                          ; --! Filter IIR number of system clock before calculation
+         g_IIR_IN_COEF_S      => c_IIR2_IN_TAB_S      , -- integer                                          ; --! Filter IIR input part coefficients bus size
+         g_IIR_IN_COEF        => c_IIR2_IN_TAB        , -- t_slv_arr g_IIR_TAB_NW g_IIR_COEF_IN_S           ; --! Filter IIR input part coefficients
+         g_IIR_IN_COEF_FRC_S  => c_IIR2_IN_FRC_S      , -- integer                                          ; --! Filter IIR input part coefficients fractionnal part bus size
+         g_IIR_IN_COEF_SUM_S  => c_IIR2_IN_COEF_SM_S  , -- integer                                          ; --! Filter IIR input part coefficient sum bus size
+         g_IIR_IN_DATA_S      => c_IIR2_IN_DATA_S     , -- integer                                          ; --! Filter IIR input part data bus size
+         g_IIR_IN_DATA_SHF    => c_IIR2_IN_DATA_SHF   , -- integer                                          ; --! Filter IIR input part data shift used by the product
+         g_IIR_REC_COEF_S     => c_IIR2_REC_TAB_S     , -- integer                                          ; --! Filter IIR minus recursive part coefficient bus size
+         g_IIR_REC_COEF       => c_IIR2_REC_TAB       , -- t_slv_arr g_IIR_TAB_NWg_IIR_COEF_REC_S           ; --! Filter IIR minus recursive part coefficients
+         g_IIR_REC_COEF_SUM_S => c_IIR2_REC_COEF_SM_S , -- integer                                          ; --! Filter IIR minus recursive part coefficient sum bus size
+         g_IIR_REC_DATA_S     => c_IIR2_REC_DATA_S    , -- integer                                          ; --! Filter IIR minus recursive part data bus size
+         g_IIR_REC_DATA_SHF   => c_IIR2_REC_DATA_SHF  , -- integer                                          ; --! Filter IIR minus recursive part data shift used by the product
+         g_IIR_RES_S          => c_IIR2_RES_S           -- integer                                            --! Filter IIR result bus size
+   ) port map (
+         i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
+         i_clk                => i_clk                , -- in     std_logic                                 ; --! System Clock
+
+         i_iir_init_val       => iir2_init_val        , -- in     std_logic_vector(g_IIR_DATA_S-1 downto 0) ; --! Filter IIR data initialization value
+         i_iir_init_ena       => fir_init_ena_r(   fir_init_ena_r'high)   , -- in     std_logic             ; --! Filter IIR data initialization enable ('0' = No, '1' = Yes)
+         i_iir_init_ena_fe    => fir_init_ena_fe_r(fir_init_ena_fe_r'high), -- in     std_logic             ; --! Filter IIR data initialization enable falling edge
+         i_iir_start_cond     => iir2_start_cond(  iir2_start_cond'high)  , -- in     std_logic             ; --! Filter IIR start calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
+
+         i_data               => fir1_res_mux         , -- in     std_logic_vector(g_IIR_DATA_S-1 downto 0) ; --! Data (signed)
+         i_data_rdy           => fir1_res_rdy_or      , -- in     std_logic                                 ; --! Data ready ('0' = Inactive, '1' = Active)
+         o_iir_res            => iir2_res             , -- out    std_logic_vector( g_IIR_RES_S-1 downto 0) ; --! Filter IIR result no decimation (signed)
+         o_iir_rdy            => iir2_res_rdy           -- out    std_logic                                   --! Filter IIR result ready ('0' = Inactive, '1' = Active)
+   );
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Filter IIR2: sample counter
+   -- ------------------------------------------------------------------------------------------------------
+   P_iir2_cnt_sp : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         iir2_cnt_sp <= std_logic_vector(to_unsigned(c_IIR2_CNT_SP_MX_VAL, iir2_cnt_sp'length));
+
+      elsif rising_edge(i_clk) then
+         if fir_init_ena = c_HGH_LEV then
+            iir2_cnt_sp <= std_logic_vector(to_unsigned(c_IIR2_CNT_SP_MX_VAL, iir2_cnt_sp'length));
+
+         elsif iir2_res_rdy = c_HGH_LEV then
+            if iir2_cnt_sp(iir2_cnt_sp'high) = c_HGH_LEV then
+               iir2_cnt_sp <= std_logic_vector(to_unsigned(c_IIR2_CNT_SP_MX_VAL, iir2_cnt_sp'length));
+
+            else
+               iir2_cnt_sp <= std_logic_vector(signed(iir2_cnt_sp) - 1);
+
+            end if;
+
+         end if;
+
+      end if;
+
+   end process P_iir2_cnt_sp;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   SQUID AMP under-sampling
@@ -320,14 +354,14 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         o_sqa_under_samp <= std_logic_vector(resize(unsigned(c_EP_CMD_DEF_SAOFC), o_sqa_under_samp'length));
+         o_sqa_under_samp <= c_ZERO(o_sqa_under_samp'range);
 
       elsif rising_edge(i_clk) then
-         if fir_init_ena_r(fir_init_ena_r'high) = c_HGH_LEV then
-            o_sqa_under_samp <= fir2_init_val;
+         if fir_init_ena = c_HGH_LEV then
+            o_sqa_under_samp <= iir2_init_val;
 
-         elsif fir2_res_rdy = c_HGH_LEV then
-            o_sqa_under_samp <= fir2_res;
+         elsif (iir2_cnt_sp(iir2_cnt_sp'high) and iir2_res_rdy_r) = c_HGH_LEV then
+            o_sqa_under_samp <= iir2_res;
 
          end if;
 

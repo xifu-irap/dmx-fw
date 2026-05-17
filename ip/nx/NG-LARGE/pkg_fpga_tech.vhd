@@ -109,6 +109,7 @@ constant c_MULT_ALU_RESULT_S  : integer   := 56                                 
 constant c_MULT_ALU_CPORTA_S  : integer   := 24                                                             ; --! Multiplier and ALU: Cascaded Port A bus size
 constant c_MULT_ALU_OP_S      : integer   :=  6                                                             ; --! Multiplier and ALU: Operand bus size
 constant c_MULT_ALU_SAT_RNK_S : integer   :=  6                                                             ; --! Multiplier and ALU: Saturation rank bus size
+constant c_MULT_ALU_MXX_SHF_S : integer   := 16                                                             ; --! Multiplier and ALU: Multiplexer MUX X shift bus size
 
 constant c_MULT_ALU_PRM_NU    : bit       := c_LOW_LEV_B                                                    ; --! Multiplier and ALU: parameter Not used
 constant c_MULT_ALU_PRM_DIS   : bit       := c_LOW_LEV_B                                                    ; --! Multiplier and ALU: parameter configured in Disable

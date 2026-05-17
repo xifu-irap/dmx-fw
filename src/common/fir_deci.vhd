@@ -37,11 +37,13 @@ use     work.pkg_project.all;
 entity fir_deci is generic (
          g_FIR_DCI_VAL        : integer                                                                     ; --! Filter FIR decimation value
          g_FIR_TAB_NW         : integer                                                                     ; --! Filter FIR table number word
+         g_FIR_TAB_POS_INIT   : integer                                                                     ; --! Filter FIR table position initialization
          g_FIR_START_NB_CYC   : integer                                                                     ; --! Filter FIR number of system clock before calculation
          g_FIR_COEF_S         : integer                                                                     ; --! Filter FIR coefficient bus size
-         g_FIR_COEF           : t_slv_arr(0 to g_FIR_TAB_NW-1)(g_FIR_COEF_S-1 downto 0)                     ; --! Filter FIR coefficients
+         g_FIR_COEF           : t_slv_arr(0 to 2**log2_ceil(g_FIR_TAB_NW)-1)(g_FIR_COEF_S-1 downto 0)       ; --! Filter FIR coefficients
          g_FIR_COEF_SUM_S     : integer                                                                     ; --! Filter FIR coefficient sum bus size
          g_FIR_DATA_S         : integer                                                                     ; --! Filter FIR data bus size
+         g_FIR_DATA_SHF       : integer                                                                     ; --! Filter FIR data shift used by the product
          g_FIR_RES_S          : integer                                                                       --! Filter FIR result bus size
    ); port (
          i_rst                : in     std_logic                                                            ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
@@ -50,7 +52,7 @@ entity fir_deci is generic (
          i_fir_init_val       : in     std_logic_vector(g_FIR_DATA_S-1 downto 0)                            ; --! Filter FIR data initialization value
          i_fir_init_ena       : in     std_logic                                                            ; --! Filter FIR data initialization enable ('0' = No, '1' = Yes)
          i_fir_init_ena_fe    : in     std_logic                                                            ; --! Filter FIR data initialization enable falling edge
-         i_fir_start_cond     : in     std_logic                                                            ; --! Filter FIR start calculation condition ('0' = Inactive, '1' during one clock cycle = Active)
+         i_fir_start_cond     : in     std_logic                                                            ; --! Filter FIR start calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
 
          i_data               : in     std_logic_vector(g_FIR_DATA_S-1 downto 0)                            ; --! Data (signed)
          i_data_rdy           : in     std_logic                                                            ; --! Data ready ('0' = Inactive, '1' = Active)
@@ -67,36 +69,36 @@ constant c_FIR_ADD_INIT       : integer := g_FIR_TAB_NW - g_FIR_DCI_VAL         
 constant c_FIR_ST_CNT_MAX_VAL : integer:= g_FIR_START_NB_CYC - 2                                            ; --! Filter FIR calculation start counter: maximal value
 constant c_FIR_ST_CNT_S       : integer:= log2_ceil(c_FIR_ST_CNT_MAX_VAL + 1) + 1                           ; --! Filter FIR calculation start counter: size bus (signed)
 
+constant c_FIR_CNT_DT_MAX_VAL : integer:= g_FIR_TAB_NW - 1                                                  ; --! Filter FIR data counter: maximal value
+
 constant c_FIR_ADD_S          : integer := log2_ceil(g_FIR_TAB_NW)                                          ; --! Filter FIR address bus size
 constant c_FIR_PROD_S         : integer := g_FIR_DATA_S + g_FIR_COEF_S - 1                                  ; --! Filter FIR product result bus size
 constant c_FIR_SUM_S          : integer := g_FIR_DATA_S + g_FIR_COEF_SUM_S                                  ; --! Filter FIR result bus size
 
-signal   mem_fir_data_wr      : t_mem(
-                                add(    c_FIR_ADD_S-1 downto 0),
-                                data_w(g_FIR_DATA_S-1 downto 0))                                            ; --! Filter FIR data write: memory inputs
+constant c_FIR_SUM_RDY        : integer := c_FIR_DTA_R_NPER - 3                                             ; --! Filter FIR result bus size
 
-signal   mem_fir_data_rd      : t_mem(
-                                add(    c_FIR_ADD_S-1 downto 0),
-                                data_w(g_FIR_DATA_S-1 downto 0))                                            ; --! Filter FIR data read: memory inputs
+signal   mem_fir_data         : t_slv_arr(0 to 2**c_FIR_ADD_S-1)(g_FIR_DATA_S-1 downto 0)                   ; --! Memory Filter FIR data
 
 signal   data_rdy_r           : std_logic                                                                   ; --! Data ready register
 signal   data_mux_init        : std_logic_vector(g_FIR_DATA_S-1 downto 0)                                   ; --! Data multiplexed with initialization value
 signal   cnt_data             : std_logic_vector(c_FIR_ADD_S -1 downto 0)                                   ; --! Data counter
 
-signal   fir_cnt_st           : std_logic_vector(c_FIR_ST_CNT_S-1 downto 0)                                 ; --! Filter FIR calculation start counter
-signal   fir_cnt_st_msb_r     : std_logic_vector(c_SQA_FIR_SUM_NPER-1 downto 0)                             ; --! Filter FIR calculation start counter MSB register
+signal   fir_cnt_st           : std_logic_vector(c_FIR_ST_CNT_S-1  downto 0)                                ; --! Filter FIR calculation start counter
+signal   fir_cnt_st_msb_r     : std_logic_vector(c_FIR_SUM_RDY  downto 0)                                   ; --! Filter FIR calculation start counter MSB register
 signal   fir_cnt_dta          : std_logic_vector(c_FIR_ADD_S    downto 0)                                   ; --! Filter FIR data counter
 signal   fir_cnt_dta_msb_r    : std_logic                                                                   ; --! Filter FIR data counter MSB register
-signal   fir_cnt_dta_msb_re_r : std_logic_vector(c_SQA_FIR_SUM_NPER   downto 0)                             ; --! Filter FIR data counter MSB rising edge register
+signal   fir_cnt_dta_msb_re_r : std_logic_vector(c_FIR_SUM_RDY+1 downto 0)                                  ; --! Filter FIR data counter MSB rising edge register
 signal   fir_add              : std_logic_vector(c_FIR_ADD_S -1 downto 0)                                   ; --! Filter FIR address
 signal   fir_data_add_init    : std_logic_vector(c_FIR_ADD_S -1 downto 0)                                   ; --! Filter FIR data address initialization
 signal   fir_add_r            : t_slv_arr(0 to c_FIR_SYNC_COEF_DATA-1)(c_FIR_ADD_S-1 downto 0)              ; --! Filter FIR address register
 signal   fir_data_add         : std_logic_vector(c_FIR_ADD_S -1 downto 0)                                   ; --! Filter FIR data address
 signal   fir_data             : std_logic_vector(g_FIR_DATA_S-1 downto 0)                                   ; --! Filter FIR data
+signal   fir_data_r           : std_logic_vector(g_FIR_DATA_S-1 downto 0)                                   ; --! Filter FIR data register
 signal   fir_data_mux         : std_logic_vector(g_FIR_DATA_S-1 downto 0)                                   ; --! Filter FIR data multiplexed
 signal   fir_coef             : std_logic_vector(g_FIR_COEF_S-1 downto 0)                                   ; --! Filter FIR coefficient
-signal   fir_prod             : std_logic_vector(c_FIR_PROD_S-1 downto 0)                                   ; --! Filter FIR product result
-signal   fir_sum              : std_logic_vector(c_FIR_SUM_S -1 downto 0)                                   ; --! Filter FIR sum result
+signal   fir_prod_one_dsp     : std_logic_vector(c_FIR_PROD_S-1 downto 0)                                   ; --! Filter FIR product result, case one DSP used
+signal   fir_prod             : t_slv_arr(0 to 1)(c_FIR_PROD_S-1 downto 0)                                  ; --! Filter FIR product result
+signal   fir_sum              : std_logic_vector(c_FIR_SUM_S    downto 0)                                   ; --! Filter FIR sum result
 signal   fir_sum_last         : std_logic_vector(c_FIR_SUM_S -1 downto 0)                                   ; --! Filter FIR sum last result
 signal   fir_sum_stall_msb    : std_logic_vector(g_FIR_RES_S    downto 0)                                   ; --! Filter FIR sum result stall on msb
 
@@ -168,46 +170,34 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    --!   Dual port memory for Filter FIR data
    -- ------------------------------------------------------------------------------------------------------
-   I_mem_fir_data: entity work.dmem_ecc generic map (
-         g_RAM_TYPE           => c_RAM_TYPE_DATA_TX   , -- integer                                          ; --! Memory type ( 0  = Data transfer,  1  = Parameters storage)
-         g_RAM_ADD_S          => c_FIR_ADD_S          , -- integer                                          ; --! Memory address bus size (<= c_RAM_ECC_ADD_S)
-         g_RAM_DATA_S         => g_FIR_DATA_S         , -- integer                                          ; --! Memory data bus size (<= c_RAM_DATA_S)
-         g_RAM_INIT           => c_RAM_INIT_EMPTY       -- integer_vector                                     --! Memory content at initialization
-   ) port map (
-         i_a_rst              => i_rst                , -- in     std_logic                                 ; --! Memory port A: registers reset ('0' = Inactive, '1' = Active)
-         i_a_clk              => i_clk                , -- in     std_logic                                 ; --! Memory port A: main clock
-         i_a_clk_shift        => c_LOW_LEV            , -- in     std_logic                                 ; --! Memory port A: 90 degrees shifted clock (used for memory content correction)
+   P_mem_fir_dta_wr : process (i_clk)
+   begin
 
-         i_a_mem              => mem_fir_data_wr      , -- in     t_mem( add(g_RAM_ADD_S-1 downto 0), ...)  ; --! Memory port A inputs (scrubbing with ping-pong buffer bit for parameters storage)
-         o_a_data_out         => open                 , -- out    slv(g_RAM_DATA_S-1 downto 0)              ; --! Memory port A: data out
-         o_a_pp               => open                 , -- out    std_logic                                 ; --! Memory port A: ping-pong buffer bit for address management
+      if rising_edge(i_clk) then
+         if (i_fir_init_ena or data_rdy_r) = c_HGH_LEV then
+            mem_fir_data(to_integer(unsigned(cnt_data))) <= data_mux_init;
 
-         o_a_flg_err          => open                 , -- out    std_logic                                 ; --! Memory port A: flag error uncorrectable detected ('0' = No, '1' = Yes)
+         end if;
 
-         i_b_rst              => i_rst                , -- in     std_logic                                 ; --! Memory port B: registers reset ('0' = Inactive, '1' = Active)
-         i_b_clk              => i_clk                , -- in     std_logic                                 ; --! Memory port B: main clock
-         i_b_clk_shift        => c_LOW_LEV            , -- in     std_logic                                 ; --! Memory port B: 90 degrees shifted clock (used for memory content correction)
+      end if;
 
-         i_b_mem              => mem_fir_data_rd      , -- in     t_mem( add(g_RAM_ADD_S-1 downto 0), ...)  ; --! Memory port B inputs
-         o_b_data_out         => fir_data             , -- out    slv(g_RAM_DATA_S-1 downto 0)              ; --! Memory port B: data out
+   end process P_mem_fir_dta_wr;
 
-         o_b_flg_err          => open                   -- out    std_logic                                   --! Memory port B: flag error uncorrectable detected ('0' = No, '1' = Yes)
-   );
+   --! Filter FIR data: memory read
+   P_mem_fir_dta_rd : process (i_rst, i_clk)
+   begin
 
-   -- ------------------------------------------------------------------------------------------------------
-   --!   Dual port memory Filter FIR data: memory signals management
-   -- ------------------------------------------------------------------------------------------------------
-   mem_fir_data_wr.add      <= cnt_data;
-   mem_fir_data_wr.we       <= c_HGH_LEV;
-   mem_fir_data_wr.cs       <= i_fir_init_ena or data_rdy_r;
-   mem_fir_data_wr.data_w   <= data_mux_init;
-   mem_fir_data_wr.pp       <= c_LOW_LEV;
+      if i_rst = c_RST_LEV_ACT then
+         fir_data    <= c_ZERO(fir_data'range);
+         fir_data_r  <= c_ZERO(fir_data_r'range);
 
-   mem_fir_data_rd.add      <= fir_data_add;
-   mem_fir_data_rd.we       <= c_LOW_LEV;
-   mem_fir_data_rd.cs       <= c_HGH_LEV;
-   mem_fir_data_rd.data_w   <= c_ZERO(mem_fir_data_rd.data_w'range);
-   mem_fir_data_rd.pp       <= c_LOW_LEV;
+      elsif rising_edge(i_clk) then
+         fir_data    <= mem_fir_data(to_integer(unsigned(fir_data_add)));
+         fir_data_r  <= fir_data;
+
+      end if;
+
+   end process P_mem_fir_dta_rd;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Filter FIR data multiplexed
@@ -223,7 +213,7 @@ begin
             fir_data_mux <= i_fir_init_val;
 
          else
-            fir_data_mux <= fir_data;
+            fir_data_mux <= fir_data_r;
 
          end if;
 
@@ -263,16 +253,16 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         fir_cnt_dta          <= c_ZERO(fir_cnt_dta'range);
-         fir_cnt_dta_msb_r    <= c_LOW_LEV;
+         fir_cnt_dta          <= c_MINUSONE(fir_cnt_dta'range);
+         fir_cnt_dta_msb_r    <= c_HGH_LEV;
          fir_cnt_dta_msb_re_r <= (others => c_LOW_LEV);
 
       elsif rising_edge(i_clk) then
          if fir_cnt_st(fir_cnt_st'high) = c_LOW_LEV then
-            fir_cnt_dta <= c_ZERO(fir_cnt_dta'range);
+            fir_cnt_dta <= std_logic_vector(to_unsigned(c_FIR_CNT_DT_MAX_VAL, fir_cnt_dta'length));
 
          elsif fir_cnt_dta(fir_cnt_dta'high) = c_LOW_LEV then
-            fir_cnt_dta <= std_logic_vector(unsigned(fir_cnt_dta) + 1);
+            fir_cnt_dta <= std_logic_vector(signed(fir_cnt_dta) - 1);
 
          end if;
 
@@ -301,7 +291,7 @@ begin
 
    end process P_fir_add;
 
-   fir_add <= fir_cnt_dta(fir_add'range);
+   fir_add <= std_logic_vector(signed(to_unsigned(c_FIR_CNT_DT_MAX_VAL, fir_add'length)) - signed(fir_cnt_dta(fir_add'range)));
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Filter FIR data address initialization
@@ -310,11 +300,11 @@ begin
    begin
 
       if i_rst = c_RST_LEV_ACT then
-         fir_data_add_init <= c_ZERO(fir_data_add_init'range);
+         fir_data_add_init <= std_logic_vector(to_unsigned(g_FIR_TAB_POS_INIT, fir_data_add_init'length));
 
       elsif rising_edge(i_clk) then
          if i_fir_init_ena = c_HGH_LEV then
-            fir_data_add_init <= c_ZERO(fir_data_add_init'range);
+            fir_data_add_init <= std_logic_vector(to_unsigned(g_FIR_TAB_POS_INIT, fir_data_add_init'length));
 
          elsif fir_cnt_dta_msb_re_r(fir_cnt_dta_msb_re_r'low) = c_HGH_LEV then
             fir_data_add_init <= std_logic_vector(unsigned(fir_data_add_init) + to_unsigned(g_FIR_DCI_VAL, fir_data_add_init'length));
@@ -344,9 +334,35 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    --!   Filter FIR product result
    -- ------------------------------------------------------------------------------------------------------
-   I_fir_prod: entity work.dsp generic map (
-         g_PORTA_S            => g_FIR_DATA_S         , -- integer                                          ; --! Port A bus size (<= c_MULT_ALU_PORTA_S)
-         g_PORTB_S            => g_FIR_COEF_S         , -- integer                                          ; --! Port B bus size (<= c_MULT_ALU_PORTB_S)
+   G_fir_prod: if (g_FIR_COEF_S > c_MULT_ALU_PORTA_S) or (g_FIR_DATA_S > c_MULT_ALU_PORTB_S) generate
+
+      -- Product input bus size extended (4 DSP)
+      I_fir_prod: entity work.mult_add_ext generic map (
+         g_PORTA_S            => g_FIR_COEF_S         , -- integer                                          ; --! Port A bus size (constraints given by inequation in entity details)
+         g_PORTB_S            => g_FIR_DATA_S         , -- integer                                          ; --! Port B bus size (constraints given by inequation in entity details)
+         g_PORTC_S            => c_MULT_ALU_PORTC_S   , -- integer                                          ; --! Port C bus size (<= c_MULT_ALU_PORTC_S  + c_MULT_ALU_MXX_SHF_S)
+         g_PORTA_SHF          => g_FIR_DATA_SHF       , -- integer                                          ; --! Port A shift    (<= c_MULT_ALU_PORTA_S  - 1)
+         g_RESULT_S           => c_FIR_PROD_S         , -- integer                                          ; --! Result bus size (<= c_MULT_ALU_RESULT_S + g_PORTA_SHF)
+         g_LIN_SAT            => c_MULT_ALU_LSAT_ENA  , -- integer range 0 to 1                             ; --! Linear saturation (0 = Disable, 1 = Enable)
+         g_SAT_RANK           => c_MULT_ALU_SAT_NU      -- integer                                            --! Extrem values reached on result bus, not used if linear saturation enabled
+                                                                                                              --!     range from -2**(g_SAT_RANK-1) to 2**(g_SAT_RANK-1) - 1
+      ) port map (
+         i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
+         i_clk                => i_clk                , -- in     std_logic                                 ; --! Clock
+
+         i_a                  => fir_coef             , -- in     std_logic_vector( g_PORTA_S-1 downto 0)   ; --! Port A
+         i_b                  => fir_data_mux         , -- in     std_logic_vector( g_PORTB_S-1 downto 0)   ; --! Port B
+         i_c                  => c_ZERO( c_MULT_ALU_PORTC_S-1 downto 0), -- in slv( g_PORTC_S-1 downto 0)   ; --! Port C
+
+         o_z                  => fir_prod(fir_prod'high)-- out    std_logic_vector(g_RESULT_S-1 downto 0)     --! Result
+         );
+
+   else generate
+
+      -- Simple product (1 DSP)
+      I_fir_prod: entity work.dsp generic map (
+         g_PORTA_S            => g_FIR_COEF_S         , -- integer                                          ; --! Port A bus size (<= c_MULT_ALU_PORTA_S)
+         g_PORTB_S            => g_FIR_DATA_S         , -- integer                                          ; --! Port B bus size (<= c_MULT_ALU_PORTB_S)
          g_PORTC_S            => c_MULT_ALU_PORTC_S   , -- integer                                          ; --! Port C bus size (<= c_MULT_ALU_PORTC_S)
          g_RESULT_S           => c_FIR_PROD_S         , -- integer                                          ; --! Result bus size (<= c_MULT_ALU_RESULT_S)
          g_LIN_SAT            => c_MULT_ALU_LSAT_ENA  , -- integer range 0 to 1                             ; --! Linear saturation (0 = Disable, 1 = Enable)
@@ -354,20 +370,36 @@ begin
                                                                                                               --!     range from -2**(g_SAT_RANK-1) to 2**(g_SAT_RANK-1) - 1
          g_PRE_ADDER_OP       => c_LOW_LEV_B          , -- bit                                              ; --! Pre-Adder operation     ('0' = add,    '1' = subtract)
          g_MUX_C_CZ           => c_LOW_LEV_B            -- bit                                                --! Multiplexer ALU operand ('0' = Port C, '1' = Cascaded Result Input)
-   ) port map (
+      ) port map (
          i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk                => i_clk                , -- in     std_logic                                 ; --! Clock
 
          i_carry              => c_LOW_LEV            , -- in     std_logic                                 ; --! Carry In
-         i_a                  => fir_data_mux         , -- in     std_logic_vector( g_PORTA_S-1 downto 0)   ; --! Port A
-         i_b                  => fir_coef             , -- in     std_logic_vector( g_PORTB_S-1 downto 0)   ; --! Port B
+         i_a                  => fir_coef             , -- in     std_logic_vector( g_PORTA_S-1 downto 0)   ; --! Port A
+         i_b                  => fir_data_mux         , -- in     std_logic_vector( g_PORTB_S-1 downto 0)   ; --! Port B
          i_c                  => c_ZERO( c_MULT_ALU_PORTC_S-1 downto 0), -- in slv( g_PORTC_S-1 downto 0)   ; --! Port C
-         i_d                  => c_ZERO(       g_FIR_COEF_S-1 downto 0), -- in slv( g_PORTB_S-1 downto 0)   ; --! Port D
+         i_d                  => c_ZERO( c_MULT_ALU_PORTD_S-1 downto 0), -- in slv( g_PORTB_S-1 downto 0)   ; --! Port D
          i_cz                 => c_ZERO(c_MULT_ALU_RESULT_S-1 downto 0), -- in slv c_MULT_ALU_RESULT_S      ; --! Cascaded Result Input
 
-         o_z                  => fir_prod             , -- out    std_logic_vector(g_RESULT_S-1 downto 0)   ; --! Result
+         o_z                  => fir_prod_one_dsp     , -- out    std_logic_vector(g_RESULT_S-1 downto 0)   ; --! Result
          o_cz                 => open                   -- out    slv(c_MULT_ALU_RESULT_S-1 downto 0)         --! Cascaded Result
-   );
+      );
+
+      -- FIR product registered in order to get result ready in the same clock period number with the case 4 DSP
+      P_fir_prod : process (i_rst, i_clk)
+      begin
+
+         if i_rst = c_RST_LEV_ACT then
+            fir_prod <= (others => c_ZERO(fir_prod(fir_prod'low)'range));
+
+         elsif rising_edge(i_clk) then
+            fir_prod <= fir_prod_one_dsp & fir_prod(0 to fir_prod'high-1);
+
+         end if;
+
+      end process P_fir_prod;
+
+   end generate G_fir_prod;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Filter FIR sum result
@@ -384,15 +416,28 @@ begin
             fir_sum <= c_ZERO(fir_sum'range);
 
          else
-            fir_sum <= std_logic_vector(resize(signed(fir_prod), fir_sum'length) + signed(fir_sum));
+            fir_sum <= std_logic_vector(resize(signed(fir_prod(fir_prod'high)), fir_sum'length) + signed(fir_sum));
 
          end if;
 
-         if fir_cnt_dta_msb_re_r(fir_cnt_dta_msb_re_r'high-1) = c_HGH_LEV then
-            fir_sum_last <= fir_sum;
+         if fir_cnt_dta_msb_re_r(c_FIR_SUM_RDY) = c_HGH_LEV then
+
+            -- Saturation on minimum value
+            if    (fir_sum(fir_sum'high) and not(fir_sum(fir_sum'high-1))) = c_HGH_LEV then
+               fir_sum_last(fir_sum_last'high)           <= c_HGH_LEV;
+               fir_sum_last(fir_sum_last'high-1 downto 0)<= (others => c_LOW_LEV);
+
+            -- Saturation on maximum value
+            elsif (not(fir_sum(fir_sum'high)) and fir_sum(fir_sum'high-1)) = c_HGH_LEV then
+               fir_sum_last(fir_sum_last'high)           <= c_LOW_LEV;
+               fir_sum_last(fir_sum_last'high-1 downto 0)<= (others => c_HGH_LEV);
+
+            else
+               fir_sum_last <= fir_sum(fir_sum_last'range);
+
+            end if;
 
          end if;
-
 
       end if;
 

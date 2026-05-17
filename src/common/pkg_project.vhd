@@ -43,7 +43,7 @@ package pkg_project is
    --    @Req : DRE-DMX-FW-REQ-0120
    --    @Req : DRE-DMX-FW-REQ-0270
    -- ------------------------------------------------------------------------------------------------------
-constant c_FW_VERSION         : integer   := 16#0014#                                                       ; --! Firmware version
+constant c_FW_VERSION         : integer   := 16#0015#                                                       ; --! Firmware version
 
 constant c_FF_RSYNC_NB        : integer   := 2                                                              ; --! Flip-Flop number used for FPGA input resynchronization
 constant c_FF_RST_NB          : integer   := 6                                                              ; --! Flip-Flop number used for internal reset: System Clock
@@ -61,6 +61,11 @@ constant c_COL0               : integer   := 0                                  
 constant c_COL1               : integer   := 1                                                              ; --! Column 1 value
 constant c_COL2               : integer   := 2                                                              ; --! Column 2 value
 constant c_COL3               : integer   := 3                                                              ; --! Column 3 value
+
+constant c_FIR_DTA_W_NPER     : integer := 1                                                                ; --! FIR period number to write data in memory
+constant c_FIR_DTA_R_NPER     : integer := 3 + (c_DSP_NPER + 2) + 3                                         ; --! FIR period number to calc. FIR data from last data in mem.
+constant c_FIR_DTA_NPER       : integer := c_FIR_DTA_W_NPER + c_FIR_DTA_R_NPER                              ; --! FIR period number to calc. FIR data (add. diff. not included)
+constant c_IIR_DTA_NPER       : integer := c_FIR_DTA_NPER   + 3                                             ; --! IIR period number to calc. IIR data (add. diff. not included)
 
    -- ------------------------------------------------------------------------------------------------------
    --  c_PLL_MAIN_VCO_MULT conditions to respect:
@@ -350,13 +355,12 @@ constant c_SQA_PXL_POS_MX_VAL : integer := c_MUX_FACT - 2                       
 constant c_SQA_PXL_POS_INIT   : integer := -1                                                               ; --! SQUID AMP, Pixel position: initialization value
 constant c_SQA_PXL_POS_S      : integer := log2_ceil(c_SQA_PXL_POS_MX_VAL+1)+1                              ; --! SQUID AMP, Pixel position: size bus (signed)
 
-constant c_SQA_FIR_ADD_DIFF   : integer := 1                                                                ; --! SQUID AMP, FIR under sampling mem. address diff. between last data write and read 
-constant c_SQA_FIR_DTA_W_NPER : integer := 1                                                                ; --! SQUID AMP, FIR under sampling period number to write data in memory
-constant c_SQA_FIR_SUM_NPER   : integer := c_MEM_RD_DATA_NPER + c_DSP_NPER + c_SQA_FIR_ADD_DIFF + 1         ; --! SQUID AMP, FIR under sampling period number for calc. FIR data from last data in mem.
-constant c_SQA_FIR_DTA_R_NPER : integer := c_SQA_FIR_SUM_NPER + 2                                           ; --! SQUID AMP, FIR under sampling period number for memory data read
-constant c_SQA_FIR1_DTA_NPER  : integer :=     (c_SQA_FIR_DTA_W_NPER + c_SQA_FIR_DTA_R_NPER)    + 1         ; --! SQUID AMP, FIR under sampling period number for calc. FIR1 data
-constant c_SQA_FIR_DTA_NPER   : integer := 2 * (c_SQA_FIR_DTA_W_NPER + c_SQA_FIR_DTA_R_NPER)    + 3 
-                                             - (c_PIXEL_ADC_NB_CYC/2)                                       ; --! SQUID AMP, FIR under sampling total period number for calc. FIR data
+constant c_SQA_FIR_ADD_DIFF   : integer := 1                                                                ; --! SQUID AMP, FIR mem. address diff. between last data write and read
+constant c_SQA_IIR_ADD_DIFF   : integer := 1                                                                ; --! SQUID AMP, IIR mem. address diff. between last data write and read
+
+constant c_SQA_FIR1_DTA_NPER  : integer := c_FIR_DTA_NPER + c_SQA_FIR_ADD_DIFF + 1                          ; --! SQUID AMP, FIR1 under sampling period number for calc. FIR1 data
+constant c_SQA_FILT_DTA_NPER  : integer := c_SQA_FIR1_DTA_NPER + c_IIR_DTA_NPER + c_SQA_IIR_ADD_DIFF + 1
+                                           - (c_PIXEL_ADC_NB_CYC/2)                                         ; --! SQUID AMP, filter under sampling total period number for calc. filtered data
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Science Data Transmit parameters
