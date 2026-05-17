@@ -92,7 +92,7 @@ package body pkg_func_math is
          i_tab_coef_s         : in     integer                                                              ; --  Table coefficient bus size output
          i_tab_coef_frc_s     : in     integer                                                                --  Table coefficient fractional part bus size output
    ) return t_slv_arr is
-   constant c_TAB_COEF_EXP    : real := real(2**i_tab_coef_frc_s)                                           ; --! Table coefficient exponent
+   constant c_TAB_COEF_EXP    : real := 2**real(i_tab_coef_frc_s)                                           ; --! Table coefficient exponent
 
    variable v_tab_slv_arr     : t_slv_arr(i_tab_real'range)(i_tab_coef_s-1 downto 0)                        ; --! Table in std_logic_vector array format
    begin

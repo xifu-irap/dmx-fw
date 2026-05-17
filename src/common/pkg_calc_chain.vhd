@@ -79,8 +79,8 @@ constant c_NRM_PN_S           : integer := c_FB_PN_S                            
 constant c_MEM_ELN_RD_NPER    : integer := c_MEM_RD_DATA_NPER + 1                                           ; --! Clock period number for reading data in add/acc memory from data element n ready
 constant c_MEM_PAR_NPER       : integer := c_MEM_RD_DATA_NPER + 1                                           ; --! Clock period number for getting parameter in memory from memory address update
 
-constant c_ADC_SMP_AVE_NPER   : integer := c_DSP_NPER + 1                                                   ; --! Clock period number for ADC sample average       from SQUID MUX Data error ready
-constant c_ADC_SMP_DEL_NPER   : integer := c_ADC_SMP_AVE_NPER + c_SQA_FIR_DTA_NPER                          ; --! Clock period number for ADC sample average delay from SQUID MUX Data error ready
+constant c_ADC_SMP_AVE_NPER   : integer := c_DSP_NPER + 2                                                   ; --! Clock period number for ADC sample average       from SQUID MUX Data error ready
+constant c_ADC_SMP_DEL_NPER   : integer := c_ADC_SMP_AVE_NPER + c_SQA_FILT_DTA_NPER                         ; --! Clock period number for ADC sample average delay from SQUID MUX Data error ready
 constant c_ADC_SMP_MUX_NPER   : integer := c_ADC_SMP_DEL_NPER + 1                                           ; --! Clock period number for ADC sample multiplexer   from SQUID MUX Data error ready
 constant c_ERR_SIG_NPER       : integer := c_ADC_SMP_MUX_NPER + 1                                           ; --! Clock period number for Error signal             from SQUID MUX Data error ready
 
