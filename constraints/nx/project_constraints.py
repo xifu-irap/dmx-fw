@@ -41,15 +41,15 @@ def synthesis_constraints(p,modelboard):
         # ------------------------------------------------------------------------------------------------------
         RESET           = Region('RESET'        , 25, 14,  1,  1)
 
-        SQM_ADC_0       = Region('SQM_ADC_0'    , 22, 14,  1,  3)
-        SQM_ADC_1       = Region('SQM_ADC_1'    , 24, 14,  1,  3)
-        SQM_ADC_2       = Region('SQM_ADC_2'    , 26, 14,  1,  3)
-        SQM_ADC_3       = Region('SQM_ADC_3'    , 28, 14,  1,  3)
+        SQM_ADC_0       = Region('SQM_ADC_0'    , 17, 18,  1,  3)
+        SQM_ADC_1       = Region('SQM_ADC_1'    , 21, 18,  1,  3)
+        SQM_ADC_2       = Region('SQM_ADC_2'    , 25, 18,  1,  3)
+        SQM_ADC_3       = Region('SQM_ADC_3'    , 29, 18,  1,  3)
 
-        SQM_DAC_0       = Region('SQM_DAC_0'    , 21, 14,  1,  3)
-        SQM_DAC_1       = Region('SQM_DAC_1'    , 23, 14,  1,  3)
-        SQM_DAC_2       = Region('SQM_DAC_2'    , 25, 14,  1,  3)
-        SQM_DAC_3       = Region('SQM_DAC_3'    , 27, 14,  1,  3)
+        SQM_DAC_0       = Region('SQM_DAC_0'    , 16, 18,  1,  3)
+        SQM_DAC_1       = Region('SQM_DAC_1'    , 20, 18,  1,  3)
+        SQM_DAC_2       = Region('SQM_DAC_2'    , 24, 18,  1,  3)
+        SQM_DAC_3       = Region('SQM_DAC_3'    , 28, 18,  1,  3)
 
         EP_CMD          = Region('EP_CMD'       , 37,  6,  1,  1)
         REGISTER_MGT    = Region('REGISTER_MGT' , 19,  8, 10, 10)

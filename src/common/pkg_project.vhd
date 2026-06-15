@@ -43,7 +43,7 @@ package pkg_project is
    --    @Req : DRE-DMX-FW-REQ-0120
    --    @Req : DRE-DMX-FW-REQ-0270
    -- ------------------------------------------------------------------------------------------------------
-constant c_FW_VERSION         : integer   := 16#0015#                                                       ; --! Firmware version
+constant c_FW_VERSION         : integer   := 16#0016#                                                       ; --! Firmware version
 
 constant c_FF_RSYNC_NB        : integer   := 2                                                              ; --! Flip-Flop number used for FPGA input resynchronization
 constant c_FF_RST_NB          : integer   := 6                                                              ; --! Flip-Flop number used for internal reset: System Clock
@@ -65,7 +65,7 @@ constant c_COL3               : integer   := 3                                  
 constant c_FIR_DTA_W_NPER     : integer := 1                                                                ; --! FIR period number to write data in memory
 constant c_FIR_DTA_R_NPER     : integer := 3 + (c_DSP_NPER + 2) + 3                                         ; --! FIR period number to calc. FIR data from last data in mem.
 constant c_FIR_DTA_NPER       : integer := c_FIR_DTA_W_NPER + c_FIR_DTA_R_NPER                              ; --! FIR period number to calc. FIR data (add. diff. not included)
-constant c_IIR_DTA_NPER       : integer := c_FIR_DTA_NPER   + 3                                             ; --! IIR period number to calc. IIR data (add. diff. not included)
+constant c_IIR_DTA_NPER       : integer := c_FIR_DTA_NPER   + 4                                             ; --! IIR period number to calc. IIR data (add. diff. not included)
 
    -- ------------------------------------------------------------------------------------------------------
    --  c_PLL_MAIN_VCO_MULT conditions to respect:
