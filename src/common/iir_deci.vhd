@@ -69,17 +69,21 @@ architecture RTL of iir_deci is
 constant c_IIR_PART_DCI_VAL   : integer := 1                                                                ; --! Filter IIR: decimation value for each calculation part
 constant c_IIR_TAB_POS_INIT   : integer := 0                                                                ; --! Filter IIR: table position initialization
 
+constant c_IIR_REC_MSB_EXT_S  : integer := 2                                                                ; --! Filter IIR recursive part result, MSB extra bits
+constant c_IIR_REC_IN_S       : integer := g_IIR_REC_DATA_S   - 1                                           ; --! Filter IIR recursive part input bus size
+constant c_IIR_RES_SAT_S      : integer := g_IIR_REC_DATA_S   - c_IIR_REC_MSB_EXT_S                         ; --! Filter IIR result with saturation bus size
 constant c_IIR_IN_RES_INT_S   : integer := g_IIR_IN_DATA_S    + g_IIR_IN_COEF_SUM_S - g_IIR_IN_COEF_FRC_S   ; --! Filter IIR input part result, integer part bus size
-constant c_IIR_REC_RES_FRC_S  : integer := g_IIR_REC_DATA_S   - g_IIR_IN_DATA_S                             ; --! Filter IIR minus recursive part result fractionnal part bus size
+constant c_IIR_REC_RES_FRC_S  : integer := g_IIR_REC_DATA_S   - g_IIR_IN_DATA_S     - c_IIR_REC_MSB_EXT_S   ; --! Filter IIR minus recursive part result fractionnal part bus size
 constant c_IIR_IN_RES_S       : integer := c_IIR_IN_RES_INT_S + c_IIR_REC_RES_FRC_S                         ; --! Filter IIR input part result bus size
 
-signal   iir_rec_init_val     : std_logic_vector(g_IIR_REC_DATA_S-1 downto 0)                               ; --! Filter IIR: data initialization minus recursive part
+signal   iir_rec_init_val_stl : std_logic_vector( c_IIR_RES_SAT_S-1 downto 0)                               ; --! Filter IIR: data initialization minus recursive part stall
+signal   iir_rec_init_val     : std_logic_vector(  c_IIR_REC_IN_S-1 downto 0)                               ; --! Filter IIR: data initialization minus recursive part
 
 signal   iir_res_in           : std_logic_vector(  c_IIR_IN_RES_S-1 downto 0)                               ; --! Filter IIR: input part result (signed)
 signal   iir_res_in_rsz       : std_logic_vector(g_IIR_REC_DATA_S-1 downto 0)                               ; --! Filter IIR: input part result resized
-signal   iir_res_minus_rec    : std_logic_vector(g_IIR_REC_DATA_S   downto 0)                               ; --! Filter IIR: result minus recursive part (signed)
-signal   iir_res_minus_rc_rsz : std_logic_vector(g_IIR_REC_DATA_S-1 downto 0)                               ; --! Filter IIR: result minus recursive part resized
+signal   iir_res_minus_rec    : std_logic_vector(g_IIR_REC_DATA_S-1 downto 0)                               ; --! Filter IIR: result minus recursive part (signed)
 signal   iir_res_no_deci      : std_logic_vector(g_IIR_REC_DATA_S-1 downto 0)                               ; --! Filter IIR: result no decimation (signed)
+signal   iir_res_no_deci_sat  : std_logic_vector( c_IIR_RES_SAT_S-1 downto 0)                               ; --! Filter IIR: result no decimation MSB saturation (signed)
 signal   iir_res              : std_logic_vector(     g_IIR_RES_S   downto 0)                               ; --! Filter IIR: result no decimation
 signal   iir_res_in_rdy       : std_logic                                                                   ; --! Filter IIR: input part result ready ('0' = Inactive, '1' = Active)
 signal   iir_res_in_rdy_r     : std_logic                                                                   ; --! Filter IIR: input part result ready register
@@ -138,12 +142,14 @@ begin
    -- ------------------------------------------------------------------------------------------------------
    I_iir_init_val_stall : entity work.resize_stall_msb generic map (
          g_DATA_S             => g_IIR_IN_DATA_S      , -- integer                                          ; --! Data input bus size
-         g_DATA_STALL_MSB_S   => g_IIR_REC_DATA_S       -- integer                                            --! Data stalled on Mean Significant Bit bus size
+         g_DATA_STALL_MSB_S   => c_IIR_RES_SAT_S        -- integer                                            --! Data stalled on Mean Significant Bit bus size
    ) port map (
          i_data               => i_iir_init_val       , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
-         o_data_stall_msb     => iir_rec_init_val     , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
+         o_data_stall_msb     => iir_rec_init_val_stl , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
          o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
    );
+
+   iir_rec_init_val       <= std_logic_vector(resize(signed(iir_rec_init_val_stl), iir_rec_init_val'length));
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Filter Infinite Impulse Response: Minus Recursive part
@@ -156,9 +162,9 @@ begin
          g_FIR_COEF_S         => g_IIR_REC_COEF_S     , -- integer                                          ; --! Filter FIR coefficient bus size
          g_FIR_COEF           => g_IIR_REC_COEF       , -- t_slv_arr g_FIR_TAB_NW g_FIR_COEF_S              ; --! Filter FIR coefficients
          g_FIR_COEF_SUM_S     => g_IIR_REC_COEF_SUM_S , -- integer                                          ; --! Filter FIR coefficient sum bus size
-         g_FIR_DATA_S         => g_IIR_REC_DATA_S     , -- integer                                          ; --! Filter FIR data bus size
+         g_FIR_DATA_S         => c_IIR_REC_IN_S       , -- integer                                          ; --! Filter FIR data bus size
          g_FIR_DATA_SHF       => g_IIR_REC_DATA_SHF   , -- integer                                          ; --! Filter FIR data shift used by the product
-         g_FIR_RES_S          => g_IIR_REC_DATA_S + 1   -- integer                                            --! Filter FIR result bus size
+         g_FIR_RES_S          => g_IIR_REC_DATA_S       -- integer                                            --! Filter FIR result bus size
    )  port map (
          i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk                => i_clk                , -- in     std_logic                                 ; --! System Clock
@@ -168,7 +174,7 @@ begin
          i_fir_init_ena_fe    => i_iir_init_ena_fe    , -- in     std_logic                                 ; --! Filter FIR data initialization enable falling edge
          i_fir_start_cond     => i_iir_start_cond     , -- in     std_logic                                 ; --! Filter FIR start calculation condition ('0' = Inactive, '1' one clk cyc. = Active)
 
-         i_data               => iir_res_no_deci      , -- in     std_logic_vector(g_FIR_DATA_S-1 downto 0) ; --! Data (signed)
+         i_data               => iir_res_no_deci(c_IIR_REC_IN_S-1 downto 0), -- in slv g_FIR_DATA_S         ; --! Data (signed)
          i_data_rdy           => iir_res_in_rdy_r     , -- in     std_logic                                 ; --! Data ready ('0' = Inactive, '1' = Active)
 
          o_fir_res            => iir_res_minus_rec    , -- out    std_logic_vector( g_FIR_RES_S-1 downto 0) ; --! Filter FIR result (signed)
@@ -179,7 +185,6 @@ begin
    --!   Filter IIR: result no decimation
    -- ------------------------------------------------------------------------------------------------------
    iir_res_in_rsz       <= std_logic_vector(resize(signed(iir_res_in), iir_res_in_rsz'length));
-   iir_res_minus_rc_rsz <= iir_res_minus_rec(iir_res_minus_rc_rsz'range);
 
    I_in_minus_rec: entity work.adder_sat generic map (
          g_RST_LEV_ACT        => c_RST_LEV_ACT        , -- std_logic                                        ; --! Reset level activation value
@@ -188,18 +193,45 @@ begin
          i_rst                => i_rst                , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk                => i_clk                , -- in     std_logic                                 ; --! Clock
          i_data_fst           => iir_res_in_rsz       , -- in     std_logic_vector(g_DATA_S-1 downto 0)     ; --! Data first (signed)
-         i_data_sec           => iir_res_minus_rc_rsz , -- in     std_logic_vector(g_DATA_S-1 downto 0)     ; --! Data second (signed)
+         i_data_sec           => iir_res_minus_rec    , -- in     std_logic_vector(g_DATA_S-1 downto 0)     ; --! Data second (signed)
          o_data_add_sat       => iir_res_no_deci        -- out    std_logic_vector(g_DATA_S-1 downto 0)       --! Data added with saturation (signed)
    );
+
+   -- ------------------------------------------------------------------------------------------------------
+   --!   Filter IIR: result no decimation MSB saturation
+   -- ------------------------------------------------------------------------------------------------------
+   P_iir_res_no_dec_sat : process (i_rst, i_clk)
+   begin
+
+      if i_rst = c_RST_LEV_ACT then
+         iir_res_no_deci_sat  <= c_ZERO(iir_res_no_deci_sat'range);
+
+      elsif rising_edge(i_clk) then
+         if    (not(iir_res_no_deci(iir_res_no_deci'high-1)) and     iir_res_no_deci(iir_res_no_deci'high-2))  = c_HGH_LEV then
+            iir_res_no_deci_sat(iir_res_no_deci_sat'high)            <= c_LOW_LEV;
+            iir_res_no_deci_sat(iir_res_no_deci_sat'high-1 downto 0) <= (others => c_HGH_LEV);
+
+         elsif (    iir_res_no_deci(iir_res_no_deci'high-1)  and not(iir_res_no_deci(iir_res_no_deci'high-2))) = c_HGH_LEV then
+            iir_res_no_deci_sat(iir_res_no_deci_sat'high)            <= c_HGH_LEV;
+            iir_res_no_deci_sat(iir_res_no_deci_sat'high-1 downto 0) <= (others => c_LOW_LEV);
+
+         else
+            iir_res_no_deci_sat <= iir_res_no_deci(iir_res_no_deci_sat'range);
+
+         end if;
+
+      end if;
+
+   end process P_iir_res_no_dec_sat;
 
    -- ------------------------------------------------------------------------------------------------------
    --!   Filter IIR: result no decimation stall MSB
    -- ------------------------------------------------------------------------------------------------------
    I_iir_res_stall : entity work.resize_stall_msb generic map (
-         g_DATA_S             => g_IIR_REC_DATA_S     , -- integer                                          ; --! Data input bus size
+         g_DATA_S             => c_IIR_RES_SAT_S      , -- integer                                          ; --! Data input bus size
          g_DATA_STALL_MSB_S   => g_IIR_RES_S + 1        -- integer                                            --! Data stalled on Mean Significant Bit bus size
    ) port map (
-         i_data               => iir_res_no_deci      , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
+         i_data               => iir_res_no_deci_sat  , -- in     slv(          g_DATA_S-1 downto 0)        ; --! Data
          o_data_stall_msb     => iir_res              , -- out    slv(g_DATA_STALL_MSB_S-1 downto 0)        ; --! Data stalled on Mean Significant Bit
          o_data               => open                   -- out    slv(          g_DATA_S-1 downto 0)          --! Data
    );

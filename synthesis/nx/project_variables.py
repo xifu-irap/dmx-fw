@@ -30,7 +30,7 @@ DefaultVariants     = ['NG-LARGE','NG-LARGE','ULTRA300']
 DefaultTopCellName  = ['top_dmx_dk','top_dmx_dm','top_dmx_em']
 #NanoXplore tool variables
 DefaultTopCellLib   = 'work'
-DefaultSeed         = ['XXXX','1000','XXXX']
+DefaultSeed         = ['XXXX','1080','XXXX']
 DefaultTimingDriven = 'Yes'
 DefaultSta          = 'routed'
 DefaultStaCondition = 'worstcase'

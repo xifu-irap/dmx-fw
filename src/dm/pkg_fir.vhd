@@ -76,7 +76,7 @@ constant c_IIR2_IN_TAB        :  t_slv_arr(0 to c_IIR2_TAB_NW-1)(c_IIR2_IN_TAB_S
 constant c_IIR2_REC_TAB_S     : integer := 30                                                               ; --! SQUID AMP: Filter IIR2 minus recursive part coefficient bus size
 constant c_IIR2_REC_FRC_S     : integer := integer(ceil(real(c_IIR2_REC_TAB_S-2) - log2(2.87600971)))       ; --! SQUID AMP: Filter IIR2 minus recursive part coefficient fractional part
 constant c_IIR2_REC_COEF_SM_S : integer := integer(ceil(real(c_IIR2_REC_FRC_S)   + log2(0.99977363))) + 1   ; --! SQUID AMP: Filter IIR2 minus recursive part coefficient sum bus size
-constant c_IIR2_REC_DATA_S    : integer := 30                                                               ; --! SQUID AMP: Filter IIR2 minus recursive part data shift bus size
+constant c_IIR2_REC_DATA_S    : integer := 32                                                               ; --! SQUID AMP: Filter IIR2 minus recursive part data shift bus size
 constant c_IIR2_REC_DATA_SHF  : integer := 6                                                                ; --! SQUID AMP: Filter IIR2 minus recursive part data shift used by the product
 constant c_IIR2_REC_TAB_RL    : real_vector(0 to c_IIR2_TAB_NW-1) :=
                                ( 0.883353660000,-2.759589740000, 2.876009710000, 0.000000000000)            ; --! SQUID AMP: Filter IIR2 minus recursive part coefficients real vector
