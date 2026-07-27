@@ -1893,20 +1893,20 @@ byFile="1">
 <fileData path="./src/common/rst_clk_mgt.vhd">
 <branches active="4" hits="4" percent="100.00"/>
 <if hasElse="0" active="2" hits="2" percent="100.00">
-<ielem ln="187" st="1" true="52" false="52"/>
-<ielem ln="190" st="1" true="52" false="0"/>
+<ielem ln="186" st="1" true="52" false="52"/>
+<ielem ln="189" st="1" true="52" false="0"/>
 </if>
 <if hasElse="0" active="2" hits="2" percent="100.00">
-<ielem ln="201" st="1" true="104" false="7863453"/>
-<ielem ln="205" st="1" true="7863453" false="0"/>
+<ielem ln="200" st="1" true="104" false="7863453"/>
+<ielem ln="204" st="1" true="7863453" false="0"/>
 </if>
 <statements active="6" hits="6" percent="100.00"/>
-<stmt ln="188" st="1" hits="52"/>
-<stmt ln="191" st="1" hits="52"/>
+<stmt ln="187" st="1" hits="52"/>
+<stmt ln="190" st="1" hits="52"/>
+<stmt ln="201" st="1" hits="104"/>
 <stmt ln="202" st="1" hits="104"/>
-<stmt ln="203" st="1" hits="104"/>
+<stmt ln="205" st="1" hits="7863453"/>
 <stmt ln="206" st="1" hits="7863453"/>
-<stmt ln="207" st="1" hits="7863453"/>
 </fileData>
 <fileData path="./src/common/rst_gen.vhd">
 <branches active="3" hits="3" percent="100.00"/>
@@ -2265,6 +2265,34 @@ byFile="1">
 <stmt ln="578" st="1" hits="286867"/>
 <stmt ln="581" st="1" hits="1245627"/>
 </fileData>
+<fileData path="./src/common/science_data_sync_ck.vhd">
+<branches active="8" hits="8" percent="100.00"/>
+<if hasElse="0" active="2" hits="2" percent="100.00">
+<ielem ln="64" st="1" true="104" false="52"/>
+<ielem ln="67" st="1" true="52" false="0"/>
+</if>
+<if hasElse="0" active="2" hits="2" percent="100.00">
+<ielem ln="80" st="1" true="104" false="2227982"/>
+<ielem ln="83" st="1" true="2227982" false="0"/>
+</if>
+<if hasElse="0" active="2" hits="2" percent="100.00">
+<ielem ln="96" st="1" true="104" false="7863453"/>
+<ielem ln="100" st="1" true="7863453" false="0"/>
+</if>
+<if hasElse="0" active="2" hits="2" percent="100.00">
+<ielem ln="101" st="1" true="3931738" false="3931715"/>
+<ielem ln="101" st="1" true="3931715" false="0"/>
+</if>
+<statements active="8" hits="8" percent="100.00"/>
+<stmt ln="65" st="1" hits="104"/>
+<stmt ln="68" st="1" hits="52"/>
+<stmt ln="81" st="1" hits="104"/>
+<stmt ln="84" st="1" hits="2227982"/>
+<stmt ln="97" st="1" hits="104"/>
+<stmt ln="98" st="1" hits="104"/>
+<stmt ln="102" st="1" hits="3931738"/>
+<stmt ln="106" st="1" hits="7863453"/>
+</fileData>
 <fileData path="./src/common/science_data_tx.vhd">
 <branches active="9" hits="9" percent="100.00"/>
 <if hasElse="0" active="2" hits="2" percent="100.00">
@@ -2502,7 +2530,7 @@ byFile="1">
 <stmt ln="164" st="1" hits="1040"/>
 <stmt ln="168" st="1" hits="30907"/>
 <stmt ln="171" st="1" hits="446683"/>
-<stmt ln="179" st="1" hits="72708"/>
+<stmt ln="179" st="1" hits="72706"/>
 <stmt ln="188" st="1" hits="1040"/>
 <stmt ln="192" st="1" hits="15834"/>
 <stmt ln="195" st="1" hits="30907"/>
@@ -4643,16 +4671,16 @@ byFile="1">
 </fileData>
 <fileData path="./src/dm/top_dmx_dm.vhd">
 <statements active="10" hits="10" percent="100.00"/>
-<stmt ln="443" st="1" hits="156"/>
-<stmt ln="628" st="1" hits="2611911"/>
-<stmt ln="632" st="1" hits="52"/>
-<stmt ln="637" st="1" hits="7863557"/>
-<stmt ln="638" st="1" hits="7863557"/>
-<stmt ln="640" st="1" hits="327153"/>
-<stmt ln="641" st="1" hits="327153"/>
-<stmt ln="643" st="1" hits="52"/>
+<stmt ln="455" st="1" hits="156"/>
+<stmt ln="640" st="1" hits="2611901"/>
 <stmt ln="644" st="1" hits="52"/>
-<stmt ln="645" st="1" hits="52"/>
+<stmt ln="649" st="1" hits="7863557"/>
+<stmt ln="650" st="1" hits="7863557"/>
+<stmt ln="652" st="1" hits="327151"/>
+<stmt ln="653" st="1" hits="327151"/>
+<stmt ln="655" st="1" hits="52"/>
+<stmt ln="656" st="1" hits="52"/>
+<stmt ln="657" st="1" hits="52"/>
 </fileData>
 </code_coverage_report>
 </coverage_report>
