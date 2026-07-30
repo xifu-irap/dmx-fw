@@ -34,7 +34,7 @@
 # ** Note   : (21912000 ps) Send SPI command value C004_XXXX (Hw_Version, mode Read, data XXXX)
 # ** Note   : (21984000 ps) Waiting SPI command return end for 36000 ps
 # ** Note   : (22002000 ps) Check command return: PASS
-# ** Note   : (22002000 ps)  * Read C002_0017, expected value C002_0017 (Fw_Version, mode Read, data 0017)
+# ** Note   : (22002000 ps)  * Read C002_0018, expected value C002_0018 (Fw_Version, mode Read, data 0018)
 # ** Note   : (29418000 ps) Waiting SPI command end for 7416000 ps
 # ** Note   : (29418000 ps) Send SPI command value C004_XXXX (Hw_Version, mode Read, data XXXX)
 # ** Note   : (29490000 ps) Waiting SPI command return end for 36000 ps
