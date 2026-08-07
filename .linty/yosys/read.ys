@@ -55,6 +55,7 @@ verific -vhdl ./src/common/test_pattern_gen.vhd
 verific -vhdl ./src/common/relock.vhd
 verific -vhdl ./src/common/fir_deci.vhd
 verific -vhdl ./src/common/iir_deci.vhd
+verific -vhdl ./src/common/science_data_sync_ck.vhd
 verific -vhdl ./src/common/sqa_fbk_mgt.vhd
 verific -vhdl ./src/common/sqa_dac_sys.vhd
 verific -vhdl ./src/dm/sqa_under_samp.vhd

@@ -158,7 +158,9 @@ signal   tst_pat_end_re       : std_logic                                       
 signal   tst_pat_empty        : std_logic                                                                   ; --! Test pattern empty ('0' = No, '1' = Yes)
 
 signal   ck_science           : std_logic                                                                   ; --! Science Data: Image Clock channel
+signal   science_data_ena     : std_logic                                                                   ; --! Science Data Enable
 signal   science_data_ser     : std_logic_vector(c_NB_COL*c_SC_DATA_SER_NB downto 0)                        ; --! Science Data: Serial Data
+signal   sc_data_sync_ck      : std_logic_vector(c_NB_COL*c_SC_DATA_SER_NB downto 0)                        ; --! Science Data: Serial Data synchronized on falling edge external generated clock
 
 signal   hk_err_nin           : std_logic                                                                   ; --! Housekeeping: Error parameter to read not initialized yet
 signal   ep_cmd_sts_err_add   : std_logic                                                                   ; --! EP command: Status, error invalid address
@@ -229,6 +231,7 @@ begin
          o_ck_sqm_adc         => o_clk_sqm_adc        , -- out    std_logic_vector(c_NB_COL-1 downto 0)     ; --! SQUID MUX ADC Image Clocks
          o_ck_sqm_dac         => o_clk_sqm_dac        , -- out    std_logic_vector(c_NB_COL-1 downto 0)     ; --! SQUID MUX DAC Image Clocks
          o_ck_science         => ck_science           , -- out    std_logic                                 ; --! Science Data Image Clock
+         o_science_data_ena   => science_data_ena     , -- out    std_logic                                 ; --! Science Data Enable
 
          o_clk_90             => clk_90               , -- out    std_logic                                 ; --! System Clock 90 degrees shift
          o_clk_sqm_adc_dac_90 => clk_sqm_adc_dac_90   , -- out    std_logic                                 ; --! SQUID ADC/DAC internal 90 degrees shift
@@ -295,6 +298,15 @@ begin
          o_aqmde_dmp_tx_end   => aqmde_dmp_tx_end     , -- out    std_logic                                 ; --! Telemetry mode, dump transmit end ('0' = Inactive, '1' = Active)
 
          o_science_data_ser   => science_data_ser       -- out    slv       c_NB_COL*c_SC_DATA_SER_NB         --! Science Data: Serial Data
+   );
+
+   I_sc_data_sync_ck: entity work.science_data_sync_ck port map (
+         i_rst_sqm_adc_dac    => rst_sqm_adc_dac      , -- in     std_logic                                 ; --! Reset for SQUID ADC/DAC, de-assertion on system clock ('0' = Inactive, '1' = Active)
+         i_clk_sqm_adc_dac    => clk_sqm_adc_dac      , -- in     std_logic                                 ; --! SQUID ADC/DAC internal Clock
+
+         i_science_data_ser   => science_data_ser     , -- in     slv(c_NB_COL*c_SC_DATA_SER_NB downto 0)   ; --! Science Data: Serial Data
+         i_science_data_ena   => science_data_ena     , -- in     std_logic                                 ; --! Science Data: Enable
+         o_sc_data_sync_ck    => sc_data_sync_ck        -- out    slv(c_NB_COL*c_SC_DATA_SER_NB downto 0)     --! Science Data: Serial Data synchronized on falling edge external generated clock
    );
 
    -- ------------------------------------------------------------------------------------------------------
@@ -630,7 +642,7 @@ begin
          o_sqm_adc_spi_cs_n   => o_sqm_adc_spi_cs_n(k)  -- out    std_logic                                   --! SQUID MUX ADC: SPI Chip Select ('0' = Active, '1' = Inactive)
       );
 
-      o_science_data(k) <= science_data_ser((k+1)*c_SC_DATA_SER_NB-1 downto k*c_SC_DATA_SER_NB);
+      o_science_data(k) <= sc_data_sync_ck((k+1)*c_SC_DATA_SER_NB-1 downto k*c_SC_DATA_SER_NB);
 
    end generate G_column_mgt;
 
@@ -642,8 +654,8 @@ begin
    o_clk_science_01     <= ck_science;
    o_clk_science_23     <= ck_science;
 
-   o_science_ctrl_01    <= science_data_ser(science_data_ser'high);
-   o_science_ctrl_23    <= science_data_ser(science_data_ser'high);
+   o_science_ctrl_01    <= sc_data_sync_ck(sc_data_sync_ck'high);
+   o_science_ctrl_23    <= sc_data_sync_ck(sc_data_sync_ck'high);
 
    o_science_data(o_science_data'high) <= (others => c_LOW_LEV);
    o_spare                             <= c_LOW_LEV;

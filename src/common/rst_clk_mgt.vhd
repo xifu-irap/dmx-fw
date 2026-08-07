@@ -52,6 +52,7 @@ entity rst_clk_mgt is port (
          o_ck_sqm_adc         : out    std_logic_vector(c_NB_COL-1 downto 0)                                ; --! SQUID MUX ADC Image Clocks
          o_ck_sqm_dac         : out    std_logic_vector(c_NB_COL-1 downto 0)                                ; --! SQUID MUX DAC Image Clocks
          o_ck_science         : out    std_logic                                                            ; --! Science Data Image Clock
+         o_science_data_ena   : out    std_logic                                                            ; --! Science Data Enable
 
          o_clk_90             : out    std_logic                                                            ; --! System Clock 90 degrees shift
          o_clk_sqm_adc_dac_90 : out    std_logic                                                            ; --! SQUID MUX ADC/DAC internal 90 degrees shift
@@ -69,8 +70,6 @@ signal   clk_dac_out          : std_logic                                       
 
 signal   cmd_ck_adc           : std_logic_vector(c_NB_COL-1 downto 0)                                       ; --! SQUID MUX ADC Clocks switch commands ('0' = Inactive, '1' = Active)
 signal   cmd_ck_sqm_dac       : std_logic_vector(c_NB_COL-1 downto 0)                                       ; --! SQUID MUX DAC Clocks switch commands ('0' = Inactive, '1' = Active)
-
-signal   ck_science           : std_logic                                                                   ; --! Science Data Image Clock
 
 attribute syn_preserve        : boolean                                                                     ; --! Disabling signal optimization
 attribute syn_preserve          of rst_sqm_adc_dac_lc    : signal is true                                   ; --! Disabling signal optimization: rst_sqm_adc_dac_lc
@@ -199,12 +198,12 @@ begin
    begin
 
       if rst_sqm_adc_dac_lc  = c_RST_LEV_ACT then
-         ck_science    <= c_HGH_LEV;
-         o_ck_science  <= c_LOW_LEV;
+         o_science_data_ena   <= c_HGH_LEV;
+         o_ck_science         <= c_LOW_LEV;
 
       elsif rising_edge(o_clk_sqm_adc_dac) then
-         ck_science    <= not(ck_science);
-         o_ck_science  <= ck_science;
+         o_science_data_ena   <= not(o_science_data_ena);
+         o_ck_science         <= o_science_data_ena;
 
       end if;
 
