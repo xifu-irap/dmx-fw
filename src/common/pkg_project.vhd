@@ -43,7 +43,7 @@ package pkg_project is
    --    @Req : DRE-DMX-FW-REQ-0120
    --    @Req : DRE-DMX-FW-REQ-0270
    -- ------------------------------------------------------------------------------------------------------
-constant c_FW_VERSION         : integer   := 16#0016#                                                       ; --! Firmware version
+constant c_FW_VERSION         : integer   := 16#0018#                                                       ; --! Firmware version
 
 constant c_FF_RSYNC_NB        : integer   := 2                                                              ; --! Flip-Flop number used for FPGA input resynchronization
 constant c_FF_RST_NB          : integer   := 6                                                              ; --! Flip-Flop number used for internal reset: System Clock

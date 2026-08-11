@@ -26,6 +26,7 @@ def add_options(p,timing_driven,seed):
     p.setOptions({
         'Autosave'                          : 'Yes',
         'BypassingEffort'                   : 'Medium',
+        'Clustering'                        : 'No',
         'CongestionEffort'                  : 'High',
         'DefaultFSMEncoding'                : 'OneHot',
         'DefaultRAMMapping'                 : 'AUTO',
@@ -55,8 +56,12 @@ def add_options(p,timing_driven,seed):
         'ManageUninitializedLoops'          : 'No',
         'MappingEffort'                     : 'High',
         'MaxRegisterCount'                  : '20000',
+        'OperatorOptimization'              : 'No',
+        'OptimizationApproval'              : 'No',
         'OptimizedMux'                      : 'Yes',
+        'OptimizingEffort'                  : 'Low',
         'PolishingEffort'                   : 'Medium',
+        'PropagateConstants'                : 'No',
         'ReplicationApproval'               : 'Yes',
         'RoutingEffort'                     : 'High',
         'SaveTiming'                        : 'No',
@@ -65,6 +70,7 @@ def add_options(p,timing_driven,seed):
         'SharingEffort'                     : 'Medium',
         'SharingFanout'                     : '30',
         'SimplifyRegions'                   : 'Yes',
+        'SystemOutputDriven'                : 'No',
         'TimingDriven'                      : timing_driven,
         'TimingEffort'                      : 'High',
         'UnusedPads'                        : 'Floating'

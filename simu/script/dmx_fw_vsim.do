@@ -95,6 +95,7 @@ quietly set TB_DIR $4
       ${SRC_DIR}/common/relock.vhd               \
       ${SRC_DIR}/common/fir_deci.vhd             \
       ${SRC_DIR}/common/iir_deci.vhd             \
+      ${SRC_DIR}/common/science_data_sync_ck.vhd \
       ${SRC_DIR}/common/sqa_fbk_mgt.vhd          \
       ${SRC_DIR}/common/sqa_dac_sys.vhd
 

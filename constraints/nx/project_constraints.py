@@ -41,15 +41,15 @@ def synthesis_constraints(p,modelboard):
         # ------------------------------------------------------------------------------------------------------
         RESET           = Region('RESET'        , 25, 14,  1,  1)
 
-        SQM_ADC_0       = Region('SQM_ADC_0'    , 22, 14,  1,  3)
-        SQM_ADC_1       = Region('SQM_ADC_1'    , 24, 14,  1,  3)
-        SQM_ADC_2       = Region('SQM_ADC_2'    , 26, 14,  1,  3)
-        SQM_ADC_3       = Region('SQM_ADC_3'    , 28, 14,  1,  3)
+        SQM_ADC_0       = Region('SQM_ADC_0'    , 17, 18,  1,  3)
+        SQM_ADC_1       = Region('SQM_ADC_1'    , 21, 18,  1,  3)
+        SQM_ADC_2       = Region('SQM_ADC_2'    , 25, 18,  1,  3)
+        SQM_ADC_3       = Region('SQM_ADC_3'    , 29, 18,  1,  3)
 
-        SQM_DAC_0       = Region('SQM_DAC_0'    , 21, 14,  1,  3)
-        SQM_DAC_1       = Region('SQM_DAC_1'    , 23, 14,  1,  3)
-        SQM_DAC_2       = Region('SQM_DAC_2'    , 25, 14,  1,  3)
-        SQM_DAC_3       = Region('SQM_DAC_3'    , 27, 14,  1,  3)
+        SQM_DAC_0       = Region('SQM_DAC_0'    , 16, 18,  1,  3)
+        SQM_DAC_1       = Region('SQM_DAC_1'    , 20, 18,  1,  3)
+        SQM_DAC_2       = Region('SQM_DAC_2'    , 24, 18,  1,  3)
+        SQM_DAC_3       = Region('SQM_DAC_3'    , 28, 18,  1,  3)
 
         EP_CMD          = Region('EP_CMD'       , 37,  6,  1,  1)
         REGISTER_MGT    = Region('REGISTER_MGT' , 19,  8, 10, 10)
@@ -117,9 +117,12 @@ def synthesis_constraints(p,modelboard):
         # ------------------------------------------------------------------------------------------------------
         #   Science constraints
         # ------------------------------------------------------------------------------------------------------
-        p.addModule('science_data_mgt', 'I_top_dmx_dm_clk|I_science_data_mgt', 'science_data_mgt', 'Soft')
+        p.addModule('science_data_mgt',     'I_top_dmx_dm_clk|I_science_data_mgt', 'science_data_mgt', 'Soft')
+        p.addModule('science_data_sync_ck', 'I_top_dmx_dm_clk|I_sc_data_sync_ck',  'science_data_sync_ck', 'Soft')
+
         p.addRegion(SCIENCE_MGT.n, SCIENCE_MGT.c, SCIENCE_MGT.r, SCIENCE_MGT.w, SCIENCE_MGT.h, False)
-        p.confineModule('science_data_mgt', SCIENCE_MGT.n)
+        p.confineModule('science_data_mgt',     SCIENCE_MGT.n)
+        p.confineModule('science_data_sync_ck', SCIENCE_MGT.n)
 
         # ------------------------------------------------------------------------------------------------------
         #   Internal constraints
@@ -360,9 +363,12 @@ def synthesis_constraints(p,modelboard):
         # ------------------------------------------------------------------------------------------------------
         #   Science constraints
         # ------------------------------------------------------------------------------------------------------
-        p.addModule('science_data_mgt', 'I_science_data_mgt', 'science_data_mgt', 'Soft')
+        p.addModule('science_data_mgt',     'I_science_data_mgt', 'science_data_mgt', 'Soft')
+        p.addModule('science_data_sync_ck', 'I_sc_data_sync_ck',  'science_data_sync_ck', 'Soft')
+
         p.addRegion(SCIENCE_MGT.n, SCIENCE_MGT.c, SCIENCE_MGT.r, SCIENCE_MGT.w, SCIENCE_MGT.h, False)
-        p.confineModule('science_data_mgt', SCIENCE_MGT.n)
+        p.confineModule('science_data_mgt',     SCIENCE_MGT.n)
+        p.confineModule('science_data_sync_ck', SCIENCE_MGT.n)
 
         # ------------------------------------------------------------------------------------------------------
         #   Internal constraints
@@ -378,7 +384,8 @@ def placing_constraints(p,modelboard):
         # ------------------------------------------------------------------------------------------------------
         p.injectLowskew('rst')
         p.injectLowskew('rst_sqm_adc_dac')
-        p.setSite('I_top_dmx_dm_clk|I_rst_clk_mgt|rst_sqm_adc_dac_lc_reg','TILE[32x2]')
+        p.setSite('I_top_dmx_dm_clk|I_rst_clk_mgt|rst_sqm_adc_dac_lc_reg','TILE[27x2]')
+        p.setSite('I_top_dmx_dm_clk|I_rst_clk_mgt|o_science_data_ena_reg','TILE[27x2]')
 
         p.setSite('*G_column_mgt[0].I_sqm_fbk_mgt|o_sqm_data_fbk_reg*','TILE[21x14]')
         p.setSite('*G_column_mgt[1].I_sqm_fbk_mgt|o_sqm_data_fbk_reg*','TILE[23x14]')
@@ -403,7 +410,8 @@ def placing_constraints(p,modelboard):
         # ------------------------------------------------------------------------------------------------------
         p.injectLowskew('rst')
         p.injectLowskew('rst_sqm_adc_dac')
-        p.setSite('I_rst_clk_mgt|rst_sqm_adc_dac_lc_reg','TILE[37x22]')
+        p.setSite('I_rst_clk_mgt|rst_sqm_adc_dac_lc_reg','TILE[36x18]')
+        p.setSite('I_rst_clk_mgt|o_science_data_ena_reg','TILE[36x18]')
         p.setSite('*G_column_mgt[0].I_squid_adc_mgt|rst_sqm_adc_dac_lc*','TILE[30x18]')
 
         p.setSite('*G_column_mgt[0].I_sqm_fbk_mgt|o_sqm_data_fbk_reg*','TILE[33x6]')
