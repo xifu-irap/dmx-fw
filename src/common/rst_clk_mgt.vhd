@@ -80,6 +80,7 @@ begin
    --!   Clocks generation
    -- ------------------------------------------------------------------------------------------------------
    I_pll: entity work.pll port map (
+         i_rst_sqm_adc_dac    => o_rst_sqm_adc_dac    , -- in     std_logic                                 ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk_ref            => i_clk_ref            , -- in     std_logic                                 ; --! Reference Clock
          o_clk                => o_clk                , -- out    std_logic                                 ; --! System Clock
          o_clk_sqm_adc_dac    => o_clk_sqm_adc_dac    , -- out    std_logic                                 ; --! SQUID MUX ADC/DAC internal Clock

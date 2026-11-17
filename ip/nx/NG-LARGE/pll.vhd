@@ -40,6 +40,7 @@ library nx;
 use     nx.nxpackage.all;
 
 entity pll is port (
+         i_rst_sqm_adc_dac    : in     std_logic                                                            ; --! Reset asynchronous assertion, synchronous de-assertion ('0' = Inactive, '1' = Active)
          i_clk_ref            : in     std_logic                                                            ; --! Reference Clock
          o_clk                : out    std_logic                                                            ; --! System Clock
          o_clk_sqm_adc_dac    : out    std_logic                                                            ; --! SQUID MUX ADC/DAC internal Clock
@@ -222,7 +223,7 @@ begin
          PATTERN_END          => c_CLK_N_PAT          , -- integer range 0 to 15                            ; --! Number of pattern to apply to generated clock
          PATTERN              => c_CLK_90_PAT           -- bit_vector(0 to 15)                                --! Pattern applied to generated clock: use only PATTERN_END+1 MSB bits
    )     port map (
-         r                    => c_LOW_LEV            , -- in     std_logic                                 ; --! Reset ('0' = Inactive, '1' = Active)
+         r                    => i_rst_sqm_adc_dac    , -- in     std_logic                                 ; --! Reset ('0' = Inactive, '1' = Active)
          si                   => clk_sync_ref_end_seq , -- in     std_logic                                 ; --! Reset pattern sequence  ('0' = Inactive, '1' = Active)
          zi                   => pll_main_vco         , -- in     std_logic                                 ; --! Input clock (connected to PLL VCO or D1, D2 or D3 output)
          rdy                  => pll_main_lock        , -- in     std_logic                                 ; --! '1' for the WFG generating PLL clock on external feedback, pll_locked pin otherwise
